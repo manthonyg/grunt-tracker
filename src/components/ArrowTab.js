@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useCallback, useMemo } from 're
 import styled from 'styled-components';
 import Flex from '../components/Flex';
 import { Link } from 'react-router-dom';
+import LineBreak from '../components/LineBreak'
 
 const Tab = styled.div`
   padding: 2px;
@@ -21,6 +22,7 @@ function ArrowTab(props) {
     const squad = props.squad
     return (
         <Tab>
+            <LineBreak/>
             <Flex justifyBetween alignCenter>
                 <Heading>{props.children}</Heading> 
                 <Link to={`/show-squad/${squad._id}`}>
