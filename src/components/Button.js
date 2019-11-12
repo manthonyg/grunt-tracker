@@ -3,10 +3,10 @@ import styled, { css } from 'styled-components'
 import Loader from './Loader'
 
 const StyledButton = styled.button`
-    border-radius: 5px;
-    background-color: ${props => (props.secondary ? 'red' : props.none? 'none' : 'mediumseagreen')};
+    border-radius: 3px;
+    background-color: ${props => (props.secondary ? '#ccc' : props.none? 'none' : '#DEDEDE')};
     color: #000;
-    padding: 10px 10px;
+    padding: 6px 40px;
     font-size: ${props => {
         if (props.big) return '20px'
         return '16px'
@@ -15,7 +15,7 @@ const StyledButton = styled.button`
     border: none;
     cursor: pointer;
     margin: 15px;
-    border: 2px solid ${props => (props.secondary ? 'red' : props.none? 'none' : 'mediumseagreen')};
+    border: 1px solid ${props => (props.secondary ? '#ccc' : props.none? 'none' : '#BBBBBB')};
     ${props => {
         return (
             props.inverse &&

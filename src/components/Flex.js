@@ -37,6 +37,7 @@ const Flex = styled.div`
 `
 
 export const Column = styled.div`
+    margin: 0 auto;
     width: ${props => {
         if (props.three) return '33.33%'
         if (props.four) return '25%'

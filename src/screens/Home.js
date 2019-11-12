@@ -36,7 +36,7 @@ const [ squadList, setSquadList ] = useState([])
         </Container>
 
 
-        <LineBreak/>
+    
 
   
         <Flex noWrap alignCenter justifyCenter>
@@ -44,7 +44,7 @@ const [ squadList, setSquadList ] = useState([])
         </Flex>
 
 
-        <LineBreak/>
+   
            
 
         <Flex noWrap alignCenter justifyCenter>
@@ -52,7 +52,7 @@ const [ squadList, setSquadList ] = useState([])
         </Flex>
 
 
-        <LineBreak/>
+ 
 
 
             {squadList.map(squad =>

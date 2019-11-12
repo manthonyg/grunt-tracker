@@ -5,7 +5,7 @@ const baseStyle = css`
     margin-bottom: ${props => props.noMargin && '0'};
     color: #202020;
     font-family: 'Poppins', sans-serif;
-    margin-top: 0;
+    margin-top: 5px;
     text-align: ${props => {
         if (props.center) return 'center'
         if (props.right) return 'right'
@@ -34,14 +34,14 @@ const HeadingTwo = styled.h2`
 
 const HeadingThree = styled.h3`
     font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 15px;
+    font-weight: 200;
+    margin-bottom: 5px;
     ${baseStyle};
 `
 
 const HeadingFour = styled.h4`
     font-size: 22px;
-    font-weight: bold;
+    font-weight: 200;
     margin-bottom: 10px;
     ${baseStyle};
 `

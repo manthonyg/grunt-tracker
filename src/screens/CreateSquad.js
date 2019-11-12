@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 import Container from '../components/Container'
-import Flex, {Column} from '../components/Flex'
+import HeaderBanner from '../components/HeaderBanner'
+import LogoSmall from '../components/LogoSmall'
+import Input from '../components/Input'
+import Button from '../components/Button'
 
 
 function CreateSquad(props) {
@@ -14,10 +17,10 @@ function CreateSquad(props) {
   company:'',
   squad:'',
   platoon: '',
-  callsign: ''
+  callsign: '',
   });
 console.log(squadData)
-console.log(props.match.params.id)
+
 
   const onChange = evt => {
     const name = evt.target.name;
@@ -27,6 +30,7 @@ console.log(props.match.params.id)
   })
 }
 
+
   const onSubmit = evt => {
     evt.preventDefault();
 
@@ -35,7 +39,7 @@ console.log(props.match.params.id)
       company: squadData.company,
       squad: squadData.squad,
       platoon: squadData.platoon,
-      callsign: squadData.callsign
+      callsign: squadData.callsign,
     }
 
     axios
@@ -46,7 +50,7 @@ console.log(props.match.params.id)
           company:'',
           squad:'',
           platoon:'',
-          callsign:''
+          callsign:'',
         })
         props.history.push('/');
       })
@@ -58,61 +62,81 @@ console.log(props.match.params.id)
 
 return (
 
-  <Container>
+<Container full>
 
-      <Flex justifyAround>
-        <Link to="/" className="btn btn-outline-warning float-left">
-            Show Squad List
-        </Link>
-   
+    <LogoSmall>GruntTracker</LogoSmall>
+
+    <HeaderBanner>Add Squad</HeaderBanner>
+
         <form noValidate onSubmit={onSubmit}>
-            <input
+            <Input
               type='text'
               placeholder='Unit'
               name='unit'
               className='form-control'
               value={squadData.unit}
+              helperText='e.g "V1/5"'
               onChange={onChange}
             />
-            <input
+            <Input
               type='text'
               placeholder='Company'
               name='company'
               className='form-control'
               value={squadData.company}
+              helperText='e.g "A"'
               onChange={onChange}
             />
-            <input
+            <Input
               type='text'
               placeholder='Platoon'
               name='platoon'
               className='form-control'
               value={squadData.platoon}
+              helperText='e.g "2"'
               onChange={onChange}
             />
-            <input
+            <Input
               type='text'
               placeholder='Squad'
               name='squad'
               className='form-control'
               value={squadData.squad}
+              helperText='e.g "3"'
               onChange={onChange}
             />
-            <input
+            <Input
               type='text'
               placeholder='Callsign'
               name='callsign'
               className='form-control'
               value={squadData.callsign}
+              helperText='e.g "Apache"'
               onChange={onChange}
             />
-          <input
-              type="submit"
-              className="btn btn-outline-warning btn-block mt-4"
-          />
-        </form>
-          </Flex>
-        </Container>
+          </form>
+    
+             
+
+                <Button type="submit" >
+                  Submit
+                </Button>
+
+            
+
+            
+
+                <Button>
+                  <Link to="/">
+                  Back
+                  </Link>
+                </Button>
+
+            
+            
+      </Container>
+       
+      
   )
 }
 
