@@ -57,16 +57,15 @@ console.log(currentSquad)
 
 
     return (
-      <Container full>
 
-      <LogoSmall>GruntTracker</LogoSmall>
+    <Container full>
+
+        <LogoSmall>GruntTracker</LogoSmall>
   
-      <HeaderBanner>{currentSquad.unit} {currentSquad.company}{currentSquad.platoon}/{currentSquad.squad} ({currentSquad.callsign})</HeaderBanner>
+        <HeaderBanner>{currentSquad.unit} {currentSquad.company}{currentSquad.platoon}/{currentSquad.squad} ({currentSquad.callsign})</HeaderBanner>
      
-       
-
-       
-        </Container>
+    </Container>
+    
     )
 }
 
