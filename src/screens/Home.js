@@ -20,6 +20,36 @@ const [ squadList, setSquadList ] = useState([])
         }, []
         )
 
+const handleRemove = (e) => {
+    e.preventDefault()
+
+    const icons = document.querySelectorAll('.tabIcon');
+    for (let i=0; i<icons.length;i++) {
+    icons[i].classList.remove('fa-chevron-right')
+    icons[i].classList.add('fa-times')
+    icons[i].style.color = 'red'
+    icons[i].addEventListener('click', onDeleteClick)
+    }
+    if (icons.length < 1) {
+       document.getElementById('status').innerHTML = 'No Squads to Remove'
+    }
+}
+
+const onDeleteClick = (evt) => {
+    const squad = evt.target.id
+    axios
+      .delete('http://localhost:8082/api/squads/'+squad)
+      .then(res => {
+        props.history.push("/");
+        console.log(squadList)
+        
+        const icons = document.querySelectorAll('.tabIcon');
+        icons[1].style.color = 'blue'
+      })
+      .catch(err => {
+        console.log("Error from Home_deleteClick");
+      })
+  };
 
     return (
        
@@ -48,15 +78,15 @@ const [ squadList, setSquadList ] = useState([])
            
 
         <Flex noWrap alignCenter justifyCenter>
-           <a href='/remove-book'><Button none>Remove Squad <i className='fa fa-minus-circle' style={{color: 'red'}}/></Button></a>
+           <Button onClick={handleRemove} none>Remove Squad <i className='fa fa-minus-circle' style={{color: 'red'}}/></Button>
         </Flex>
 
+<Container id='status'/>
 
- 
 
 
             {squadList.map(squad =>
-                <ArrowTab squad={squad} key={squad.callsign}>{squad.unit} {squad.platoon}/{squad.squad}
+                <ArrowTab id={squad._id} squad={squad} key={squad.callsign}>{squad.unit} {squad.platoon}/{squad.squad}
                 <Heading h5>({squad.callsign})</Heading>
                 </ArrowTab>
                 )}
