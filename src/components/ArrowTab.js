@@ -19,15 +19,16 @@ font-size: 14px;
 
 
 function ArrowTab(props) {
-   
+   const squad = props.squad
     return (
+        
         <Tab>
             <LineBreak/>
             <Flex justifyBetween alignCenter>
                 <Heading>{props.children}</Heading> 
-                {/* <Link to={`/show-squad/${squad._id}`}> */}
+                <Link to={`/show-squad/${squad._id}`}>
                     <i className="tabIcon fa fa-chevron-right"  id={props.id} />
-                {/* </Link> */}
+                </Link>
             </Flex> 
         </Tab>
     )
