@@ -5,67 +5,64 @@ import Container from '../components/Container'
 import HeaderBanner from '../components/HeaderBanner'
 import LogoSmall from '../components/LogoSmall'
 import ArrowTab from '../components/ArrowTab'
+import { setPriority } from 'os';
 
 
 function ShowSquadDetails(props) {
 
-const [ currentSquad, setCurrentSquad ] = useState('')
 
-useEffect(() => {
-    axios
-    .get('http://localhost:8082/api/squads/'+props.match.params.id)
-    .then(squad => setCurrentSquad(squad.data))
-    }, []
-)
+    const [response, setScreenData] = useState({ squadData: null, marineData: null });
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const respSquad = await axios(
+          `http://localhost:8082/api/squads/`+props.match.params.id
+        );
+        const respMarines = await axios(
+          `http://localhost:8082/api/marines`
+        );
+  
+        setScreenData({ squadData: respSquad.data, marineData: respMarines.data });
+      };
+  
+      fetchData();
+    }, []);
 
 
 
 
-// const onChange = evt => {
-//     const name = evt.target.name;
-//     const val = evt.target.value;
-//     setSquadData(prevState => {
-//       return { ...prevState, [name] : val }
-//   })
-// }
-
-//   const onSubmit = evt => {
-//     evt.preventDefault();
-
-//     const data = {
-//       marines.first: currentSquad.first,
-//       marines.last: currentSquad.last,
-//       marines.rank: currentSquad.rank
-//     }
-
-//     axios
-//       .post('http://localhost:8082/api/squads', data)
-//       .then(res => {
-//         setSquadData({
-//             marines.first: '',
-//             marines.last: '',
-//             marines.rank: ''
-//         })
-//         props.history.push('/');
-//       })
-//       .catch(err => {
-//         console.log("Error in ShowSquadDetails");
-//       })
-//   };
-
-console.log(currentSquad)
+console.log(response.squadData)
+console.log(response.marineData)
 
 
     return (
+<>
+<Container full>
+    <LogoSmall>
+    GruntTracker
+    </LogoSmall>
+{response.squadData ?  
+    <HeaderBanner>{response.squadData.unit} {response.squadData.company}.CO {response.squadData.platoon}/{response.squadData.squad}</HeaderBanner>
+    :
+    'Loading'
+}
 
-    <Container full>
+{response.marineData &&
+response.marineData.map(marine => marine.unit === response.squadData.unit ?
+<>
+<Container><h1>{marine.first}</h1>
+<h2>{marine.last}</h2></Container>
 
-        <LogoSmall>GruntTracker</LogoSmall>
-  
-        <HeaderBanner>{currentSquad.unit} {currentSquad.company}{currentSquad.platoon}/{currentSquad.squad} ({currentSquad.callsign})</HeaderBanner>
-     
-    </Container>
-    
+</>
+:
+<>
+
+</>)}
+
+
+</Container>
+
+    </>
     )
 }
 
