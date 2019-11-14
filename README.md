@@ -2,7 +2,7 @@
 
 ##11/13 Update
 
-![](./src/docs/navbar-11/13.png)
+![](./src/docs/navbar1113.png)
 
 - Created simple bottom nav
 - Reworking schema and data structure to better suit user stories
