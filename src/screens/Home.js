@@ -6,19 +6,21 @@ import Flex, {Column} from '../components/Flex'
 import Button, {Loader} from '../components/Button'
 import Heading from '../components/Heading'
 import SearchBar from '../components/SearchBar'
-import LineBreak from '../components/LineBreak'
 import ArrowTab from '../components/ArrowTab'
+import BottomNav from '../components/BottomNav'
+
 
 function Home(props) {
 
 const [ squadList, setSquadList ] = useState([])
 
-    useEffect(() => {
-        axios
-        .get('http://localhost:8082/api/squads')
-        .then(res => setSquadList(res.data))
-        }, []
-        )
+
+useEffect(() => {
+    axios
+    .get('http://localhost:8082/api/squads')
+    .then(res => setSquadList(res.data))
+    }, []
+    )
 
 const handleRemove = (e) => {
     e.preventDefault()
@@ -41,8 +43,9 @@ const onDeleteClick = (evt) => {
       .delete('http://localhost:8082/api/squads/'+squad)
       .then(res => {
         props.history.push("/");
+        setSquadList(squadList)
         console.log(squadList)
-        
+
         const icons = document.querySelectorAll('.tabIcon');
         icons[1].style.color = 'blue'
       })
@@ -54,6 +57,8 @@ const onDeleteClick = (evt) => {
     return (
        
         <>
+      
+
        <Container>
            <Heading center>GruntTracker</Heading>
         </Container>
@@ -66,16 +71,6 @@ const onDeleteClick = (evt) => {
         </Container>
 
 
-    
-
-  
-        <Flex noWrap alignCenter justifyCenter>
-            <a href='/create-squad'><Button none>Add Squad <i className='fa fa-plus-circle' style={{color: 'green'}}/></Button></a>
-        </Flex>
-
-
-   
-           
 
         <Flex noWrap alignCenter justifyCenter>
            <Button onClick={handleRemove} none>Remove Squad <i className='fa fa-minus-circle' style={{color: 'red'}}/></Button>
