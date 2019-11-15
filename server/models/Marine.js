@@ -14,6 +14,29 @@ const MarineSchema = new mongoose.Schema({
   rank: {
     type: String,
     required: true
+  },
+  unit: {
+    type: String,
+    required: true,
+    
+  },
+  company: {
+    type: String,
+    required: true,
+    
+  },
+  platoon: {
+    type: String,
+    required: true,
+  },
+  squad: {
+    type: String,
+    required: true,
+  },
+  team: {
+    type: String,
+    required: true,
+    
   }
 });
 
