@@ -2,6 +2,18 @@
 
 const mongoose = require('mongoose');
 
+const MedicalAppointment = new Schema({
+  Date: {
+    type: Date
+  }
+});
+
+const DentalAppointment = new Schema({
+  Date: {
+    type: Date
+  }
+});
+
 const MarineSchema = new mongoose.Schema({
   first: {
     type: String,
@@ -36,8 +48,9 @@ const MarineSchema = new mongoose.Schema({
   team: {
     type: String,
     required: true,
-    
   }
+  medical: [MedicalAppointment],
+  dental: [DentalAppointment]
 });
 
 module.exports = Marine = mongoose.model('marine', MarineSchema);
