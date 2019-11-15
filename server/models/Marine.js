@@ -50,7 +50,10 @@ const MarineSchema = new mongoose.Schema({
     required: true,
   }
   medical: [MedicalAppointment],
-  dental: [DentalAppointment]
+  dental: [DentalAppointment],
+  other: {
+    type: String,
+  }
 });
 
 module.exports = Marine = mongoose.model('marine', MarineSchema);
