@@ -1,18 +1,6 @@
-// models/Book.js
+// models/Marine.js
 
 const mongoose = require('mongoose');
-
-const MedicalAppointment = new Schema({
-  Date: {
-    type: Date
-  }
-});
-
-const DentalAppointment = new Schema({
-  Date: {
-    type: Date
-  }
-});
 
 const MarineSchema = new mongoose.Schema({
   first: {
@@ -48,12 +36,11 @@ const MarineSchema = new mongoose.Schema({
   team: {
     type: String,
     required: true,
+  },
+  appointments: {
+    type: Date, default: Date.now
   }
-  medical: [MedicalAppointment],
-  dental: [DentalAppointment],
-  other: {
-    type: String,
-  }
+
 });
 
 module.exports = Marine = mongoose.model('marine', MarineSchema);
