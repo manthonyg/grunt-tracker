@@ -2,26 +2,86 @@ import React, { useState, useContext, useEffect, useCallback, useMemo } from 're
 import styled from 'styled-components';
 
 
-const Form = styled.form`
-text-align: center;
-`
-const Input = styled.input`
-  border: 1px solid #eee;
-  border-radius: 3 px;
-  padding: 5px;
-  margin: 5px;
-  width: 60vw;
-  background-color: #eee;
-  font-family: 'Roboto', san-serif;
-  font-size: 14px;
-`;
 
-function SearchBar(props) {
+const SearchContainer = styled.div`
+
+  box-sizing: border-box;
+  display: table;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 44px;
+  transition: all .25s;
+  ::after {
+    box-sizing: border-box;
+  }
+  ::before {
+    box-sizing: border-box;
+  }
+  :focus {
+    background: #fbfbfb;
+    color: #333333;
+    outline: 0;
+  }
+  :hover {
+    width: 200px;
+  }
+`
+
+const SearchIcon = styled.div`
+background-color: aquamarine;
+border: 1px solid aquamarine;
+display: table-cell;
+height: 44px;
+border-radius: 4px;
+position: relative;
+text-align: center;
+vertical-align: middle;
+width: 50px;
+z-index: 2;
+`
+
+const SearchInputWrapper = styled.div`
+position: absolute;
+  left: 0;
+  z-index: 1;
+  
+ 
+`
+
+const SearchInput = styled.input`
+border: 1px solid #cccccc;
+height: 44px;
+padding: 0px;
+width: 200px;
+-webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  :focus {
+    padding-left: 60px;
+    padding-right: 10px;
+    width: 200px;
+    }
+  }
+
+
+    
+}
+`
+
+function SearchBar() {
     return (
-        <Form onSubmit={props.onSubmit}>
-            <button type="submit"><i className='fa fa-search'/></button>
-            <Input {...props}></Input>
-        </Form>
+        
+    <SearchContainer>
+        <SearchIcon><i className='fa fa-search'></i></SearchIcon>
+        <SearchInputWrapper>
+        <SearchInput type='search' placeholder='...search'/>
+        </SearchInputWrapper>
+    </SearchContainer>
+
+        
     )
 }
 

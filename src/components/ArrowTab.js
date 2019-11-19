@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Flex from '../components/Flex';
 import { Link } from 'react-router-dom';
 import LineBreak from '../components/LineBreak'
+import styles from '../App.css'
 
 const Tab = styled.div`
   padding: 2px;
@@ -18,17 +19,20 @@ font-size: 14px;
 
 
 
+
+
 function ArrowTab(props) {
-   const squad = props.squad
     return (
         
         <Tab>
             <LineBreak/>
-            <Flex justifyBetween alignCenter>
+            <Flex justifyAround alignCenter>
                 <Heading>{props.children}</Heading> 
-                <Link to={`/show-squad/${squad._id}`}>
+                
+                <Link to={props.link}>
                     <i className="tabIcon fa fa-chevron-right"  id={props.id} />
                 </Link>
+               
             </Flex> 
         </Tab>
     )

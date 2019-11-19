@@ -12,7 +12,7 @@ function ShowSquadDetails(props) {
 
 
     const [response, setScreenData] = useState({ squadData: null, marineData: null });
-
+    
     useEffect(() => {
       const fetchData = async () => {
         const respSquad = await axios(
@@ -28,13 +28,8 @@ function ShowSquadDetails(props) {
       fetchData();
     }, []);
 
-
-
-
-console.log(response.squadData)
-console.log(response.marineData)
-
-
+const matchingMarines = response.marineData && response.marineData && response.marineData.map(marine => marine.unit === response.squadData.unit).filter(Boolean).length
+console.log(matchingMarines)
     return (
 <>
 <Container full>
@@ -42,7 +37,7 @@ console.log(response.marineData)
     GruntTracker
     </LogoSmall>
 {response.squadData ?  
-    <HeaderBanner>{response.squadData.unit} {response.squadData.company}.CO {response.squadData.platoon}/{response.squadData.squad}</HeaderBanner>
+    <HeaderBanner>{response.squadData.unit} {response.squadData.company}.CO {response.squadData.platoon}/{response.squadData.squad} ({matchingMarines})</HeaderBanner>
     :
     'Loading'
 }
@@ -50,9 +45,25 @@ console.log(response.marineData)
 {response.marineData &&
 response.marineData.map(marine => marine.unit === response.squadData.unit ?
 <>
-<Container><h1>{marine.first}</h1>
-<h2>{marine.last}</h2></Container>
+                  <table>
+                    <thead>
+                   <tr>
+                     <th>{marine.first}, {marine.last} ({marine.unit}/{marine.company}/{marine.squad}/{marine.team})</th>
+                   </tr>
 
+                    <tr> 
+                        <th><i className='fa fa-calendar'/></th>
+                        <th><i className='fa fa-user'/></th>
+                        <th><i className='fa fa-check'/></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                      <td>{marine.appointments.length ? marine.appointments.map(appointment => appointment) : 'None'}</td>
+<td>{marine.accounted ? <div style={{color: 'green'}}>Accounted for</div> : <><div style={{color: 'red'}}>Unaccounted</div></>}</td>
+                      <td>A string</td>
+                    </tbody>
+                </table>
 </>
 :
 <>

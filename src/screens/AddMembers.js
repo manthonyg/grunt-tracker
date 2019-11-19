@@ -18,16 +18,16 @@ function AddMembers() {
         <Container full>
 
             <LogoSmall>
-                GruntTracker
+                Tracker
             </LogoSmall>
 
     <Container>
         <Flex noWrap alignCenter justifyCenter>
-            <a href='/create-squad'><Button none>Add Squad <i className='fa fa-plus-circle' style={{color: 'green'}}/></Button></a>
+            <a href='/create-squad'><Button none>Add Group<i className='fa fa-plus-circle' style={{color: 'green'}}/></Button></a>
         </Flex>
 
         <Flex noWrap alignCenter justifyCenter>
-            <a href='/create-marine'><Button none>Add Marine<i className='fa fa-plus-circle' style={{color: 'green'}}/></Button></a>
+            <a href='/create-marine'><Button none>Add Member<i className='fa fa-plus-circle' style={{color: 'green'}}/></Button></a>
         </Flex>
 
        

@@ -64,9 +64,9 @@ return (
 
 <Container full>
 
-    <LogoSmall>GruntTracker</LogoSmall>
+    <LogoSmall>Tracker</LogoSmall>
 
-    <HeaderBanner>Add Squad</HeaderBanner>
+    <HeaderBanner>Add Group</HeaderBanner>
 
         <form noValidate onSubmit={onSubmit}>
             <Input
