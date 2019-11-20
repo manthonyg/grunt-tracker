@@ -41,13 +41,13 @@ function Home(props) {
     const onDeleteClick = (evt) => {
         const squad = evt.target.id
         axios
-            .delete('http://localhost:8082/api/squads/' + squad)
+            .delete(`http://localhost:8082/api/squads/${squad}`)
             .then(res => {
                 props
                     .history
                     .push("/");
-                setSquadList(squadList)
-                console.log(squadList)
+                
+                setSquadList()
 
                 const icons = document.querySelectorAll('.tabIcon');
                 icons[1].style.color = 'blue'
@@ -68,18 +68,20 @@ function Home(props) {
             </Flex>
         </Container>
         
-<Container id='status'/> {
+ {squadList ?
         squadList.map(squad => <ArrowTab
             link={`/show-squad/${squad._id}`}
             id={squad._id}
+            onClick={onDeleteClick}
             squad={squad}
             key={squad.callsign}>{squad.unit} {squad.platoon}/{squad.squad}
 
             <Heading h5>({squad.callsign})</Heading>
-
+          
         </ArrowTab>)
-    } 
-    </>  
+    :
+    <Flex alignCenter>Click 'add squad' to begin!</Flex>} 
+    </>
     )
 }
 

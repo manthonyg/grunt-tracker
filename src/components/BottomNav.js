@@ -3,14 +3,16 @@ import styled from 'styled-components';
 import Container from '../components/Container'
 
 const MobileNavWrapper = styled.nav`
-    
+    position: fixed;
+    bottom: 0;
     z-index: 1000;
-]
     will-change: transform;
     transform: translateZ(0);
     display: flex;
+    width: 100vw;
+    background-color: #eee;
     height: 50px;
-    box-shadow: 0 -2px 5px -2px #333;
+    
 `
 
 const MobileNavItem = styled.div`
@@ -21,7 +23,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 :active {
-    color: red;
+    color: white;
 }
 `
 

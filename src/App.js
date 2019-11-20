@@ -10,6 +10,7 @@ import AddMembers from './screens/AddMembers'
 import BottomNav from './components/BottomNav'
 
 import ShowSquadDetails from './screens/ShowSquadDetails';
+import ShowMarineDetails from './screens/ShowMarineDetails';
 
 
 class App extends Component {
@@ -20,10 +21,12 @@ class App extends Component {
       <Router>
         <div>
           <Route exact path='/' component={Home} />
+          <Route path ='/show-squad-details' component={ShowSquadDetails}/>
           <Route path='/create-squad' component={CreateSquad} />
           <Route path='/create-marine' component={CreateMarine} />
           <Route path='/show-squad/:id' component={ShowSquadDetails} />
-          <Route path= '/add-members' component={AddMembers} />
+          <Route path='/show-marine/:id' component={ShowMarineDetails} />
+          <Route path='/add-members' component={AddMembers} />
           {/* <Route path = '/view-appointments' component={ViewAppointments} /> */}
         </div>
       </Router>

@@ -29,8 +29,8 @@ const SearchContainer = styled.div`
 `
 
 const SearchIcon = styled.div`
-background-color: aquamarine;
-border: 1px solid aquamarine;
+background-color: #eee;
+border: 1px solid #eef;
 display: table-cell;
 height: 44px;
 border-radius: 4px;
@@ -53,6 +53,7 @@ const SearchInput = styled.input`
 border: 1px solid #cccccc;
 height: 44px;
 padding: 0px;
+padding-left: 60px;
 width: 200px;
 -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
@@ -77,7 +78,7 @@ function SearchBar() {
     <SearchContainer>
         <SearchIcon><i className='fa fa-search'></i></SearchIcon>
         <SearchInputWrapper>
-        <SearchInput type='search' placeholder='...search'/>
+        <SearchInput type='search' label='Search Marine' placeholder='Search Marine'/>
         </SearchInputWrapper>
     </SearchContainer>
 
