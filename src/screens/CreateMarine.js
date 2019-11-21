@@ -57,7 +57,7 @@ function CreateMarine(props) {
             .post('http://localhost:8082/api/marines', data)
             .then(res => {
                 setMarineData({
-                    frist: '',
+                    first: '',
                     last: '',
                     rank: '',
                     unit: '',
