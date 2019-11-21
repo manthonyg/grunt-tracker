@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 
 const SearchContainer = styled.div`
-
   box-sizing: border-box;
   display: table;
   position: absolute;
@@ -45,8 +44,6 @@ const SearchInputWrapper = styled.div`
 position: absolute;
   left: 0;
   z-index: 1;
-  
- 
 `
 
 const SearchInput = styled.input`
