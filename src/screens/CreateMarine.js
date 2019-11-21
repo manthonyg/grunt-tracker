@@ -11,176 +11,176 @@ import LineBreak from '../components/LineBreak'
 
 function CreateMarine(props) {
 
-    const [marineData,
-        setMarineData] = useState({
-        first: '',
-        last: '',
-        rank: '',
-        unit: '',
-        company: '',
-        platoon: '',
-        squad: '',
-        team: '',
-        appointments: [],
-        accounted: ''
-    });
-    console.log(marineData)
+  const [marineData,
+    setMarineData] = useState({
+    first: '',
+    last: '',
+    rank: '',
+    unit: '',
+    company: '',
+    platoon: '',
+    squad: '',
+    team: '',
+    appointments: [],
+    accounted: ''
+  });
+  console.log(marineData)
 
-    const onChange = evt => {
-        const name = evt.target.name;
-        const val = evt.target.value;
-        setMarineData(prevState => {
-            return {
-                ...prevState,
-                [name]: val
-            }
-        })
+  const onChange = evt => {
+    const name = evt.target.name;
+    const val = evt.target.value;
+    setMarineData(prevState => {
+      return {
+        ...prevState,
+        [name]: val
+      }
+    })
+  }
+
+  const onSubmit = evt => {
+    evt.preventDefault();
+
+    const data = {
+      first: marineData.first,
+      last: marineData.last,
+      rank: marineData.rank,
+      unit: marineData.unit,
+      company: marineData.company,
+      platoon: marineData.platoon,
+      squad: marineData.squad,
+      team: marineData.team,
+      appointments: marineData.appointments,
+      accounted: marineData.accounted
     }
 
-    const onSubmit = evt => {
-        evt.preventDefault();
+    axios
+      .post('http://localhost:8082/api/marines', data)
+      .then(res => {
+        setMarineData({
+          first: '',
+          last: '',
+          rank: '',
+          unit: '',
+          company: '',
+          platoon: '',
+          squad: '',
+          team: '',
+          appointments: '',
+          accounted: ''
+        })
+        props
+          .history
+          .push('/');
+      })
+      .catch(err => {
+        console.log("Error in CreateMarine");
+      })
+  };
 
-        const data = {
-            first: marineData.first,
-            last: marineData.last,
-            rank: marineData.rank,
-            unit: marineData.unit,
-            company: marineData.company,
-            platoon: marineData.platoon,
-            squad: marineData.squad,
-            team: marineData.team,
-            appointments: marineData.appointments,
-            accounted: marineData.accounted
-        }
+  return (
 
-        axios
-            .post('http://localhost:8082/api/marines', data)
-            .then(res => {
-                setMarineData({
-                    first: '',
-                    last: '',
-                    rank: '',
-                    unit: '',
-                    company: '',
-                    platoon: '',
-                    squad: '',
-                    team: '',
-                    appointments: '',
-                    accounted: ''
-                })
-                props
-                    .history
-                    .push('/');
-            })
-            .catch(err => {
-                console.log("Error in CreateMarine");
-            })
-    };
+    <Container full>
 
-    return (
+      <LogoSmall>Tracker</LogoSmall>
 
-        <Container full>
+      <HeaderBanner>Add Member</HeaderBanner>
 
-            <LogoSmall>Tracker</LogoSmall>
+      <form noValidate onSubmit={onSubmit}>
+        <Input
+          type='text'
+          placeholder='First name'
+          name='first'
+          className='form-control'
+          value={marineData.first}
+          helperText=''
+          onChange={onChange}/>
+        <Input
+          type='text'
+          placeholder='Last name'
+          name='last'
+          className='form-control'
+          value={marineData.last}
+          helperText=''
+          onChange={onChange}/>
+        <Input
+          type='text'
+          placeholder='Rank'
+          name='rank'
+          className='form-control'
+          value={marineData.rank}
+          helperText='e.g. "LCpl"'
+          onChange={onChange}/>
+        <Input
+          type='text'
+          placeholder='Unit'
+          name='unit'
+          className='form-control'
+          value={marineData.unit}
+          helperText='e.g "V1/5"'
+          onChange={onChange}/>
+        <Input
+          type='text'
+          placeholder='Company'
+          name='company'
+          className='form-control'
+          value={marineData.company}
+          helperText='e.g "A"'
+          onChange={onChange}/>
+        <Input
+          type='text'
+          placeholder='Platoon'
+          name='platoon'
+          className='form-control'
+          value={marineData.platoon}
+          helperText='e.g "2"'
+          onChange={onChange}/>
+        <Input
+          type='text'
+          placeholder='Squad'
+          name='squad'
+          className='form-control'
+          value={marineData.squad}
+          helperText='e.g "3"'
+          onChange={onChange}/>
+        <Input
+          type='text'
+          placeholder='Team'
+          name='team'
+          className='form-control'
+          value={marineData.team}
+          helperText='e.g "2"'
+          onChange={onChange}/>
 
-            <HeaderBanner>Add Member</HeaderBanner>
+        <Input
+          type='date'
+          placeholder='Appointments'
+          name='appointments'
+          className='form-control'
+          value={marineData.appointments}
+          helperText='e.g "02/11/19"'
+          onChange={onChange}/>
 
-            <form noValidate onSubmit={onSubmit}>
-                <Input
-                    type='text'
-                    placeholder='First name'
-                    name='first'
-                    className='form-control'
-                    value={marineData.first}
-                    helperText=''
-                    onChange={onChange}/>
-                <Input
-                    type='text'
-                    placeholder='Last name'
-                    name='last'
-                    className='form-control'
-                    value={marineData.last}
-                    helperText=''
-                    onChange={onChange}/>
-                <Input
-                    type='text'
-                    placeholder='Rank'
-                    name='rank'
-                    className='form-control'
-                    value={marineData.rank}
-                    helperText='e.g. "LCpl"'
-                    onChange={onChange}/>
-                <Input
-                    type='text'
-                    placeholder='Unit'
-                    name='unit'
-                    className='form-control'
-                    value={marineData.unit}
-                    helperText='e.g "V1/5"'
-                    onChange={onChange}/>
-                <Input
-                    type='text'
-                    placeholder='Company'
-                    name='company'
-                    className='form-control'
-                    value={marineData.company}
-                    helperText='e.g "A"'
-                    onChange={onChange}/>
-                <Input
-                    type='text'
-                    placeholder='Platoon'
-                    name='platoon'
-                    className='form-control'
-                    value={marineData.platoon}
-                    helperText='e.g "2"'
-                    onChange={onChange}/>
-                <Input
-                    type='text'
-                    placeholder='Squad'
-                    name='squad'
-                    className='form-control'
-                    value={marineData.squad}
-                    helperText='e.g "3"'
-                    onChange={onChange}/>
-                <Input
-                    type='text'
-                    placeholder='Team'
-                    name='team'
-                    className='form-control'
-                    value={marineData.team}
-                    helperText='e.g "2"'
-                    onChange={onChange}/>
+        <label class="switch">
+          <input type="checkbox"/>
+          <span class="slider"></span>
+        </label>
 
-                <Input
-                    type='date'
-                    placeholder='Appointments'
-                    name='appointments'
-                    className='form-control'
-                    value={marineData.appointments}
-                    helperText='e.g "02/11/19"'
-                    onChange={onChange}/>
+        <LineBreak></LineBreak>
 
-                <label class="switch">
-                    <input type="checkbox"/>
-                    <span class="slider"></span>
-                </label>
+        <Button type="submit">
+          Submit
+        </Button>
 
-                <LineBreak></LineBreak>
+        <Button>
+          <Link to="/">
+            Back
+          </Link>
+        </Button>
+      </form>
 
-                <Button type="submit">
-                    Submit
-                </Button>
+    </Container>
 
-                <Button>
-                    <Link to="/">
-                        Back
-                    </Link>
-                </Button>
-            </form>
-
-        </Container>
-
-    )
+  )
 }
 
 export default CreateMarine;

@@ -10,37 +10,39 @@ import Button from '../components/Button';
 function ShowSquadDetails(props) {
 
 
-    const [response, setScreenData] = useState({ squadData: null, marineData: null });
-    
+
+    const [squadData, setSquadData] = useState()
+    const [marineData, setMarineData] = useState([])
+
     useEffect(() => {
-      const fetchData = async () => {
-        const respSquad = await axios(
-          `http://localhost:8082/api/squads/`+props.match.params.id
-        );
-        const respMarines = await axios(
-          `http://localhost:8082/api/marines`
-        );
-  
-        setScreenData({ squadData: respSquad.data, marineData: respMarines.data });
-      };
-  
-      fetchData();
+      axios
+      .get(`http://localhost:8082/api/squads/`+props.match.params.id)
+      .then (res=> {
+        setSquadData(res.data)
+
+        return axios.get(`http://localhost:8082/api/marines`)
+        .then (res=> {
+          setMarineData(res.data)
+        })
+      })
+      
     }, []);
 
     const deleteItem = (evt) => {
+      evt.persist()
       const marine = evt.target.id
       axios
           .delete(`http://localhost:8082/api/marines/${marine}`)
           .then(res => {
-              
-              setScreenData(res => [...res], response)
+            const updatedMarineData = marineData.filter(m => m._id !== evt.target.id)
+            setMarineData(updatedMarineData)
           })
           .catch(err => {
               console.log("Error from Home_deleteClick");
           })
   };
 
-const matchingMarines = response.marineData && response.marineData && response.marineData.map(marine => marine.unit === response.squadData.unit).filter(Boolean).length
+const matchingMarines = marineData && marineData.map(marine => marine.unit === squadData.unit).filter(Boolean).length
 console.log(matchingMarines)
     return (
 <>
@@ -48,16 +50,16 @@ console.log(matchingMarines)
     <LogoSmall>
     GruntTracker
     </LogoSmall>
-{response.squadData ?  
-    <HeaderBanner>{response.squadData.unit} {response.squadData.company}.CO {response.squadData.platoon}/{response.squadData.squad} ({matchingMarines})</HeaderBanner>
+{squadData ?  
+    <HeaderBanner>{squadData.unit} {squadData.company}.CO {squadData.platoon}/{squadData.squad} ({matchingMarines})</HeaderBanner>
     :
     'Loading'
 }
 
-{response.marineData &&
-response.marineData.map(marine => marine.unit === response.squadData.unit ?
+{marineData &&
+marineData.map(marine => marine.unit === squadData.unit ?
 <>
-                  <table>
+                  <table key={marine._id}>
                     <thead>
                    <tr>
                      <th><i class="fa fa-remove" onClick={deleteItem} id={marine._id}></i></th>
