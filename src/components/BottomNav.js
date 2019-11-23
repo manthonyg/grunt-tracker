@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback, useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Container from '../components/Container'
 
@@ -27,11 +27,6 @@ justify-content: center;
 }
 `
 
-const MobileNavItemContent = styled.div`
-display: flex;
-flex-direction: column;
-}
-`
 
 
 function BottomNav() {

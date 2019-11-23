@@ -1,14 +1,13 @@
-import React, {useState, useContext, useEffect, useCallback, useMemo} from 'react';
+import React, {useState, useEffect } from 'react';
 import axios from 'axios'
 import Container from '../components/Container'
-import Flex, {Column} from '../components/Flex'
+import Flex from '../components/Flex'
 import Heading from '../components/Heading'
 import SearchBar from '../components/SearchBar'
 import ArrowTab from '../components/ArrowTab'
-import { setState } from 'expect/build/jestMatchersObject';
 
 function Home(props) {
-
+    
     const [squadList,
         setSquadList] = useState()
     

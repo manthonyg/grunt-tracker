@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import HeaderBanner from '../components/HeaderBanner'
 import LogoSmall from '../components/LogoSmall'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import LineBreak from '../components/LineBreak'
+
 
 function CreateMarine(props) {
 
@@ -150,7 +150,6 @@ function CreateMarine(props) {
           value={marineData.team}
           helperText='e.g "2"'
           onChange={onChange}/>
-
         <Input
           type='date'
           placeholder='Appointments'
@@ -164,8 +163,6 @@ function CreateMarine(props) {
           <input type="checkbox"/>
           <span class="slider"></span>
         </label>
-
-        <LineBreak></LineBreak>
 
         <Button type="submit">
           Submit

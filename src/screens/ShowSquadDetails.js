@@ -4,9 +4,8 @@ import axios from 'axios';
 import Container from '../components/Container'
 import HeaderBanner from '../components/HeaderBanner'
 import LogoSmall from '../components/LogoSmall'
-import { Link } from 'react-router-dom';
-import Button from '../components/Button';
-
+import MarineDataCard from '../components/MarineDataCard/MarineDataCard';
+import Card from '../components/Card'
 function ShowSquadDetails(props) {
 
 
@@ -25,7 +24,6 @@ function ShowSquadDetails(props) {
           setMarineData(res.data)
         })
       })
-      
     }, []);
 
     const deleteItem = (evt) => {
@@ -45,7 +43,6 @@ function ShowSquadDetails(props) {
 const matchingMarines = marineData && marineData.map(marine => marine.unit === squadData.unit).filter(Boolean).length
 console.log(matchingMarines)
     return (
-<>
 <Container full>
     <LogoSmall>
     GruntTracker
@@ -56,40 +53,30 @@ console.log(matchingMarines)
     'Loading'
 }
 
-{marineData &&
+{marineData && squadData &&
 marineData.map(marine => marine.unit === squadData.unit ?
-<>
-                  <table key={marine._id}>
-                    <thead>
-                   <tr>
-                     <th><i class="fa fa-remove" onClick={deleteItem} id={marine._id}></i></th>
-                     <th>{marine.first}, {marine.last} ({marine.unit}/{marine.company}/{marine.squad}/{marine.team})</th>
-                     <th><Link to={`/show-marine/${marine._id}`}><Button noMargin>View Marine</Button></Link></th>
-                   </tr>
 
-                    <tr> 
-                        <th><i className='fa fa-calendar'/></th>
-                        <th><i className='fa fa-user'/></th>
-                        <th><i className='fa fa-check'/></th>
-                    </tr>
-                    </thead>
+                  <MarineDataCard
+                                id={marine._id}
+                                onClick={deleteItem}
+                                key={marine._id}
+                                first={marine.first}
+                                last={marine.last}
+                                unit={marine.unit}
+                                company={marine.company}
+                                squad={marine.squad}
+                                team={marine.team}
+                                appointments={marine.appointments}
+                                accounted={marine.accounted}
+                                />
+                                :
+                                <Card>No matching Marines
+                                </Card>
 
-                    <tbody>
-                      <td>{marine.appointments.length ? marine.appointments.map(appointment => appointment) : 'None'}</td>
-<td>{marine.accounted ? <div style={{color: 'green'}}>Accounted for</div> : <><div style={{color: 'red'}}>Unaccounted</div></>}</td>
-                      <td>A string</td>
-                    </tbody>
-                </table>
-</>
-:
-<>
-
-</>)}
-
+)}
 
 </Container>
 
-    </>
     )
 }
 

@@ -1,14 +1,11 @@
-import React, { useState, useContext, useEffect, useCallback, useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Flex from '../components/Flex';
 import { Link } from 'react-router-dom';
-import LineBreak from '../components/LineBreak'
-import styles from '../App.css'
 
 const Tab = styled.div`
   padding: 2px;
   margin-top: 5px;
-  
   overflow: hidden;
   background-color: #eee;
 `;
@@ -25,17 +22,13 @@ left: 0px;
 top: 0px;
 `
 
-
-
-
-
 function ArrowTab(props) {
     return (
         
         <Tab>
         <DeleteIcon><i class="fa fa-remove" onClick={props.onClick} id={props.id}></i></DeleteIcon>
             <Flex justifyAround alignCenter>
-            
+
                 <Heading>{props.children}</Heading> 
                 
                 <Link to={props.link}>
