@@ -29,6 +29,8 @@ router.get('/:id', (req, res) => {
     .catch(err => res.status(404).json({ nomarinefound: 'No Marine found' }));
 });
 
+
+
 // @route GET api/marines
 // @description add/save marine
 // @access Public

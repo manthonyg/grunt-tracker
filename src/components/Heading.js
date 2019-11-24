@@ -5,7 +5,6 @@ const baseStyle = css`
     margin-bottom: ${props => props.noMargin && '0'};
     color: #202020;
     font-family: 'Poppins', sans-serif;
-    margin-top: 5px;
     text-align: ${props => {
         if (props.center) return 'center'
         if (props.right) return 'right'
@@ -16,9 +15,8 @@ const baseStyle = css`
 `
 
 const HeadingOne = styled.h1`
-    font-size: 60px;
+    font-size: 50px;
     font-weight: 200;
-    margin-bottom: 25px;
     ${baseStyle};
     @media (max-width: 480px) {
         font-size: 60px;

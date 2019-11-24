@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
-
+import {Container} from 'reactstrap'
 import Home from './screens/Home';
 import CreateSquad from './screens/CreateSquad';
 import CreateMarine from './screens/CreateMarine';
@@ -16,10 +16,10 @@ import ShowMarineDetails from './screens/ShowMarineDetails';
 class App extends Component {
   render() {
     return (
-      <>
-
+   
+<Container fluid>
       <Router>
-        <div>
+        
           <Route exact path='/' component={Home} />
           <Route path ='/show-squad-details' component={ShowSquadDetails}/>
           <Route path='/create-squad' component={CreateSquad} />
@@ -28,12 +28,14 @@ class App extends Component {
           <Route path='/show-marine/:id' component={ShowMarineDetails} />
           <Route path='/add-members' component={AddMembers} />
           {/* <Route path = '/view-appointments' component={ViewAppointments} /> */}
-        </div>
+        
       </Router>
-
       <BottomNav/>
+      </Container>
 
-      </>
+      
+
+    
 
     );
   }

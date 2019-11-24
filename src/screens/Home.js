@@ -1,11 +1,11 @@
 import React, {useState, useEffect } from 'react';
 import axios from 'axios'
-import Container from '../components/Container'
 import Flex from '../components/Flex'
 import Heading from '../components/Heading'
 import SearchBar from '../components/SearchBar'
 import ArrowTab from '../components/ArrowTab'
-
+import { Button, Container, Jumbotron, ToastHeader } from 'reactstrap';
+import Loader from '../components/Loader'
 function Home(props) {
     
     const [squadList,
@@ -38,16 +38,14 @@ console.log(squadList)
     };
 
     return ( 
-        <> 
-        <Container>
-            <Heading center>GruntTracker</Heading>
-        </Container>
-        <Container>
-            <Flex alignCenter justifyCenter>
-                <SearchBar placeholder="...Search for"/>
-            </Flex>
-        </Container>
-        
+    <>
+        <Jumbotron>
+            
+            GruntTracker
+          
+        </Jumbotron>
+ 
+          Your Squads:
  {squadList ?
         squadList.map(squad => <ArrowTab
             link={`/show-squad/${squad._id}`}
@@ -60,7 +58,7 @@ console.log(squadList)
           
         </ArrowTab>)
     :
-    <Flex alignCenter>Click 'add squad' to begin!</Flex>} 
+    <Loader></Loader>} 
     </>
     )
 }

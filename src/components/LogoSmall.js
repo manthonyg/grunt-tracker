@@ -7,6 +7,7 @@ position: relative;
 top: 4px;
 left: 4px;
 padding-bottom: 20px;
+margin-bottom: 20px;
 `
 
 function LogoSmall(props) {

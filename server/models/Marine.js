@@ -37,7 +37,8 @@ const MarineSchema = new mongoose.Schema({
         
     },
     appointments: {
-        type: Array
+        type: Array,
+        
     },
     accounted: {
         type: '',

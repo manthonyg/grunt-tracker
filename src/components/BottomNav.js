@@ -1,21 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
-import Container from '../components/Container'
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  NavbarText,
+  Container
+} from 'reactstrap';
 
-const MobileNavWrapper = styled.nav`
-    position: fixed;
-    bottom: 0;
-    z-index: 1000;
-    will-change: transform;
-    transform: translateZ(0);
-    display: flex;
-    width: 100vw;
-    background-color: #eee;
-    height: 50px;
-    
+const MobileNavWrapper = styled.nav `
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+padding: 10px 0px;
+display: flex;
+height: 50px;
+background-color: #f8f9fa;
 `
 
-const MobileNavItem = styled.div`
+const MobileNavItem = styled.div `
 flex-grow: 1;
 text-align: center;
 font-size: 12px;
@@ -27,35 +39,44 @@ justify-content: center;
 }
 `
 
-
+const MobileNavItemContent = styled.div `
+display: flex;
+flex-direction: column;
+padding: 10px 0px;
+`
 
 function BottomNav() {
 
-    return (
+  return (
 
-<Container>
     <MobileNavWrapper>
-        <MobileNavItem>
-        <a href='/'><i className='fa fa-3x fa-home'/></a>
-        Home
-        </MobileNavItem>
-    <MobileNavItem>
-        <a href='/'><i className='fa fa-3x fa-calendar'/></a>
-        View Appointments
-    </MobileNavItem>
-    <MobileNavItem>
-        <i className='fa fa-3x fa-check'/>
-        Quick Check
-    </MobileNavItem>
-    <MobileNavItem>
-        <a href='add-members'><i className='fa fa-3x fa-plus'/></a>
-        Add
-        </MobileNavItem>
+      <MobileNavItem>
+        <MobileNavItemContent>
+          <a href='/'><i className='fa fa-2x fa-home'/></a>
+          Home
+        </MobileNavItemContent>
+      </MobileNavItem>
+      <MobileNavItem>
+        <MobileNavItemContent>
+          <a href='/'><i className='fa fa-2x fa-calendar'/></a>
+          Appointments
+        </MobileNavItemContent>
+      </MobileNavItem>
+      <MobileNavItem>
+        <MobileNavItemContent>
+          <i className='fa fa-2x fa-check'/>
+          Quick Check
+        </MobileNavItemContent>
+      </MobileNavItem>
+      <MobileNavItem>
+        <MobileNavItemContent>
+          <a href='add-members'><i className='fa fa-2x fa-plus'/></a>
+          Add
+        </MobileNavItemContent>
+      </MobileNavItem>
     </MobileNavWrapper>
-</Container>
 
-
-    )
+  )
 }
 
 export default BottomNav
