@@ -1,11 +1,11 @@
 # GruntTracker
 
 ## 11/24 Update
-![](./src/docs/1124.png)
-![](./src/docs/1124_2.png)
-![](./src/docs/1124_3.png)
-![](./src/docs/1124_4.png)
-![](./src/docs/1124_5.png)
+
+
+| Squad Details | Add Appointment |
+| ------ | ------ |
+| ![](./src/docs/1124.png) | ![](./src/docs/1124_2.png) |
 
 - Added bootstrap to the project to help with rapidly prototyping things without having to spend time using `styled-components`. Will eventually
 - continue to build on the existing reusable components I started with. 
