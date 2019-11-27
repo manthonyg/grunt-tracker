@@ -89,9 +89,9 @@ function ShowSquadDetails(props) {
 }
 
       <ListGroup flush>
-                             <ListGroupItem color='secondary' tag="a"><Flex justifyBetween alignCenter>Team 1 <Badge>{teamOne.length}</Badge><i class="material-icons">keyboard_arrow_down</i> </Flex></ListGroupItem>
+                             <ListGroupItem color='secondary' tag="a" onClick={toggle}><Flex justifyBetween alignCenter>Team 1 <Badge>{teamOne.length}</Badge><i class="material-icons">keyboard_arrow_down</i> </Flex></ListGroupItem>
       {teamOne.map(marine => <Collapse isOpen={isOpen.collapse}>
-                              <ListGroupItem tag="button" action>{marine.rank} {marine.first} {marine.last}</ListGroupItem>
+                              <ListGroupItem tag="button" action><Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first} {marine.last}</Link></ListGroupItem>
                               
                              </Collapse>)}
                              <ListGroupItem color='secondary' tag="a" onClick={toggle}><Flex justifyBetween alignCenter>Team 2 <Badge>{teamTwo.length}</Badge><i class="material-icons">{isOpen.icon}</i> </Flex></ListGroupItem>

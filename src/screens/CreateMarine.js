@@ -20,9 +20,7 @@ function CreateMarine(props) {
     company: '',
     platoon: '',
     squad: '',
-    team: '',
-    appointments: [],
-    accounted: ''
+    team: ''
   });
   console.log(marineData)
 
@@ -49,8 +47,6 @@ function CreateMarine(props) {
       platoon: marineData.platoon,
       squad: marineData.squad,
       team: marineData.team,
-      appointments: marineData.appointments,
-      accounted: marineData.accounted
     }
 
     axios
@@ -64,9 +60,7 @@ function CreateMarine(props) {
           company: '',
           platoon: '',
           squad: '',
-          team: '',
-          appointments: '',
-          accounted: ''
+          team: ''
         })
         props
           .history
@@ -150,19 +144,7 @@ function CreateMarine(props) {
           value={marineData.team}
           helperText='e.g "2"'
           onChange={onChange}/>
-        <Input
-          type='date'
-          placeholder='Appointments'
-          name='appointments'
-          className='form-control'
-          value={marineData.appointments}
-          helperText='e.g "02/11/19"'
-          onChange={onChange}/>
 
-        <label class="switch">
-          <input type="checkbox"/>
-          <span class="slider"></span>
-        </label>
 
         <Button type="submit">
           Submit
