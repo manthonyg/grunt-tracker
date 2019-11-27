@@ -6,29 +6,22 @@ const router = express.Router();
 // Load model
 const Marine = require('../../models/Marine');
 
-// @route GET api/marines/test
-// @description tests marines route
-// @access Public
+// test
 router.get('/test', (req, res) => res.send('marine route testing!'));
 
-// @route GET api/marines
-// @description Get all marines
-// @access Public
+// Get all Marine documents
 router.get('/', (req, res) => {
   Marine.find()
     .then(marines => res.json(marines))
     .catch(err => res.status(404).json({ nomarinesfound: 'No Marines found' }));
 });
 
-// @route GET api/marines/:id
-// @description Get single marine by id
-// @access Public
+// Find by id
 router.get('/:id', (req, res) => {
   Marine.findById(req.params.id)
     .then(marine => res.json(marine))
     .catch(err => res.status(404).json({ nomarinefound: 'No Marine found' }));
 });
-
 
 
 // @route GET api/marines
@@ -40,20 +33,17 @@ router.post('/', (req, res) => {
     .catch(err => res.status(400).json({ error: 'Unable to add Marine' }));
 });
 
-// @route GET api/marines/:id
-// @description Update marines
-// @access Public
+
+// Update Marine document
 router.put('/:id', (req, res) => {
   Marine.findByIdAndUpdate(req.params.id, req.body)
-    .then(marine => res.json({ msg: 'Updated successfully' }))
+    .then(book => res.json({ msg: 'Updated successfully' }))
     .catch(err =>
       res.status(400).json({ error: 'Unable to update the Database' })
     );
 });
 
-// @route GET api/marines/:id
-// @description Delete marine by id
-// @access Public
+// Delete Marine
 router.delete('/:id', (req, res) => {
   Marine.findByIdAndRemove(req.params.id, req.body)
     .then(marine => res.json({ mgs: 'Marine entry deleted successfully' }))

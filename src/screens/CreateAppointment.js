@@ -11,8 +11,10 @@ function CreateAppointment(props) {
 
   const [marineData,
     setMarineData] = useState({
-    appointments: [],
-  });
+      date: '',
+      type: ''
+      }
+    );
   console.log(marineData)
 
   const onChange = evt => {
@@ -30,18 +32,24 @@ function CreateAppointment(props) {
     evt.preventDefault();
 
     const data = {
-      appointments: marineData.appointments,
-    }
+      appointments: [
+        {
+        date: marineData.date,
+        type: marineData.type
+      }
+    ]       
+      }
 
     axios
       .put(`http://localhost:8082/api/marines/${props.marine}`, data)
       .then(res => {
         setMarineData({
-          appointments: [...marineData.appointments],
+            date: '',
+            type: ''
         })
         props
           .history
-          .push('/:id');
+          .push('/');
       })
       .catch(err => {
         console.log("Error in CreateMarine");
@@ -56,17 +64,28 @@ function CreateAppointment(props) {
        
         <Input
           type='date'
+          name='date'
           placeholder='Appointments'
-          name='appointments'
           className='form-control'
           value={marineData.appointments}
           helperText='e.g "02/11/19"'
+          onChange={onChange}/>
+
+<Input
+          type='input'
+          name='type'
+          placeholder='Type of Appointment'
+          className='form-control'
+          value={marineData.type}
+          helperText='e.g "Dental"'
           onChange={onChange}/>
 
 
         <Button type="submit">
           Add Appointment
         </Button>
+        {/* {dateArray.map(appointment =>
+          <h1>appointment</h1>)} */}
 
         <Button>
           <Link to="/">
