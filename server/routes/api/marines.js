@@ -1,5 +1,3 @@
-// routes/api/books.js
-
 const express = require('express');
 const router = express.Router();
 
@@ -24,9 +22,7 @@ router.get('/:id', (req, res) => {
 });
 
 
-// @route GET api/marines
-// @description add/save marine
-// @access Public
+// Add a Marine or Group
 router.post('/', (req, res) => {
   Marine.create(req.body)
     .then(marine => res.json({ msg: 'Marine added successfully' }))
@@ -36,8 +32,8 @@ router.post('/', (req, res) => {
 
 // Update Marine document
 router.put('/:id', (req, res) => {
-  Marine.findByIdAndUpdate(req.params.id, req.body)
-    .then(book => res.json({ msg: 'Updated successfully' }))
+  Marine.findByIdAndUpdate(req.params.id, {$push: {appointments: req.body}}, {options: {new: true, upsert: true}})
+    .then(marine => res.json({ msg: 'Updated successfully' }))
     .catch(err =>
       res.status(400).json({ error: 'Unable to update the Database' })
     );

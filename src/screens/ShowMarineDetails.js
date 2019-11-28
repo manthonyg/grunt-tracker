@@ -129,6 +129,19 @@ fitness_center
                   <div class="main-description">Last updated:</div>
                 </div>
               </div>
+
+              <div class="card">
+                <div class="card-header">Appointments</div>
+                <div class="card-main">
+
+                  <div class="main-description"><Flex>Next 7 Days:<br/> {marineData.appointments.map(appointment => 
+                    <>{appointment.appointment_type}<br/>
+                    
+                    {appointment.date}</>)}</Flex></div>
+                </div>
+              </div>
+
+              
             </Flex>
 
           </Row>

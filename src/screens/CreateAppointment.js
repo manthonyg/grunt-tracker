@@ -8,7 +8,6 @@ import Button from '../components/Button'
 
 
 function CreateAppointment(props) {
-
   const [marineData,
     setMarineData] = useState({
       date: '',
@@ -32,27 +31,20 @@ function CreateAppointment(props) {
     evt.preventDefault();
 
     const data = {
-      appointments: [
-        {
+   
         date: marineData.date,
-        type: marineData.type
-      }
-    ]       
-      }
+        appointment_type: marineData.appointment_type
+     
+    }
+      
 
     axios
       .put(`http://localhost:8082/api/marines/${props.marine}`, data)
       .then(res => {
-        setMarineData({
-            date: '',
-            type: ''
-        })
-        props
-          .history
-          .push('/');
+        setMarineData({date: '', appointment_type: ''})
       })
       .catch(err => {
-        console.log("Error in CreateMarine");
+        console.log("Error in CreateAppointment");
       })
   };
 
@@ -67,16 +59,16 @@ function CreateAppointment(props) {
           name='date'
           placeholder='Appointments'
           className='form-control'
-          value={marineData.appointments}
+          value={marineData.date}
           helperText='e.g "02/11/19"'
           onChange={onChange}/>
 
 <Input
           type='input'
-          name='type'
+          name='appointment_type'
           placeholder='Type of Appointment'
           className='form-control'
-          value={marineData.type}
+          value={marineData.appointment_type}
           helperText='e.g "Dental"'
           onChange={onChange}/>
 
