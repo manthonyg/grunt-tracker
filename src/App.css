@@ -1,6 +1,8 @@
 i {
-	color: #343a40
+	color: #343a40;
 }
+
+.material-icons .sm { font-size: 12px; }
 
 .flex {
 	display: flex;
@@ -36,12 +38,12 @@ i {
 	padding: 15px 0;            /* Add padding to the top/bottom */
   }
   
+
   .material-icons {
-	font-size: 36px;
+	font-size: 24px;
 	color: #343a40;
 	margin-bottom: 5px;
   }
-  
   .main-description {
 	color: #000;
 	font-size: 12px;
