@@ -7,7 +7,8 @@ import HeaderBanner from '../components/HeaderBanner'
 import LogoSmall from '../components/LogoSmall'
 import Input from '../components/Input'
 import Button from '../components/Button'
-
+import { Alert } from 'reactstrap';
+import Loader from '../components/Loader'
 
 function CreateSquad(props) {
 
@@ -52,21 +53,29 @@ console.log(squadData)
           platoon:'',
           callsign:'',
         })
-        props.history.push('/');
+        setSuccessVisible(true)
+     
       })
       .catch(err => {
         console.log("Error in CreateSquad");
+        setErrorVisible(true)
       })
   };
 
+  const [successVisible, setSuccessVisible] = useState(false);
+  const onSucDismiss = () => setSuccessVisible(false);
+
+  const [errorVisible, setErrorVisible] = useState(false);
+  const onErrDismiss = () => setErrorVisible(false);
 
 return (
-
+  <>
+{squadData ?
 <Container full>
 
     <LogoSmall>Tracker</LogoSmall>
 
-    <HeaderBanner>Add Group</HeaderBanner>
+    <HeaderBanner>Add Squad</HeaderBanner>
 
         <form noValidate onSubmit={onSubmit}>
             <Input
@@ -114,31 +123,32 @@ return (
               helperText='e.g "Apache"'
               onChange={onChange}
             />
+           
               <Button type="submit" >
                   Submit
                 </Button>
-
-                <Button>
+                <Alert color="success" isOpen={successVisible} toggle={onSucDismiss}>
+      Squad added
+      <Button>
                   <Link to="/">
-                  Back
+                  View
                   </Link>
                 </Button>
+    </Alert>
+    <Alert color="danger" isOpen={errorVisible} toggle={onErrDismiss}>
+      Failed to add squad
+     
+                
+    </Alert>
+
+              
           </form>
-    
-             
-
-
-
-            
-
-            
-
-
-            
-            
+     
       </Container>
-       
-      
+     :
+     <Loader></Loader>  
+}
+</>
   )
 }
 

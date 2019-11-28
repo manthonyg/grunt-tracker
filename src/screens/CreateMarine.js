@@ -7,7 +7,7 @@ import HeaderBanner from '../components/HeaderBanner'
 import LogoSmall from '../components/LogoSmall'
 import Input from '../components/Input'
 import Button from '../components/Button'
-
+import {Alert} from 'reactstrap';
 
 function CreateMarine(props) {
 
@@ -46,7 +46,7 @@ function CreateMarine(props) {
       company: marineData.company,
       platoon: marineData.platoon,
       squad: marineData.squad,
-      team: marineData.team,
+      team: marineData.team
     }
 
     axios
@@ -62,14 +62,17 @@ function CreateMarine(props) {
           squad: '',
           team: ''
         })
-        props
-          .history
-          .push('/');
+        setVisible(true)
+
       })
       .catch(err => {
         console.log("Error in CreateMarine");
       })
   };
+
+  const [visible,
+    setVisible] = useState(false);
+  const onDismiss = () => setVisible(false);
 
   return (
 
@@ -77,7 +80,7 @@ function CreateMarine(props) {
 
       <LogoSmall>Tracker</LogoSmall>
 
-      <HeaderBanner>Add Member</HeaderBanner>
+      <HeaderBanner>Add Marine</HeaderBanner>
 
       <form noValidate onSubmit={onSubmit}>
         <Input
@@ -145,7 +148,9 @@ function CreateMarine(props) {
           helperText='e.g "2"'
           onChange={onChange}/>
 
-
+        <Alert color="success" isOpen={visible} toggle={onDismiss}>
+          Marine added
+        </Alert>
         <Button type="submit">
           Submit
         </Button>
