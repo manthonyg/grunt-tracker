@@ -10,12 +10,7 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
-  Col
 } from 'reactstrap';
 import classnames from 'classnames';
 import Loader from '../components/Loader'
@@ -47,6 +42,7 @@ function ShowMarineDetails(props) {
       <LogoSmall>
         GruntTracker
       </LogoSmall>
+      
       {marineData
         ? <>< HeaderBanner > {
           marineData.rank
@@ -63,24 +59,24 @@ function ShowMarineDetails(props) {
           >
             <i class="material-icons">
 apps
-</i > </NavLink> </NavItem>
+</i> </NavLink> </NavItem>
         <NavItem>
           <NavLink
             className={classnames({ active: activeTab === '2' })}
             onClick={() => { toggle('2'); }}
           >
-            <i class="material-icons">
+            <i class="sm material-icons">
 account_circle
-</i > </NavLink> </NavItem>
+</i> </NavLink> </NavItem>
 
         <NavItem>
           <NavLink
             className={classnames({ active: activeTab === '3' })}
             onClick={() => { toggle('3'); }}
           >
-          <i class="material-icons">
+          <i class="sm material-icons">
 event_available
-</i > </NavLink> </NavItem>
+</i> </NavLink> </NavItem>
 
        
 
@@ -174,17 +170,19 @@ fitness_center
             <Flex justifyAround alignCenter>
 
               <div class="card">
-                <div class="card-header">Testing</div>
+                <div class="card-header">PFT</div>
                 <div class="card-main">
                   <i class="material-icons">check</i>
-                  <div class="main-description">Testing</div>
+                  <div class="main-description">Last Updated:</div>
+                  <div class="main-description">Score:</div>
                 </div>
               </div>
               <div class="card">
-                <div class="card-header">Testing</div>
+                <div class="card-header">CFT</div>
                 <div class="card-main">
                   <i class="material-icons">check</i>
-                  <div class="main-description">Testing</div>
+                  <div class="main-description">Last Updated:</div>
+                  <div class="main-description">Score:</div>
                 </div>
               </div>
               <div class="card">

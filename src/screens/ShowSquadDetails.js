@@ -56,14 +56,28 @@ function ShowSquadDetails(props) {
       })
   };
 
-  const [isOpen, setIsOpen] = useState({collapse: false, icon: 'keyboard_arrow_down' });
-  const toggle = () => setIsOpen({ collapse: !isOpen.collapse, icon: isOpen.collapse === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up' })
-
-  const matchingMarines = marineData && marineData.map(marine => marine.unit === squadData.unit)
+  const [isOpen,
+    setIsOpen] = useState({collapse: false, icon: 'keyboard_arrow_down'});
+  const toggle = () => setIsOpen({
+    collapse: !isOpen.collapse,
+    icon: isOpen.collapse === true
+      ? 'keyboard_arrow_down'
+      : 'keyboard_arrow_up'
+  })
 
   const teamOne = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '1')
   const teamTwo = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '2')
   const teamThree = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '3')
+
+  const teamOneAppointments = teamOne
+    .map(marine => marine.appointments.length)
+    .reduce((total, currentValue) => total + currentValue, 0)
+  const teamTwoAppointments = teamTwo
+    .map(marine => marine.appointments.length)
+    .reduce((total, currentValue) => total + currentValue, 0)
+  const teamThreeAppointments = teamThree
+    .map(marine => marine.appointments.length)
+    .reduce((total, currentValue) => total + currentValue, 0)
 
   return (
 
@@ -71,41 +85,91 @@ function ShowSquadDetails(props) {
       <LogoSmall>
         GruntTracker
       </LogoSmall>
+
       {squadData
         ? <HeaderBanner>
-            <Badge color='primary'>{squadData.unit} {squadData.company}.CO {squadData.platoon}/{squadData.squad}
-              
-            </Badge>
+            {squadData.company}
+            CO {squadData.platoon}
+            / {squadData.squad}
+            OVERVIEW
           </HeaderBanner>
         : <Loader></Loader>
 }
+
       {squadData
         ? <ListGroup flush>
-            <ListGroupItem disabled>{squadData.platoon}PLT/{squadData.squad}SQD OVERVIEW</ListGroupItem>
-         
+            <ListGroupItem color='secondary' tag="a" onClick={toggle}>
+              <Flex justifyBetween alignCenter>
+                <Badge>Team</Badge>
+                <Badge># Marines</Badge>
+                <Badge># Appointments</Badge>
+
+              </Flex>
+            </ListGroupItem>
+
+            <ListGroupItem tag="a" onClick={toggle}>
+              <Flex justifyBetween alignCenter>1
+                <Badge color='none'>{teamOne.length}
+                  <i class="material-icons">account_circle</i>
+                </Badge>
+                <Badge color='none'>{teamOneAppointments}
+                  <i class="material-icons">event_available</i>
+                </Badge>
+
+              </Flex>
+            </ListGroupItem>
+
+            {teamOne.map(marine => <Collapse isOpen={isOpen.collapse}>
+              <ListGroupItem tag="button" action>
+                <Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first}
+                  {marine.last}</Link>
+              </ListGroupItem>
+            </Collapse>)}
+
+            <ListGroupItem tag="a" onClick={toggle}>
+              <Flex justifyBetween alignCenter>2
+                <Badge color='none'>{teamTwo.length}
+                  <i class="material-icons">account_circle</i>
+                </Badge>
+                <Badge color='none'>{teamTwoAppointments}
+                  <i class="material-icons">event_available</i>
+                </Badge>
+
+              </Flex>
+            </ListGroupItem>
+
+            {teamTwo.map(marine => <Collapse isOpen={isOpen.collapse}>
+              <ListGroupItem tag="button" action>
+                <Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first}
+                  {marine.last}</Link>
+              </ListGroupItem>
+            </Collapse>)}
+
+            <ListGroupItem tag="a" onClick={toggle}>
+              <Flex justifyBetween alignCenter>3
+                <Badge color='none'>{teamThree.length}
+                  <i class="material-icons">account_circle</i>
+                </Badge>
+                <Badge color='none'>{teamThreeAppointments}
+                  <i class="material-icons">event_available</i>
+                </Badge>
+
+              </Flex>
+            </ListGroupItem>
+
+            {teamThree.map(marine => <Collapse isOpen={isOpen.collapse}>
+              <ListGroupItem tag="button" action>
+                <Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first}
+                  {marine.last}</Link>
+              </ListGroupItem>
+            </Collapse>)}
 
           </ListGroup>
-        : <Loader></Loader>
+
+        : <Container center>
+          Loading...
+        </Container>
 }
-
-      <ListGroup flush>
-                             <ListGroupItem color='secondary' tag="a" onClick={toggle}><Flex justifyBetween alignCenter>Team 1 <Badge>{teamOne.length}</Badge><i class="material-icons">keyboard_arrow_down</i> </Flex></ListGroupItem>
-      {teamOne.map(marine => <Collapse isOpen={isOpen.collapse}>
-                              <ListGroupItem tag="button" action><Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first} {marine.last}</Link></ListGroupItem>
-                              
-                             </Collapse>)}
-                             <ListGroupItem color='secondary' tag="a" onClick={toggle}><Flex justifyBetween alignCenter>Team 2 <Badge>{teamTwo.length}</Badge><i class="material-icons">{isOpen.icon}</i> </Flex></ListGroupItem>
-      {teamTwo.map(marine => <Collapse isOpen={isOpen.collapse}>
-                              <ListGroupItem tag="button" action><Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first} {marine.last}</Link></ListGroupItem>
-                             
-                             </Collapse>)}
-                             <ListGroupItem color='secondary' tag="a"><Flex justifyBetween alignCenter>Team 3 <Badge>{teamThree.length}</Badge><i class="material-icons">keyboard_arrow_down</i> </Flex></ListGroupItem>
-      {teamThree.map(marine => <ListGroupItem>
-                              <ListGroupItem tag="button" action>{marine.rank} {marine.first} {marine.last}</ListGroupItem>
-                              
-                             </ListGroupItem>)}
-      </ListGroup>
-
     </Container>
 
   )
