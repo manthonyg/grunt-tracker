@@ -43,6 +43,34 @@ const MarineSchema = new mongoose.Schema({
         time: String
         }
     ], 
+    weapons: [
+        {
+        name: String,
+        serial: String
+        }
+    ],
+    gear: [
+        {
+        name: String,
+        amount: Number
+        }
+    ],
+    body: 
+        {
+        pft: [
+            {
+            score: String,
+            last_updated: String
+            }
+        ],
+        cft: [
+            {
+            score: String,
+            last_updated: String
+            }
+        ],
+     }
+    
 
    
 
