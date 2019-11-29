@@ -11,7 +11,11 @@ import {
   NavItem,
   NavLink,
   Row,
-} from 'reactstrap';
+  Table,
+  Toast, 
+  ToastBody, 
+  ToastHeader, 
+  Spinner } from 'reactstrap';
 import classnames from 'classnames';
 import Loader from '../components/Loader'
 import Flex from '../components/Flex'
@@ -96,6 +100,41 @@ fitness_center
           <Row>
             <Flex justifyAround alignCenter>
 
+            <div class="card">
+                <div class="card-header">Appointments</div>
+                <div class="card-main">
+                  <div class="main-description">
+               
+                    
+                    {marineData.appointments.map(appointment => 
+                      <Toast>
+                      <ToastHeader icon={marineData.appointments ? 'primary' : '{<Spinner size="sm"}'}>
+                      {appointment.appointment_type}
+                      </ToastHeader>
+                      <ToastBody>
+                      <strong>Date:</strong> {appointment.date}
+                      <br/>
+                      <strong>Time:</strong>  {appointment.time}
+                      <br/>
+                      <strong>Location:</strong> {appointment.location}
+                      </ToastBody>
+                    </Toast>
+                   
+                    )}
+                    
+                 
+                    </div>
+                </div>
+                </div>
+              
+                <div class="card">
+                <div class="card-header">Accountability</div>
+                <div class="card-main">
+
+                  <div class="main-description">Accounted For</div>
+                </div>
+              </div>
+
               <div class="card">
                 <div class="card-header">Weapons</div>
                 <div class="card-main">
@@ -118,24 +157,9 @@ fitness_center
                   <div class="main-description">Last updated:</div>
                 </div>
               </div>
-              <div class="card">
-                <div class="card-header">Accountability</div>
-                <div class="card-main">
+            
 
-                  <div class="main-description">Last updated:</div>
-                </div>
-              </div>
-
-              <div class="card">
-                <div class="card-header">Appointments</div>
-                <div class="card-main">
-
-                  <div class="main-description"><Flex>Next 7 Days:<br/> {marineData.appointments.map(appointment => 
-                    <>{appointment.appointment_type}<br/>
-                    
-                    {appointment.date}</>)}</Flex></div>
-                </div>
-              </div>
+              
 
               
             </Flex>
@@ -183,34 +207,6 @@ fitness_center
                   <i class="material-icons">check</i>
                   <div class="main-description">Last Updated:</div>
                   <div class="main-description">Score:</div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header">Testing</div>
-                <div class="card-main">
-                  <i class="material-icons">check</i>
-                  <div class="main-description">Testing</div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header">Testing</div>
-                <div class="card-main">
-                  <i class="material-icons">check</i>
-                  <div class="main-description">Testing</div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header">Testing</div>
-                <div class="card-main">
-                  <i class="material-icons">check</i>
-                  <div class="main-description">Testing</div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header">Testing</div>
-                <div class="card-main">
-                  <i class="material-icons">check</i>
-                  <div class="main-description">Testing</div>
                 </div>
               </div>
             </Flex>

@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 import Container from '../components/Container'
 import Input from '../components/Input'
 import Button from '../components/Button'
+import TimeField from 'react-simple-timefield';
+import {Alert} from 'reactstrap';
 
 function CreateAppointment(props) {
   const [marineData,
-    setMarineData] = useState({date: '', type: ''});
-  console.log(marineData)
+    setMarineData] = useState({date: '', appointment_type: '', location: '', time: ''});
 
   const onChange = evt => {
     const name = evt.target.name;
@@ -28,21 +28,25 @@ function CreateAppointment(props) {
 
     const data = {
       date: marineData.date,
-      appointment_type: marineData.appointment_type
+      appointment_type: marineData.appointment_type,
+      location: marineData.location,
+      time: marineData.time
     }
 
     axios
       .put(`http://localhost:8082/api/marines/${props.marine}`, data)
       .then(res => {
-        setMarineData({date: '', appointment_type: ''})
-        props
-          .history
-          .push(`/${props.marine}`);
+        setMarineData({date: '', appointment_type: '', location: '', time: ''})
+        setVisible(true)
       })
       .catch(err => {
         console.log("Error in CreateAppointment");
       })
   };
+
+  const [visible,
+    setVisible] = useState(false);
+  const onDismiss = () => setVisible(false);
 
   return (
 
@@ -68,15 +72,33 @@ function CreateAppointment(props) {
           helperText='e.g "Dental"'
           onChange={onChange}/>
 
+        <Input
+          type='input'
+          name='location'
+          placeholder='Location'
+          className='form-control'
+          value={marineData.location}
+          helperText='e.g "CP Hospital"'
+          onChange={onChange}/>
+
+        <TimeField
+        name='time'
+    value={marineData.time}                     // {String}   required, format '00:00' or '00:00:00'
+    onChange={onChange}      // {Function} required
+    input={<Input className='form-control' helperText='Time' type='input'/>} // {Element}  default: <input type="text" />
+    colon=":"  
+                     // {String}   default: ":"
+                    // {Boolean}  default: false
+/>
+<br/>
+<Alert color="success" isOpen={visible} toggle={onDismiss}>
+          Appointment Created
+        </Alert>
         <Button type="submit">
           Add Appointment
         </Button>
 
-        <Button>
-          <Link to="/">
-            Back
-          </Link>
-        </Button>
+       
       </form>
 
     </Container>

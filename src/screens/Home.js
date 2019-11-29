@@ -10,7 +10,8 @@ function Home(props) {
 
   const [squadList,
     setSquadList] = useState()
-
+  const [ deletedSquad, setDeletedSquad ] = useState()
+  
   useEffect(() => {
     axios
       .get('http://localhost:8082/api/squads')
@@ -25,6 +26,7 @@ function Home(props) {
     axios
       .delete(`http://localhost:8082/api/squads/${squad}`)
       .then(res => {
+        setDeletedSquad(evt.target.name)
         const updatedSquadList = squadList.filter(m => m._id !== evt.target.id);
         setSquadList(updatedSquadList)
         setVisible(true)
@@ -43,7 +45,7 @@ function Home(props) {
 
     GruntTracker
 
-  </Jumbotron>Your Squads : <Flex>
+  </Jumbotron>Your Squads : <Flex contentCenter justifyCenter>
     {squadList
       ? squadList.map(squad => <ArrowTab
         link={`/show-squad/${squad._id}`}
@@ -62,7 +64,7 @@ function Home(props) {
   }
   toggle = {
     onDismiss
-  } > Squad Deleted </Alert>
+  } > {deletedSquad} Successfully Deleted </Alert>
     </>)
 }
 
