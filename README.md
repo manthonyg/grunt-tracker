@@ -1,5 +1,23 @@
 # GruntTracker
 
+## 11/29 Update
+
+| Home | Squad Overview |
+| ------ | ------ |
+| ![](./src/docs/1128_home.png) | ![](./src/docs/1128_squadoverviewexpanded.png) |
+| Add Marine | Marine Overview |
+| ------ | ------ |
+| ![](./src/docs/1128_addmarine.png) | ![](./src/docs/1128_viewmarine.png) |
+
+- Figured out how to add objects to mongodb array (`CreateAppointment` now works)
+- Simplfied bottom nav and added feature to shrink on scroll for better viewport availiability
+- Added logic in `ViewMarineDetails` to show total number of appointments by team, total number of marines in team, etc.
+- Alerts for successful creation of squad/marine in `CreateMarine` and `CreateSquad`
+
+### TODO:
+- Use the `useHistory` hook in react-router to get my 'Back' button working in all cases.
+- Spend some time with the current schemas and begin to expand on them to add weapons, physical fitness, leave, etc.
+
 ## 11/24 Update
 
 
