@@ -43,13 +43,13 @@ function BottomNav(props) {
 
   const [dropdownOpen, setOpen] = useState(false);
   const toggle = () => setOpen(!dropdownOpen);
-  
+  const history = useHistory()
   return (
 
     <MobileNavWrapper {...props}>
       <MobileNavItem>
       <MobileNavItemContent>
-          <a onClick={props.history}><i className='material-icons'>arrow_back</i></a>
+          <a onClick={history.goBack}><i className='material-icons'>arrow_back</i></a>
         </MobileNavItemContent>
       </MobileNavItem>
       <MobileNavItem>
