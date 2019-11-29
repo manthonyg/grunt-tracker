@@ -1,5 +1,22 @@
 # GruntTracker
 
+## 11/30 Update
+
+| ShowMarineDetails | 
+| ------ | 
+| ![](./src/docs/1130_showmarinedetails.png) |
+
+
+- Added `useHistory` to use the browser history on the back button, now works in all cases
+- Expanded schemas to include `pft, cft, weapons, and gear`
+- Fleshed out some of the logic for the `ShowMarineDetails` screen
+
+
+### TODO:
+- Continue to expand schema to contain the majority of the apps information on the `ShowMarineDetails` screen
+- Reimplement 'quick search' feature to be able to load a marines data by id into `ShowMarineDetails`
+
+
 ## 11/29 Update
 
 | Home | Squad Overview |
