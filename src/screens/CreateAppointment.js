@@ -34,7 +34,7 @@ function CreateAppointment(props) {
     }
 
     axios
-      .put(`http://localhost:8082/api/marines/${props.marine}`, data)
+      .put(`http://localhost:8082/api/marines/${props.marine}/appointments`, data)
       .then(res => {
         setMarineData({date: '', appointment_type: '', location: '', time: ''})
         setVisible(true)

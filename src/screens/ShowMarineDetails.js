@@ -20,6 +20,8 @@ import classnames from 'classnames';
 import Loader from '../components/Loader'
 import Flex from '../components/Flex'
 import CreateAppointment from '../screens/CreateAppointment'
+import CreatePFT from '../screens/CreatePFT'
+import CreateCFT from '../screens/CreateCFT'
 
 function ShowMarineDetails(props) {
 
@@ -105,7 +107,6 @@ fitness_center
                 <div class="card-main">
                   <div class="main-description">
                
-                    
                     {marineData.appointments.map(appointment => 
                       <Toast>
                       <ToastHeader icon={marineData.appointments ? 'primary' : '{<Spinner size="sm"}'}>
@@ -119,26 +120,20 @@ fitness_center
                       <strong>Location:</strong> {appointment.location}
                       </ToastBody>
                     </Toast>
-                   
                     )}
-                    
-                 
-                    </div>
-                </div>
-                </div>
-              
-                <div class="card">
-                <div class="card-header">Accountability</div>
-                <div class="card-main">
 
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">Accountability</div>
+                    <div class="card-main">
                   <div class="main-description">Accounted For</div>
                 </div>
               </div>
-
               <div class="card">
                 <div class="card-header">Weapons</div>
                 <div class="card-main">
-
                   <div class="main-description">Last updated:
                   </div>
                 </div>
@@ -146,7 +141,6 @@ fitness_center
               <div class="card">
                 <div class="card-header">Gear</div>
                 <div class="card-main">
-
                   <div class="main-description">Last updated:</div>
                 </div>
               </div>
@@ -154,16 +148,57 @@ fitness_center
                 <div class="card-header">Body</div>
                 <div class="card-main">
 
-                  <div class="main-description">Last updated:</div>
+                  <div class="main-description"><strong>PFT</strong></div>
+
+                {marineData.body.pft.length ?
+                  <>
+                  <div className="main-description">Last updated:
+                  {marineData.body
+                  .pft
+                  .slice(-1)[0]
+                  .last_updated}
+                  </div>
+                  
+
+                  <div className="main-description">Score:
+                  {marineData.body
+                  .pft
+                  .slice(-1)[0]
+                  .score}
+                  </div>
+                  
+                  </>
+                  
+                  : ' No Current Data'}
+                  
+                  <br/>
+
+                  <div className="main-description"><strong>CFT</strong></div>
+                  
+                  {marineData.body.cft.length ?
+                  <>
+                  <div className="main-description">Last updated:
+                  {marineData.body
+                  .cft
+                  .slice(-1)[0]
+                  .last_updated}
+                  </div>
+                  
+
+                  <div className="main-description">Score:
+                  {marineData.body
+                  .cft
+                  .slice(-1)[0]
+                  .score}
+                  </div>
+                  
+                  </>
+                  
+                  : ' No Current Data'}
+                 
                 </div>
               </div>
-            
-
-              
-
-              
             </Flex>
-
           </Row>
         </TabPane>
         <TabPane tabId="2">
@@ -181,11 +216,8 @@ fitness_center
         <TabPane tabId="3">
           <Row>
             <Flex justifyAround alignCenter>
-
               <CreateAppointment marine={marineData._id}/>
-
             </Flex>
-
           </Row>
         </TabPane>
 
@@ -196,32 +228,71 @@ fitness_center
               <div class="card">
                 <div class="card-header">PFT</div>
                 <div class="card-main">
+                <CreatePFT marine={marineData._id}/>
+                {marineData.body.pft.length ? 
+                <>
                   <i class="material-icons">check</i>
-                  <div class="main-description">Last Updated:</div>
-                  <div class="main-description">Score:</div>
-                </div>
+
+                  <div class="main-description">Last Updated: 
+                  {marineData.body
+                  .pft
+                  .slice(-1)[0]
+                  .last_updated}</div>
+
+                  <div class="main-description">Score: 
+                  {marineData.body
+                  .pft
+                  .slice(-1)[0]
+                  .score}</div>
+
+                </>
+                  :
+                  <div class="main-description">
+                    No Data Available
+                  </div>
+}
+              </div>
               </div>
               <div class="card">
                 <div class="card-header">CFT</div>
                 <div class="card-main">
+                <CreateCFT marine={marineData._id}/>
+                {marineData.body.cft.length ? 
+                <>
+                  <i class="material-icons">check</i>
+
+                  <div class="main-description">Last Updated: 
+                  {marineData.body
+                  .cft
+                  .slice(-1)[0]
+                  .last_updated}</div>
+
+                  <div class="main-description">Score: 
+                  {marineData.body
+                  .cft
+                  .slice(-1)[0]
+                  .score}</div>
+
+                </>
+                  :
+                  <div class="main-description">
+                    No Data Available
+                  </div>
+}
                   <i class="material-icons">check</i>
                   <div class="main-description">Last Updated:</div>
                   <div class="main-description">Score:</div>
                 </div>
               </div>
             </Flex>
-
           </Row>
         </TabPane>
-      </TabContent> </Flex>
-
-    
-
-
-    </> : <Loader/>
+      </TabContent> 
+    </Flex>
+  </> 
+  : <Loader/>
 }
     </Container>
-
   )
 }
 
