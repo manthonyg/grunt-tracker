@@ -30,9 +30,41 @@ router.post('/', (req, res) => {
 });
 
 
-// Update Marine document
-router.put('/:id', (req, res) => {
+// Update Marine appointments
+router.put('/:id/appointments', (req, res) => {
+  console.log(req)
   Marine.findByIdAndUpdate(req.params.id, {$push: {appointments: req.body}}, {options: {new: true, upsert: true}})
+    .then(marine => res.json({ msg: 'Updated successfully' }))
+    .catch(err =>
+      res.status(400).json({ error: 'Unable to update the Database' })
+    );
+});
+
+// Update Marine PFT
+router.put('/:id/body/pft', (req, res) => {
+  console.log(req)
+  Marine.findByIdAndUpdate(req.params.id, {$push: {'body.pft': req.body}}, {options: {new: true, upsert: true}})
+    .then(marine => res.json({ msg: 'Updated successfully' }))
+    .catch(err =>
+      res.status(400).json({ error: 'Unable to update the Database' })
+    );
+});
+
+// Update Marine CFT
+router.put('/:id/body/cft', (req, res) => {
+  console.log(req)
+  Marine.findByIdAndUpdate(req.params.id, {$push: {'body.cft': req.body}}, {options: {new: true, upsert: true}})
+    .then(marine => res.json({ msg: 'Updated successfully' }))
+    .catch(err =>
+      res.status(400).json({ error: 'Unable to update the Database' })
+    );
+});
+
+
+// Update Marine weapons
+router.put('/:id/weapons', (req, res) => {
+  console.log(req)
+  Marine.findByIdAndUpdate(req.params.id, {$push: {weapons: req.body}}, {options: {new: true, upsert: true}})
     .then(marine => res.json({ msg: 'Updated successfully' }))
     .catch(err =>
       res.status(400).json({ error: 'Unable to update the Database' })
