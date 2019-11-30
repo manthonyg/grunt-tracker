@@ -7,14 +7,6 @@ import {
   ListGroupItem,
   Container,
   Badge,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButtonDropdown,
-  Input,
-  Button,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from 'reactstrap';
 import Loader from '../components/Loader'
 import HeaderBanner from '../components/HeaderBanner'
@@ -122,7 +114,8 @@ function ShowSquadDetails(props) {
             {teamOne.map(marine => <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
                 <Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first}
-                  {marine.last}</Link>
+                  {marine.last}
+                  </Link>
               </ListGroupItem>
             </Collapse>)}
 

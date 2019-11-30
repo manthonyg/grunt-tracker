@@ -19,7 +19,18 @@ const Container = styled.div`
         if (props.small) return '15px'
         return '40px'
     }};
-    margin: 0 auto;
+    z-index: ${props => {
+        if (props.zindex) return '10000'
+        return '1'
+    }};
+    position: ${props => {
+        if (props.absolute) return 'absolute'
+        if (props.relative) return 'relative'
+        return 'block'
+    }};
+    top: 0px;
+    left: 0px;
+   
 `
 
 export default Container

@@ -41,11 +41,11 @@ function Home(props) {
 
   const onDismiss = () => setVisible(false);
 
-  return ( <> <Jumbotron>
+  return ( <> <Container>
 
     GruntTracker
 
-  </Jumbotron>Your Squads : <Flex contentCenter justifyCenter>
+  </Container>Your Squads : <Flex contentCenter justifyCenter>
     {squadList
       ? squadList.map(squad => <ArrowTab
         link={`/show-squad/${squad._id}`}

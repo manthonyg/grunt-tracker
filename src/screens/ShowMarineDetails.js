@@ -11,11 +11,10 @@ import {
   NavItem,
   NavLink,
   Row,
-  Table,
   Toast, 
   ToastBody, 
   ToastHeader, 
-  Spinner } from 'reactstrap';
+} from 'reactstrap';
 import classnames from 'classnames';
 import Loader from '../components/Loader'
 import Flex from '../components/Flex'
@@ -26,17 +25,20 @@ import CreateCFT from '../screens/CreateCFT'
 function ShowMarineDetails(props) {
 
   const [marineData,
-    setMarineData] = useState();
+    setMarineData] = useState('');
 
+ 
   useEffect(() => {
     axios
       .get(`http://localhost:8082/api/marines/${props.match.params.id}`)
       .then(res => setMarineData(res.data))
-  }, [])
+  })
+
+  
+
 
   const [activeTab,
     setActiveTab] = useState('1');
-
   const toggle = tab => {
     if (activeTab !== tab) 
       setActiveTab(tab);
@@ -112,13 +114,17 @@ fitness_center
                       <ToastHeader icon={marineData.appointments ? 'primary' : '{<Spinner size="sm"}'}>
                       {appointment.appointment_type}
                       </ToastHeader>
+                      {marineData.appointments ?
                       <ToastBody>
                       <strong>Date:</strong> {appointment.date}
                       <br/>
                       <strong>Time:</strong>  {appointment.time}
                       <br/>
                       <strong>Location:</strong> {appointment.location}
+                      
                       </ToastBody>
+                      :
+                      <Loader></Loader>}
                     </Toast>
                     )}
 

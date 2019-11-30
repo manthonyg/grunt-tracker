@@ -11,6 +11,7 @@ const SearchContainer = styled.div`
   right: 0px;
   width: 44px;
   transition: all .25s;
+  overflow: hidden;
   ::after {
     box-sizing: border-box;
   }
@@ -69,17 +70,18 @@ width: 200px;
 }
 `
 
-function SearchBar() {
+function SearchBar(props) {
     return (
-        
+  
+
     <SearchContainer>
         <SearchIcon><i className='fa fa-search'></i></SearchIcon>
         <SearchInputWrapper>
-        <SearchInput type='search' label='Search Marine' placeholder='Search Marine'/>
+        <SearchInput onChange={props.onChange} onClick={props.onClick} value={props.value} type='search' label='Search Marine' placeholder='Search Marine'/>
         </SearchInputWrapper>
     </SearchContainer>
-
-        
+ 
+ 
     )
 }
 
