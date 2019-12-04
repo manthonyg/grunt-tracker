@@ -2,7 +2,8 @@
 const mongoose = require('mongoose');
 
 
-const MarineSchema = new mongoose.Schema({
+const MarineSchema = new mongoose.Schema(
+    {
     first: {
         type: String,
        
@@ -70,10 +71,6 @@ const MarineSchema = new mongoose.Schema({
             }
         ],
      }
-    
-
-   
-
-});
+    });
 
 module.exports = Marine = mongoose.model('marine', MarineSchema);

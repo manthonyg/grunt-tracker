@@ -14,6 +14,13 @@ router.get('/', (req, res) => {
     .catch(err => res.status(404).json({ nomarinesfound: 'No Marines found' }));
 });
 
+// Get all Marine last names
+router.get('/last', (req, res) => {
+  Marine.find({}, {last: 1})
+    .then(marines => res.json(marines))
+    .catch(err => res.status(404).json({ nomarinesfound: 'No Marines found' }));
+});
+
 // Find by id
 router.get('/:id', (req, res) => {
   Marine.findById(req.params.id)

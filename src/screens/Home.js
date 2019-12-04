@@ -16,9 +16,8 @@ function Home(props) {
     axios
       .get('http://localhost:8082/api/squads')
       .then(res => setSquadList(res.data))
-
   }, [])
-  console.log(squadList)
+
 
   const onDeleteClick = (evt) => {
     evt.persist();

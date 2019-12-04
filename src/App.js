@@ -13,31 +13,31 @@ import ShowMarineDetails from './screens/ShowMarineDetails';
 import SearchBar from './components/SearchBar'
 const App = () => {
 
-  let [pos,
-    setPos] = useState(window.pageYOffset)
-  let [visible,
-    setVisible] = useState(false)
+  // let [pos,
+  //   setPos] = useState(window.pageYOffset)
+  // let [visible,
+  //   setVisible] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      let temp = window.pageYOffset
-      if (window.pageYOffset > 0) {
-        setVisible(pos < temp)
-        setPos(temp)
-      } else {
-        setVisible(false)
-      }
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     let temp = window.pageYOffset
+  //     if (window.pageYOffset > 0) {
+  //       setVisible(pos < temp)
+  //       setPos(temp)
+  //     } else {
+  //       setVisible(false)
+  //     }
 
-    };
-    window.addEventListener("scroll", handleScroll);
-    return (() => {
-      window.removeEventListener("scroll", handleScroll);
-    })
-  })
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return (() => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   })
+  // })
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8082/api/marines/`)
+      .get(`http://localhost:8082/api/marines/last`)
       .then(res => setMarineData(res.data))
   }, [])
 
@@ -49,10 +49,7 @@ const [marineSearch, setMarineSearch] = useState('')
     console.log(filteredMarines)
   }
 
-  const filteredMarines = marineData.filter(marine =>
-    marine.last.toLowerCase().search(marineSearch.toLowerCase()) !==
-    -1,
-  )
+  const filteredMarines = marineData.filter(name => name.last.toLowerCase().includes(marineSearch.toLowerCase()))
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
@@ -63,7 +60,7 @@ const [marineSearch, setMarineSearch] = useState('')
 
     <Router>
   
-      
+      {!!filteredMarines.length &&
      
       <Dropdown isOpen={dropdownOpen} toggle={toggle}>
       <DropdownToggle caret>
@@ -74,7 +71,7 @@ const [marineSearch, setMarineSearch] = useState('')
           <DropdownItem><Link onClick={handleClick} to={`/show-marine/${marine._id}`}>{marine.last}</Link></DropdownItem>)}
         </DropdownMenu>
         </Dropdown>
-
+}
 
      
         <Route exact path='/' component={Home}/>
@@ -88,7 +85,7 @@ const [marineSearch, setMarineSearch] = useState('')
        
       
         <SearchBar hovered onChange={handleSearch} value={marineSearch}/>
-        <BottomNav hidden={visible}/>
+        <BottomNav/>
       </Router>
       
 
