@@ -17,6 +17,7 @@ height: 50px;
 background-color: #f8f9fa;
 margin-top: 100px;
 transition: all 300ms;
+z-index: 100000;
 `
 
 const MobileNavItem = styled.div `
@@ -49,12 +50,12 @@ function BottomNav(props) {
     <MobileNavWrapper {...props}>
       <MobileNavItem>
       <MobileNavItemContent>
-          <a onClick={history.goBack}><i className='material-icons'>arrow_back</i></a>
+          <a href='#' onClick={history.goBack}><i className='material-icons'>arrow_back</i></a>
         </MobileNavItemContent>
       </MobileNavItem>
       <MobileNavItem>
         <MobileNavItemContent>
-          <a href='/'><i class="material-icons">
+          <a href='/'><i className="material-icons">
 home
 </i></a>
           

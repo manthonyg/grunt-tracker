@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 import Home from './screens/Home';
+import LogoSmall from './components/LogoSmall'
 import CreateSquad from './screens/CreateSquad';
 import CreateMarine from './screens/CreateMarine';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
@@ -49,48 +50,43 @@ const [marineSearch, setMarineSearch] = useState('')
     console.log(filteredMarines)
   }
 
-  const filteredMarines = marineData.filter(name => name.last.toLowerCase().includes(marineSearch.toLowerCase()))
-
+  const filteredMarines = marineData.filter(name => name.last.toLowerCase().includes(marineSearch.toLowerCase()) && marineSearch.length)
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
   const handleClick = () => 
   setMarineSearch('')
   return (
-
-    <Router>
   
-      {!!filteredMarines.length &&
-     
-      <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+<Router>
+<LogoSmall/>
+      
+<SearchBar hovered onChange={handleSearch} value={marineSearch}> {!!filteredMarines.length ?
+    <Dropdown isOpen={dropdownOpen} toggle={toggle}>
       <DropdownToggle caret>
         {filteredMarines.length} {filteredMarines.length === 1 ? 'Result' : 'Results'}
       </DropdownToggle>
       <DropdownMenu>
         {filteredMarines.map(marine =>
-          <DropdownItem><Link onClick={handleClick} to={`/show-marine/${marine._id}`}>{marine.last}</Link></DropdownItem>)}
-        </DropdownMenu>
-        </Dropdown>
+         <DropdownItem>
+            <Link onClick={handleClick} to={`/show-marine/${marine._id}`}>{marine.last}</Link>
+          </DropdownItem>)}
+      </DropdownMenu>
+    </Dropdown>
+       :
+    <></>
 }
-
+</SearchBar>
      
         <Route exact path='/' component={Home}/>
         <Route path='/show-squad-details' component={ShowSquadDetails}/>
         <Route path='/create-squad' component={CreateSquad}/>
         <Route path='/create-marine' component={CreateMarine}/>
         <Route path='/show-squad/:id' component={ShowSquadDetails}/>
-  
         <Route path='/show-marine/:id' component={ShowMarineDetails}/>
-        
-       
-      
-        <SearchBar hovered onChange={handleSearch} value={marineSearch}/>
         <BottomNav/>
-      </Router>
-      
-
-  
-
+  </Router>
+    
   );
 }
 

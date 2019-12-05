@@ -7,15 +7,7 @@ import {Toast, ToastHeader, ToastBody} from 'reactstrap';
 const Tab = styled.div `
   padding: 2px;
   margin: 5px;
-
-
 `;
-
-const Heading = styled.h4 `
-color: #bbbbbb;
-font-weight: 200;
-font-size: 14px;
-`
 
 const DeleteIcon = styled.div `
 position: relative;
@@ -30,13 +22,13 @@ function ArrowTab(props) {
     <Toast>
       <ToastHeader>
         <DeleteIcon>
-          <i class="fa fa-remove" onClick={props.onClick} id={props.id}></i>
+          <i className="fa fa-remove" onClick={props.onClick} id={props.id}></i>
         </DeleteIcon>
       </ToastHeader>
       <Flex justifyAround alignCenter>
 
         <ToastBody>
-          <Heading>{props.children}</Heading>
+          {props.children}
         </ToastBody>
 
         <Link to={props.link}>

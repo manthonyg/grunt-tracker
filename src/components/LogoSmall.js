@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import Heading from '../components/Heading'
+import GTLogo from '../images/GT_logo.png'
 
 const LogoWrapper = styled.div`
 position: relative;
-top: 4px;
-left: 4px;
+top: 10px;
+text-align: center;
 padding-bottom: 20px;
-margin-bottom: 20px;
+margin-bottom: 50px;
 `
 
-function LogoSmall(props) {
+function LogoSmall() {
     return (
         <LogoWrapper>
-            <Heading h4>{props.children}</Heading>
+            <img alt='Grunt Tracker' src={GTLogo} style={{width: '100px'}}/>
         </LogoWrapper>
     )
 }

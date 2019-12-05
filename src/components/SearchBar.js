@@ -47,6 +47,18 @@ position: absolute;
   z-index: 1;
 `
 
+const SearchDropdownItems = styled.div`
+position:relative;
+
+`
+
+const ResultsWrapper= styled.div`
+position: absolute;
+top: 0px;
+left: 0px;
+`
+
+
 const SearchInput = styled.input`
 border: 1px solid #cccccc;
 height: 44px;
@@ -64,22 +76,25 @@ width: 200px;
     width: 200px;
     }
   }
-
-
-    
 }
 `
 
 function SearchBar(props) {
     return (
   
-
+<>
+<ResultsWrapper>
+          {props.children}
+          </ResultsWrapper>
     <SearchContainer>
+           
         <SearchIcon><i className='fa fa-search'></i></SearchIcon>
         <SearchInputWrapper>
         <SearchInput onChange={props.onChange} onClick={props.onClick} value={props.value} type='search' label='Search Marine' placeholder='Search Marine'/>
+        <SearchDropdownItems></SearchDropdownItems>
         </SearchInputWrapper>
     </SearchContainer>
+    </>
  
  
     )

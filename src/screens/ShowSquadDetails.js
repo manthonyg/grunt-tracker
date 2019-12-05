@@ -10,8 +10,7 @@ import {
 } from 'reactstrap';
 import Loader from '../components/Loader'
 import HeaderBanner from '../components/HeaderBanner'
-import LogoSmall from '../components/LogoSmall'
-import {Card, Collapse} from 'reactstrap'
+import {Collapse} from 'reactstrap'
 import Flex from '../components/Flex'
 
 function ShowSquadDetails(props) {
@@ -74,9 +73,7 @@ function ShowSquadDetails(props) {
   return (
 
     <Container full>
-      <LogoSmall>
-        GruntTracker
-      </LogoSmall>
+    
 
       {squadData
         ? <HeaderBanner>

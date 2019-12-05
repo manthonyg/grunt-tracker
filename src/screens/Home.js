@@ -2,11 +2,10 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import Flex from '../components/Flex'
 import Heading from '../components/Heading'
-import SearchBar from '../components/SearchBar'
 import ArrowTab from '../components/ArrowTab'
-import {Button, Container, Jumbotron, ToastHeader, Alert} from 'reactstrap';
+import {Container, Alert} from 'reactstrap';
 import Loader from '../components/Loader'
-function Home(props) {
+function Home() {
 
   const [squadList,
     setSquadList] = useState()
@@ -42,7 +41,7 @@ function Home(props) {
 
   return ( <> <Container>
 
-    GruntTracker
+    
 
   </Container>Your Squads : <Flex contentCenter justifyCenter>
     {squadList
@@ -53,7 +52,7 @@ function Home(props) {
         squad={squad}
         key={squad.callsign}>{squad.unit} {squad.platoon}/{squad.squad}
 
-        <Heading h5>({squad.callsign})</Heading>
+        <Heading h4>{squad.callsign}</Heading>
 
       </ArrowTab>)
       : <Loader></Loader>
