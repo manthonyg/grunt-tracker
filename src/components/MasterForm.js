@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import Input from '../components/Input'
-import {Badge} from 'reactstrap'
+import FormNavigation from '../components/FormNavigation'
+import {Button} from 'reactstrap'
+import axios from 'axios'
 function MasterForm(props) {
 
 
@@ -23,8 +25,9 @@ function MasterForm(props) {
         callsign: ''
     })
   
-    const handleChange = event => {
-      const {name, val} = event.target
+    const handleChange = evt => {
+      const name = evt.target.name;
+      const val = evt.target.value;
       setData(prevState => {
         return {
           ...prevState,
@@ -32,34 +35,47 @@ function MasterForm(props) {
         }
       })
     }
+    console.log(data)
      
     const handleSubmit = event => {
       event.preventDefault()
+      axios
+      .post('http://localhost:8082/api/marines', data)
+      .then(res => {
+
       setData({   
-      first:  data.first,
-      last: data.last,
-      middle: data.middle,
-      birthdate: data.birthdate,
-      birthplace: data.birthplace,
-      rank: data.rank,
-      billet: data.billet,
-      edipi: data.edipi,
-      blood_type: data.blood_type,
-      unit: data.unit,
-      company: data.company,
-      platoon: data.platoon,
-      squad: data.squad,
-      team: data.team,
-      callsign: data.callsign
+      first:  '',
+      last: '',
+      middle: '',
+      birthdate: '',
+      birthplace: '',
+      rank: '',
+      billet: '',
+      edipi: '',
+      blood_type: '',
+      unit: '',
+      company: '',
+      platoon: '',
+      squad: '',
+      team: '',
+      callsign: ''
     })
-    }
+  })
+  .catch(err => {
+    console.log("Error in CreateMarine/MasterForm");
+  })
+};
+  
+   
     
     const _next = () => {
       let currentStep = data.currentStep
       currentStep = currentStep >= 2? 3: currentStep + 1
-      setData({
-        currentStep: currentStep
-      })
+      setData(prevState => {
+        return {
+          ...prevState,
+          currentStep: currentStep
+      }})
     }
       
     const _prev = () => {
@@ -116,7 +132,7 @@ function MasterForm(props) {
             handleChange={handleChange}
             username={data.username}
           />
-          <BodyInformation
+          <ZapInformation
             currentStep={data.currentStep} 
             handleChange={handleChange}
             password={data.password}
@@ -139,7 +155,7 @@ function MasterForm(props) {
     return(
 
     <form noValidate>
-        <Badge>Basic Information</Badge>
+       Basic
         <Input
           type='text'
           placeholder='First name'
@@ -159,10 +175,18 @@ function MasterForm(props) {
         <Input
           type='text'
           placeholder='Middle Initial'
-          name='rank'
+          name='middle'
           className='form-control'
           value={props.middle}
           helperText='e.g. "A"'
+          onChange={props.handleChange}/>
+        <Input
+          type='date'
+          placeholder='Birthdate'
+          name='birthdate'
+          className='form-control'
+          value={props.birthdate}
+          helperText='e.g. "03/26/1997"'
           onChange={props.handleChange}/>
         <Input
           type='text'
@@ -175,11 +199,12 @@ function MasterForm(props) {
         <Input
           type='text'
           placeholder='Billet'
-          name='rank'
+          name='billet'
           className='form-control'
           value={props.billet}
           helperText='e.g. "Squad Leader"'
           onChange={props.handleChange}/>
+
     </form>
     
     );
@@ -191,7 +216,7 @@ function MasterForm(props) {
     } 
     return(
     <form noValidate>
-        <Badge>Unit Information</Badge>
+      Unit
         <Input
               type='text'
               placeholder='Unit'
@@ -228,39 +253,39 @@ function MasterForm(props) {
               helperText='e.g "3"'
               onChange={props.handleChange}
             />
-            <Input
-              disabled
-              type='text'
-              placeholder={props.squad}
-              name='callsign'
-              className='form-control'
-              value={props.unit}
-              helperText='e.g "Apache"'
-              onChange={props.handleChange}
-            />
+            
+           
       </form>
     );
   }
   
-  function BodyInformation(props) {
+  function ZapInformation(props) {
     if (props.currentStep !== 3) {
       return null
     } 
     return(
       <>
-      <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input
-          className="form-control"
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Enter password"
-          value={props.password}
-          onChange={props.handleChange}
-          />      
-      </div>
-      <button className="btn btn-success btn-block">Sign up</button>
+      Zap Information
+     <Input
+              type='text'
+              placeholder='EDIPI'
+              name='unit'
+              className='form-control'
+              value={props.edipi}
+              helperText='e.g "1234567890"'
+              onChange={props.handleChange}
+            />
+            <Input
+              type='text'
+              placeholder='Blood Type'
+              name='blood_type'
+              className='form-control'
+              value={props.company}
+              helperText='e.g "O+"'
+              onChange={props.handleChange}
+            />
+            
+      <Button block type="submit">Add Marine</Button>
       </>
     );
   }

@@ -1,12 +1,9 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 import Container from '../components/Container'
 import HeaderBanner from '../components/HeaderBanner'
 import MasterForm from '../components/MasterForm'
-import Input from '../components/Input'
-import Button from '../components/Button'
 import {Alert} from 'reactstrap';
 
 function CreateMarine(props) {
@@ -85,114 +82,13 @@ function CreateMarine(props) {
 
   return (
 
-    <Container full>
+    <Container>
 
-      <HeaderBanner>Add Marine</HeaderBanner>
-<MasterForm/>
-      <form noValidate onSubmit={onSubmit}>
-        <Input
-          type='text'
-          placeholder='First name'
-          name='first'
-          className='form-control'
-          value={marineData.first}
-          helperText=''
-          onChange={onChange}/>
-        <Input
-          type='text'
-          placeholder='Last name'
-          name='last'
-          className='form-control'
-          value={marineData.last}
-          helperText=''
-          onChange={onChange}/>
-        <Input
-          type='text'
-          placeholder='Rank'
-          name='rank'
-          className='form-control'
-          value={marineData.rank}
-          helperText='e.g. "LCpl"'
-          onChange={onChange}/>
-        <Input
-          type='text'
-          placeholder='Unit'
-          name='unit'
-          className='form-control'
-          value={marineData.unit}
-          helperText='e.g "V1/5"'
-          onChange={onChange}/>
-        <Input
-          type='text'
-          placeholder='Company'
-          name='company'
-          className='form-control'
-          value={marineData.company}
-          helperText='e.g "A"'
-          onChange={onChange}/>
-        <Input
-          type='text'
-          placeholder='Platoon'
-          name='platoon'
-          className='form-control'
-          value={marineData.platoon}
-          helperText='e.g "2"'
-          onChange={onChange}/>
-        <Input
-          type='text'
-          placeholder='Squad'
-          name='squad'
-          className='form-control'
-          value={marineData.squad}
-          helperText='e.g "3"'
-          onChange={onChange}/>
-        <Input
-          type='text'
-          placeholder='Team'
-          name='team'
-          className='form-control'
-          value={marineData.team}
-          helperText='e.g "2"'
-          onChange={onChange}/>
-         <Input
-          type='text'
-          placeholder='EDIPI'
-          name='edipi'
-          className='form-control'
-          value={marineData.edipi}
-          helperText='e.g "1515051051"'
-          onChange={onChange}/>
-        <Input
-          type='text'
-          placeholder='Religion'
-          name='religion'
-          className='form-control'
-          value={marineData.religion}
-          helperText='e.g "Catholic"'
-          onChange={onChange}/>
-        <Input
-          type='text'
-          placeholder='Blood Type'
-          name='blood_type'
-          className='form-control'
-          value={marineData.blood_type}
-          helperText='e.g "O+"'
-          onChange={onChange}/>
-
+      <HeaderBanner>Create New Marine</HeaderBanner>
+        <MasterForm/>
         <Alert color="success" isOpen={visible} toggle={onDismiss}>
           Marine added
         </Alert>
-        <Button type="submit">
-          Submit
-        </Button>
-
-        <Button>
-          <Link to="/">
-            Back
-          </Link>
-        </Button>
-      </form>
-
     </Container>
 
   )
