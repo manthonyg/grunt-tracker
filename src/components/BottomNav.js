@@ -5,17 +5,13 @@ import { useHistory } from 'react-router-dom'
 
 const MobileNavWrapper = styled.nav `
 position: fixed;
-bottom: ${props => {
-  if (props.hidden) {return '-50px'}
-  return '0px'
-}};
+bottom: 0 px;
 left: 0;
 right: 0;
 padding: 10px 0px;
 display: flex;
 height: 50px;
 background-color: #f8f9fa;
-margin-top: 100px;
 transition: all 300ms;
 z-index: 100000;
 `
@@ -55,9 +51,7 @@ function BottomNav(props) {
       </MobileNavItem>
       <MobileNavItem>
         <MobileNavItemContent>
-          <a href='/'><i className="material-icons">
-home
-</i></a>
+          <a href='/'><i className="material-icons">home</i></a>
           
         </MobileNavItemContent>
       </MobileNavItem>
