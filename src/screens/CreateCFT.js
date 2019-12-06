@@ -41,8 +41,7 @@ function CreateCFT(props) {
       })
   };
 
-  const [visible,
-    setVisible] = useState(false);
+  const [ visible, setVisible ] = useState(false);
   const onDismiss = () => setVisible(false);
 
   return (
@@ -74,7 +73,7 @@ function CreateCFT(props) {
 <Alert color="success" isOpen={visible} toggle={onDismiss}>
           CFT Added
         </Alert>
-        <Button type="submit">
+        <Button type="submit" onClick={props.onClick}>
           Add Appointment
         </Button>
 

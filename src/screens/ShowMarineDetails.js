@@ -21,14 +21,13 @@ import Flex from '../components/Flex'
 import CreateAppointment from '../screens/CreateAppointment'
 import CreatePFT from '../screens/CreatePFT'
 import CreateCFT from '../screens/CreateCFT'
-import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import { Collapse } from 'reactstrap';
 
 
 
 function ShowMarineDetails(props) {
 
-  const [marineData,
-    setMarineData] = useState('');
+  const [ marineData, setMarineData ] = useState('');
     const location = useLocation()
  
   useEffect(() => {
@@ -53,12 +52,17 @@ function ShowMarineDetails(props) {
   const [isWeaponsOpen, setIsWeaponsOpen] = useState(false);
   const [isGearOpen, setIsGearOpen] = useState(false);
   const [isBodyOpen, setIsBodyOpen] = useState(false);
+  const [ isPFTOpen, setIsPFTOpen ] = useState(false);
+  const [ isCFTOpen, setIsCFTOpen ] = useState(false);
+
 
   const toggleAppointmentsCollapse = () => setIsAppointmentsOpen(!isAppointmentsOpen);
   const toggleAccountabilityCollapse = () => setIsAccountabilityOpen(!isAccountabilityOpen);
   const toggleWeaponsCollapse = () => setIsWeaponsOpen(!isWeaponsOpen);
   const toggleGearCollapse = () => setIsGearOpen(!isGearOpen);
   const toggleBodyCollapse = () => setIsBodyOpen(!isBodyOpen);
+  const togglePFTCollapse = () => setIsPFTOpen(!isPFTOpen);
+  const toggleCFTCollapse = () => setIsCFTOpen(!isCFTOpen);
   
   return (
 
@@ -82,7 +86,7 @@ function ShowMarineDetails(props) {
           <NavLink
             className={classnames({ active: activeTab === '2' })}
             onClick={() => { toggle('2'); }}>
-            <i class="sm material-icons">account_circle</i>
+            <i className="sm material-icons">account_circle</i>
           </NavLink>
         </NavItem>
 
@@ -98,7 +102,7 @@ function ShowMarineDetails(props) {
           <NavLink
             className={classnames({ active: activeTab === '4' })}
             onClick={() => { toggle('4'); }}>
-            <i class="material-icons">fitness_center</i > 
+            <i className="material-icons">fitness_center</i> 
           </NavLink> 
         </NavItem>
       </Nav> 
@@ -109,13 +113,21 @@ function ShowMarineDetails(props) {
         {marineData.rank}{marineData.last}, {marineData.first} 
     </HeaderBanner>
       
-    <Flex justifyAround alignCenter> <TabContent activeTab={activeTab}>
+    <Flex justifyAround alignCenter>
+      <TabContent activeTab={activeTab}>
       <TabPane tabId="1">
         <Row>
           <Flex justifyAround alignCenter>
             <div className="card">
               
-                <div className="card-header" onClick={toggleAppointmentsCollapse}>Appointments</div>
+                <div className="card-header" onClick={toggleAppointmentsCollapse}>
+                  Appointments<br/>
+                  {marineData.appointments.length ?
+                  <Flex justifyAround contentCenter>
+                    <i class="material-icons">notification_important</i>
+                  </Flex>
+                  : <i class="material-icons">check</i>}
+                </div>
                 <Collapse isOpen={isAppointmentsOpen}>
                 <div className="card-main">
                   <div className="main-description">
@@ -144,7 +156,14 @@ function ShowMarineDetails(props) {
                 </Collapse>
                 </div>
                 <div className="card">
-                  <div className="card-header" onClick={toggleAccountabilityCollapse}>Accountability</div>
+                  <div className="card-header" onClick={toggleAccountabilityCollapse}>
+                  Accountability<br/>
+                  {marineData.accountability ?
+                  <Flex justifyAround contentCenter>
+                  <i class="material-icons">check</i>
+                  </Flex>
+                  : <i class="material-icons">notification_important</i>}
+                </div>
                   <Collapse isOpen={isAccountabilityOpen}>
                     <div className="card-main">
                   <div className="main-description">Accounted For</div>
@@ -152,7 +171,14 @@ function ShowMarineDetails(props) {
                 </Collapse>
               </div>
               <div className="card">
-                <div className="card-header" onClick={toggleWeaponsCollapse}>Weapons</div>
+                <div className="card-header" onClick={toggleWeaponsCollapse}>
+                Weapons<br/>
+                {marineData.weapons ?
+                  <Flex justifyAround contentCenter>
+                  <i class="material-icons">check</i>
+                  </Flex>
+                  : <i class="material-icons">notification_important</i>}
+                </div>
                 <Collapse isOpen={isWeaponsOpen}>
                 <div className="card-main">
                   <div className="main-description">Last updated:
@@ -162,7 +188,14 @@ function ShowMarineDetails(props) {
               </div>
               
               <div className="card">
-                <div className="card-header" onClick={toggleGearCollapse}>Gear</div>
+                <div className="card-header" onClick={toggleGearCollapse}>
+                  Gear<br/>
+                {marineData.gear ?
+                  <Flex justifyAround contentCenter>
+                  <i class="material-icons">check</i>
+                  </Flex>
+                  : <i class="material-icons">notification_important</i>}
+                </div>
                 <Collapse isOpen={isGearOpen}>
                 <div className="card-main">
                   <div className="main-description">Last updated:</div>
@@ -171,11 +204,20 @@ function ShowMarineDetails(props) {
               </div>
               
               <div className="card">
-                <div className="card-header" onClick={toggleBodyCollapse}>Body</div>
+                <div className="card-header" onClick={toggleBodyCollapse}>
+                  Body<br/>
+                {marineData.body.cft && marineData.body.pft ?
+                  <Flex justifyAround contentCenter>
+                  <i class="material-icons">check</i>
+                  </Flex>
+                  : <i class="material-icons">notification_important</i>}
+                </div>
                 <Collapse isOpen={isBodyOpen}>
                 <div className="card-main">
 
-                  <div className="main-description"><strong>PFT</strong></div>
+                  <div className="main-description">
+                    <strong>PFT</strong>
+                  </div>
 
                 {marineData.body.pft.length ?
                   <>
@@ -200,7 +242,9 @@ function ShowMarineDetails(props) {
                   
                   <br/>
 
-                  <div className="main-description"><strong>CFT</strong></div>
+                  <div className="main-description">
+                    <strong>CFT</strong>
+                  </div>
                   
                   {marineData.body.cft.length ?
                   <>
@@ -254,9 +298,18 @@ function ShowMarineDetails(props) {
             <Flex justifyAround alignCenter>
 
               <div className="card">
-                <div className="card-header">PFT</div>
+                <div className="card-header">
+                  <Flex alignCenter>
+                    PFT
+                    <i class="material-icons" onClick={togglePFTCollapse}>queue</i>
+                  </Flex>
+                </div>
+                <Collapse isOpen={isPFTOpen}>
                 <div className="card-main">
                 <CreatePFT marine={marineData._id}/>
+                </div>
+                </Collapse>
+                <div className="card-main">
                 {marineData.body.pft.length ? 
                 <>
                   <i className="material-icons">check</i>
@@ -282,9 +335,19 @@ function ShowMarineDetails(props) {
               </div>
               </div>
               <div className="card">
-                <div className="card-header">CFT</div>
+                <div className="card-header">
+                  <Flex alignCenter onClick={toggleCFTCollapse}>
+                    CFT
+                    <i class="material-icons">queue</i>
+                  </Flex>
+                </div>
+                <Collapse isOpen={isCFTOpen}>
                 <div className="card-main">
-                <CreateCFT marine={marineData._id}/>
+                <CreateCFT marine={marineData._id}
+                onClick={toggleCFTCollapse}/>
+                </div>
+                </Collapse>
+                <div className="card-main">
                 {marineData.body.cft.length ? 
                 <>
                   <i className="material-icons">check</i>
@@ -307,9 +370,7 @@ function ShowMarineDetails(props) {
                     No Data Available
                   </div>
 }
-                  <i className="material-icons">check</i>
-                  <div className="main-description">Last Updated:</div>
-                  <div className="main-description">Score:</div>
+                 
                 </div>
               </div>
             </Flex>

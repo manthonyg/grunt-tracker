@@ -73,8 +73,6 @@ return (
 {squadData ?
 <Container full>
 
-    <LogoSmall>Tracker</LogoSmall>
-
     <HeaderBanner>Add Squad</HeaderBanner>
 
         <form noValidate onSubmit={onSubmit}>

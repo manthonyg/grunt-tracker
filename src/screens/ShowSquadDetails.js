@@ -15,10 +15,8 @@ import Flex from '../components/Flex'
 
 function ShowSquadDetails(props) {
 
-  const [squadData,
-    setSquadData] = useState()
-  const [marineData,
-    setMarineData] = useState([])
+  const [ squadData, setSquadData ] = useState()
+  const [ marineData, setMarineData ] = useState([])
 
   useEffect(() => {
     axios
@@ -47,8 +45,7 @@ function ShowSquadDetails(props) {
       })
   };
 
-  const [isOpen,
-    setIsOpen] = useState({collapse: false, icon: 'keyboard_arrow_down'});
+  const [ isOpen, setIsOpen ] = useState({collapse: false, icon: 'keyboard_arrow_down'});
   const toggle = () => setIsOpen({
     collapse: !isOpen.collapse,
     icon: isOpen.collapse === true
@@ -92,65 +89,121 @@ function ShowSquadDetails(props) {
                 <Badge>Team</Badge>
                 <Badge># Marines</Badge>
                 <Badge># Appointments</Badge>
-
               </Flex>
             </ListGroupItem>
 
             <ListGroupItem tag="a" onClick={toggle}>
               <Flex justifyBetween alignCenter>1
-                <Badge color='none'>{teamOne.length}
-                  <i class="material-icons">account_circle</i>
+                <Badge color='none'>
+                  {teamOne.length}
                 </Badge>
-                <Badge color='none'>{teamOneAppointments}
-                  <i class="material-icons">event_available</i>
+                <Badge color='none'>
+                  {teamOneAppointments}
                 </Badge>
-
               </Flex>
             </ListGroupItem>
 
-            {teamOne.map(marine => <Collapse isOpen={isOpen.collapse}>
+           {teamOne.map(marine => 
+
+            <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
-                <Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first}
-                  {marine.last}
-                  </Link>
+                <ListGroup flush>
+                  <ListGroupItem tag="a" onClick={toggle}>
+                    <Flex justifyBetween alignCenter>
+                      <Badge color='none'>Billet</Badge>
+                      <Badge color='none'>L.Name</Badge>
+                      <Badge color='none'>Status</Badge>
+                      <Badge color='none'>View</Badge>
+                    </Flex>
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    <Flex justifyBetween alignCenter>
+                      <p>TL</p>
+                      <p>{marine.last}</p>
+                      <p>Present</p>
+                      <Link to={`/show-marine/${marine._id}`}>
+                      <i class="material-icons">visibility</i>
+                      </Link>
+                    </Flex>
+                  </ListGroupItem>
+                </ListGroup>
               </ListGroupItem>
             </Collapse>)}
 
             <ListGroupItem tag="a" onClick={toggle}>
               <Flex justifyBetween alignCenter>2
-                <Badge color='none'>{teamTwo.length}
-                  <i class="material-icons">account_circle</i>
+                <Badge color='none'>
+                  {teamTwo.length}
                 </Badge>
-                <Badge color='none'>{teamTwoAppointments}
-                  <i class="material-icons">event_available</i>
+                <Badge color='none'>
+                  {teamTwoAppointments}
                 </Badge>
-
               </Flex>
             </ListGroupItem>
 
-            {teamTwo.map(marine => <Collapse isOpen={isOpen.collapse}>
+            {teamTwo.map(marine => 
+
+            <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
-                <Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first}
-                  {marine.last}</Link>
+                <ListGroup flush>
+                  <ListGroupItem tag="a" onClick={toggle}>
+                    <Flex justifyBetween alignCenter>
+                      <Badge color='none'>Billet</Badge>
+                      <Badge color='none'>L.Name</Badge>
+                      <Badge color='none'>Status</Badge>
+                      <Badge color='none'>View</Badge>
+                    </Flex>
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    <Flex justifyBetween alignCenter>
+                      <p>TL</p>
+                      <p>{marine.last}</p>
+                      <p>Present</p>
+                      <Link to={`/show-marine/${marine._id}`}>
+                      <i class="material-icons">visibility</i>
+                      </Link>
+                    </Flex>
+                  </ListGroupItem>
+                </ListGroup>
               </ListGroupItem>
             </Collapse>)}
 
             <ListGroupItem tag="a" onClick={toggle}>
               <Flex justifyBetween alignCenter>3
-                <Badge color='none'>{teamThree.length}
-                  <i class="material-icons">account_circle</i>
+                <Badge color='none'>
+                  {teamThree.length}
                 </Badge>
-                <Badge color='none'>{teamThreeAppointments}
-                  <i class="material-icons">event_available</i>
+                <Badge color='none'>
+                  {teamThreeAppointments}
                 </Badge>
 
               </Flex>
             </ListGroupItem>
 
-            {teamThree.map(marine => <Collapse isOpen={isOpen.collapse}>
+             {teamThree.map(marine => 
+
+            <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
-                <Link to={`/show-marine/${marine._id}`}>{marine.rank} {marine.first}
-                  {marine.last}</Link>
+                <ListGroup flush>
+                  <ListGroupItem tag="a" onClick={toggle}>
+                    <Flex justifyBetween alignCenter>
+                      <Badge color='none'>Billet</Badge>
+                      <Badge color='none'>L.Name</Badge>
+                      <Badge color='none'>Status</Badge>
+                      <Badge color='none'>View</Badge>
+                    </Flex>
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    <Flex justifyBetween alignCenter>
+                      <p>TL</p>
+                      <p>{marine.last}</p>
+                      <p>Present</p>
+                      <Link to={`/show-marine/${marine._id}`}>
+                      <i class="material-icons">visibility</i>
+                      </Link>
+                    </Flex>
+                  </ListGroupItem>
+                </ListGroup>
               </ListGroupItem>
             </Collapse>)}
 

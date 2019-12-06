@@ -4,7 +4,7 @@ import '../App.css';
 import axios from 'axios';
 import Container from '../components/Container'
 import HeaderBanner from '../components/HeaderBanner'
-import LogoSmall from '../components/LogoSmall'
+import MasterForm from '../components/MasterForm'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import {Alert} from 'reactstrap';
@@ -20,7 +20,10 @@ function CreateMarine(props) {
     company: '',
     platoon: '',
     squad: '',
-    team: ''
+    team: '',
+    edipi: '',
+    religion: '',
+    blood_type: ''
   });
   console.log(marineData)
 
@@ -46,7 +49,11 @@ function CreateMarine(props) {
       company: marineData.company,
       platoon: marineData.platoon,
       squad: marineData.squad,
-      team: marineData.team
+      team: marineData.team,
+      edpip: marineData.edipi,
+      religion: marineData.religion,
+      blood_type: marineData.blood_type
+
     }
 
     axios
@@ -60,7 +67,10 @@ function CreateMarine(props) {
           company: '',
           platoon: '',
           squad: '',
-          team: ''
+          team: '',
+          edipi: '',
+          religion: '',
+          blood_type: ''
         })
         setVisible(true)
 
@@ -70,18 +80,15 @@ function CreateMarine(props) {
       })
   };
 
-  const [visible,
-    setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const onDismiss = () => setVisible(false);
 
   return (
 
     <Container full>
 
-      <LogoSmall>Tracker</LogoSmall>
-
       <HeaderBanner>Add Marine</HeaderBanner>
-
+<MasterForm/>
       <form noValidate onSubmit={onSubmit}>
         <Input
           type='text'
@@ -146,6 +153,30 @@ function CreateMarine(props) {
           className='form-control'
           value={marineData.team}
           helperText='e.g "2"'
+          onChange={onChange}/>
+         <Input
+          type='text'
+          placeholder='EDIPI'
+          name='edipi'
+          className='form-control'
+          value={marineData.edipi}
+          helperText='e.g "1515051051"'
+          onChange={onChange}/>
+        <Input
+          type='text'
+          placeholder='Religion'
+          name='religion'
+          className='form-control'
+          value={marineData.religion}
+          helperText='e.g "Catholic"'
+          onChange={onChange}/>
+        <Input
+          type='text'
+          placeholder='Blood Type'
+          name='blood_type'
+          className='form-control'
+          value={marineData.blood_type}
+          helperText='e.g "O+"'
           onChange={onChange}/>
 
         <Alert color="success" isOpen={visible} toggle={onDismiss}>

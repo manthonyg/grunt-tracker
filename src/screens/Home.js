@@ -7,8 +7,7 @@ import {Container, Alert} from 'reactstrap';
 import Loader from '../components/Loader'
 function Home() {
 
-  const [squadList,
-    setSquadList] = useState()
+  const [ squadList, setSquadList ] = useState()
   const [ deletedSquad, setDeletedSquad ] = useState()
   
   useEffect(() => {
@@ -34,16 +33,13 @@ function Home() {
       })
   };
 
-  const [visible,
-    setVisible] = useState(false);
+  const [ visible, setVisible ] = useState(false);
 
   const onDismiss = () => setVisible(false);
 
-  return ( <> <Container>
-
-    
-
-  </Container>Your Squads : <Flex contentCenter justifyCenter>
+  return ( 
+  <> 
+  <Flex contentCenter justifyCenter>
     {squadList
       ? squadList.map(squad => <ArrowTab
         link={`/show-squad/${squad._id}`}
