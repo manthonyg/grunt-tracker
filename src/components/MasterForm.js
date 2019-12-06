@@ -1,5 +1,9 @@
 import React, {useState} from 'react'
 import Input from '../components/Input'
+<<<<<<< HEAD
+=======
+import FormNavigation from '../components/FormNavigation'
+>>>>>>> added stepper to create marine form
 import {Button} from 'reactstrap'
 import axios from 'axios'
 function MasterForm(props) {
@@ -58,8 +62,12 @@ function MasterForm(props) {
       platoon: '',
       squad: '',
       team: '',
+<<<<<<< HEAD
       callsign: '',
       zap: ''
+=======
+      callsign: ''
+>>>>>>> added stepper to create marine form
     })
   })
   .catch(err => {
@@ -278,7 +286,11 @@ function MasterForm(props) {
      <Input
               type='text'
               placeholder='EDIPI'
+<<<<<<< HEAD
               name='edipi'
+=======
+              name='unit'
+>>>>>>> added stepper to create marine form
               className='form-control'
               value={props.edipi}
               helperText='e.g "1234567890"'
@@ -289,6 +301,7 @@ function MasterForm(props) {
               placeholder='Blood Type'
               name='blood_type'
               className='form-control'
+<<<<<<< HEAD
               value={props.blood_type}
               helperText='e.g "O+"'
               onChange={props.handleChange}
@@ -301,6 +314,12 @@ function MasterForm(props) {
               value={props.zap}
               onChange={props.handleChange}/>
 
+=======
+              value={props.company}
+              helperText='e.g "O+"'
+              onChange={props.handleChange}
+            />
+>>>>>>> added stepper to create marine form
             
       <Button block type="submit">Add Marine</Button>
       </>

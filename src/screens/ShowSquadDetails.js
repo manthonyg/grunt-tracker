@@ -18,9 +18,12 @@ function ShowSquadDetails(props) {
 
   const [ squadData, setSquadData ] = useState()
   const [ marineData, setMarineData ] = useState([])
+<<<<<<< HEAD
   // const [teamOne, setTeamOne ] = useState([])
   // const [teamTwo, setTeamTwo] = useState([])
   // const [teamThree, setTeamThree] = useState([])
+=======
+>>>>>>> added stepper to create marine form
 
   useEffect(() => {
     axios
@@ -155,6 +158,7 @@ console.log(squadLength.accountability)
                 <Badge color='none'>
                   {teamTwoAppointments}
                 </Badge>
+<<<<<<< HEAD
               </Flex>
             </ListGroupItem>
 
@@ -224,6 +228,12 @@ console.log(squadLength.accountability)
             </ListGroupItem>
 
             {fullSquad.map(marine => 
+=======
+              </Flex>
+            </ListGroupItem>
+
+            {teamTwo.map(marine => 
+>>>>>>> added stepper to create marine form
 
             <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
