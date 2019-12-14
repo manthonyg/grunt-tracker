@@ -19,9 +19,9 @@ function SearchResults(props) {
                 {props.filteredMarines.length} {props.filteredMarines.length === 1 ? 'Result' : 'Results'}
               </DropdownToggle>
               <DropdownMenu>
-                {props.filteredMarines.length && props.filteredMarines.map(marine =>
+                {props.filteredMarines.map(marine =>
                  <DropdownItem>
-                    <Link onClick={props.handleClick} to={`/show-marine/${marine._id}`}>{marine.rank} {marine.last}</Link>
+                    <Link onClick={props.handleClick} to={`/show-marine/${marine._id}`}>{marine.last}</Link>
                   </DropdownItem>)}
               </DropdownMenu>
             </Dropdown>
