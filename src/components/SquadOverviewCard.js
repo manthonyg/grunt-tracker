@@ -38,15 +38,15 @@ const d = new Date()
                         <div class="stats">
 
                             <div>
-                                <strong>INVITED</strong> 3098
+                                <strong>PFT AVG</strong> 267
                             </div>
 
                             <div>
-                                <strong>JOINED</strong> 562
+                                <strong>CFT AVG</strong> 232
                             </div>
 
                             <div>
-                                <strong>DECLINED</strong> 182
+                                <strong>TOTAL AVG</strong> 248
                             </div>
 
                         </div>
@@ -54,15 +54,15 @@ const d = new Date()
                         <div class="stats">
 
                             <div>
-                                <strong>INVITED</strong> 3098
+                                <strong>IAR</strong> 7
                             </div>
 
                             <div>
-                                <strong>JOINED</strong> 562
+                                <strong>M38</strong> 1
                             </div>
 
                             <div>
-                                <strong>DECLINED</strong> 182
+                                <strong>203</strong> 2
                             </div>
 
                         </div>
