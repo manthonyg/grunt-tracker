@@ -12,18 +12,20 @@ import Loader from '../components/Loader'
 import HeaderBanner from '../components/HeaderBanner'
 import {Collapse} from 'reactstrap'
 import Flex from '../components/Flex'
-import SquadOverviewCard from '../components/SquadOverviewCard'
 
 function ShowSquadDetails(props) {
 
   const [ squadData, setSquadData ] = useState()
   const [ marineData, setMarineData ] = useState([])
 <<<<<<< HEAD
+<<<<<<< HEAD
   // const [teamOne, setTeamOne ] = useState([])
   // const [teamTwo, setTeamTwo] = useState([])
   // const [teamThree, setTeamThree] = useState([])
 =======
 >>>>>>> added stepper to create marine form
+=======
+>>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
 
   useEffect(() => {
     axios
@@ -63,8 +65,6 @@ function ShowSquadDetails(props) {
   const teamOne = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '1')
   const teamTwo = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '2')
   const teamThree = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '3')
-  const fullSquad = marineData.filter(marine => marine.unit === squadData.unit)
-  const squadLength = [ ...teamOne, ...teamTwo, ...teamThree ].length
 
   const teamOneAppointments = teamOne
     .map(marine => marine.appointments.length)
@@ -75,7 +75,7 @@ function ShowSquadDetails(props) {
   const teamThreeAppointments = teamThree
     .map(marine => marine.appointments.length)
     .reduce((total, currentValue) => total + currentValue, 0)
-console.log(squadLength.accountability)
+
   return (
 
     <Container full>
@@ -83,24 +83,13 @@ console.log(squadLength.accountability)
 
       {squadData
         ? <HeaderBanner>
-           SQUAD
+            {squadData.company}
+            CO {squadData.platoon}
+            / {squadData.squad}
             OVERVIEW
           </HeaderBanner>
         : <Loader></Loader>
 }
-
-{squadData &&
-<SquadOverviewCard
-                  company={squadData.company}
-                  platoon={squadData.platoon}
-                  squad={squadData.squad}
-                  totalMarines={squadLength}
-                  appointments={squadLength.appointments}
-                  unit={squadData.unit}
-                
-                  
-                  />}
-
 
       {squadData
         ? <ListGroup flush>
@@ -189,6 +178,7 @@ console.log(squadLength.accountability)
               </ListGroupItem>
             </Collapse>)}
 
+<<<<<<< HEAD
             {teamOne.map(marine => 
 
             <Collapse isOpen={isOpen.collapse}>
@@ -260,6 +250,8 @@ console.log(squadLength.accountability)
               </ListGroupItem>
             </Collapse>)}
 
+=======
+>>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
             <ListGroupItem tag="a" onClick={toggle}>
               <Flex justifyBetween alignCenter>3
                 <Badge color='none'>

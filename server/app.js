@@ -1,18 +1,14 @@
 // app.js
+
 const express = require('express');
-const app = express();
-
-
 const connectDB = require('./config/db');
 var cors = require('cors');
-// body parser to access req.body
-// const bodyParser = require('body-parser');
-// app.use(bodyParser);
+
 // routes
 const marines = require('./routes/api/marines');
 const squads = require('./routes/api/squads')
 
-
+const app = express();
 
 // Connect Database
 connectDB();

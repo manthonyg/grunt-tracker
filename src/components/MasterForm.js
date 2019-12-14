@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
 import Input from '../components/Input'
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import FormNavigation from '../components/FormNavigation'
 >>>>>>> added stepper to create marine form
+=======
+import FormNavigation from '../components/FormNavigation'
+>>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
 import {Button} from 'reactstrap'
 import axios from 'axios'
 function MasterForm(props) {
@@ -25,8 +29,7 @@ function MasterForm(props) {
         platoon: '',
         squad: '',
         team: '',
-        callsign: '',
-        zap: ''
+        callsign: ''
     })
   
     const handleChange = evt => {
@@ -63,11 +66,15 @@ function MasterForm(props) {
       squad: '',
       team: '',
 <<<<<<< HEAD
+<<<<<<< HEAD
       callsign: '',
       zap: ''
 =======
       callsign: ''
 >>>>>>> added stepper to create marine form
+=======
+      callsign: ''
+>>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
     })
   })
   .catch(err => {
@@ -101,7 +108,7 @@ function MasterForm(props) {
     if(currentStep !==1){
       return (
         <button 
-          className="btn btn-primary" 
+          className="btn btn-secondary" 
           type="button" onClick={_prev}>
         Previous
         </button>
@@ -139,20 +146,12 @@ function MasterForm(props) {
           <UnitInformation 
             currentStep={data.currentStep} 
             handleChange={handleChange}
-            unit={data.unit}
-            company={data.company}
-            platoon={data.platoon}
-            squad={data.squad}
-            team={data.team}
-
+            username={data.username}
           />
           <ZapInformation
             currentStep={data.currentStep} 
             handleChange={handleChange}
-            edipi={data.edipi}
-            blood_type={data.blood_type}
-            zap={data.zap}
-
+            password={data.password}
           />
 
           {previousButton()}
@@ -287,10 +286,14 @@ function MasterForm(props) {
               type='text'
               placeholder='EDIPI'
 <<<<<<< HEAD
+<<<<<<< HEAD
               name='edipi'
 =======
               name='unit'
 >>>>>>> added stepper to create marine form
+=======
+              name='unit'
+>>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
               className='form-control'
               value={props.edipi}
               helperText='e.g "1234567890"'
@@ -301,6 +304,7 @@ function MasterForm(props) {
               placeholder='Blood Type'
               name='blood_type'
               className='form-control'
+<<<<<<< HEAD
 <<<<<<< HEAD
               value={props.blood_type}
               helperText='e.g "O+"'
@@ -320,6 +324,12 @@ function MasterForm(props) {
               onChange={props.handleChange}
             />
 >>>>>>> added stepper to create marine form
+=======
+              value={props.company}
+              helperText='e.g "O+"'
+              onChange={props.handleChange}
+            />
+>>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
             
       <Button block type="submit">Add Marine</Button>
       </>
