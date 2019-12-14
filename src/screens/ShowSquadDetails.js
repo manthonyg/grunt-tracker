@@ -12,15 +12,11 @@ import Loader from '../components/Loader'
 import HeaderBanner from '../components/HeaderBanner'
 import {Collapse} from 'reactstrap'
 import Flex from '../components/Flex'
-import SquadOverviewCard from '../components/SquadOverviewCard'
 
 function ShowSquadDetails(props) {
 
   const [ squadData, setSquadData ] = useState()
   const [ marineData, setMarineData ] = useState([])
-  // const [teamOne, setTeamOne ] = useState([])
-  // const [teamTwo, setTeamTwo] = useState([])
-  // const [teamThree, setTeamThree] = useState([])
 
   useEffect(() => {
     axios
@@ -60,8 +56,6 @@ function ShowSquadDetails(props) {
   const teamOne = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '1')
   const teamTwo = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '2')
   const teamThree = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '3')
-  const fullSquad = marineData.filter(marine => marine.unit === squadData.unit)
-  const squadLength = [ ...teamOne, ...teamTwo, ...teamThree ].length
 
   const teamOneAppointments = teamOne
     .map(marine => marine.appointments.length)
@@ -72,7 +66,7 @@ function ShowSquadDetails(props) {
   const teamThreeAppointments = teamThree
     .map(marine => marine.appointments.length)
     .reduce((total, currentValue) => total + currentValue, 0)
-console.log(squadLength.accountability)
+
   return (
 
     <Container full>
@@ -80,24 +74,13 @@ console.log(squadLength.accountability)
 
       {squadData
         ? <HeaderBanner>
-           SQUAD
+            {squadData.company}
+            CO {squadData.platoon}
+            / {squadData.squad}
             OVERVIEW
           </HeaderBanner>
         : <Loader></Loader>
 }
-
-{squadData &&
-<SquadOverviewCard
-                  company={squadData.company}
-                  platoon={squadData.platoon}
-                  squad={squadData.squad}
-                  totalMarines={squadLength}
-                  appointments={squadLength.appointments}
-                  unit={squadData.unit}
-                
-                  
-                  />}
-
 
       {squadData
         ? <ListGroup flush>
@@ -159,71 +142,6 @@ console.log(squadLength.accountability)
             </ListGroupItem>
 
             {teamTwo.map(marine => 
-
-            <Collapse isOpen={isOpen.collapse}>
-              <ListGroupItem tag="button" action>
-                <ListGroup flush>
-                  <ListGroupItem tag="a" onClick={toggle}>
-                    <Flex justifyBetween alignCenter>
-                      <Badge color='none'>Billet</Badge>
-                      <Badge color='none'>L.Name</Badge>
-                      <Badge color='none'>Status</Badge>
-                      <Badge color='none'>View</Badge>
-                    </Flex>
-                  </ListGroupItem>
-                  <ListGroupItem>
-                    <Flex justifyBetween alignCenter>
-                      <p>TL</p>
-                      <p>{marine.last}</p>
-                      <p>Present</p>
-                      <Link to={`/show-marine/${marine._id}`}>
-                      <i class="material-icons">visibility</i>
-                      </Link>
-                    </Flex>
-                  </ListGroupItem>
-                </ListGroup>
-              </ListGroupItem>
-            </Collapse>)}
-
-            {teamOne.map(marine => 
-
-            <Collapse isOpen={isOpen.collapse}>
-              <ListGroupItem tag="button" action>
-                <ListGroup flush>
-                  <ListGroupItem tag="a" onClick={toggle}>
-                    <Flex justifyBetween alignCenter>
-                      <Badge color='none'>Billet</Badge>
-                      <Badge color='none'>L.Name</Badge>
-                      <Badge color='none'>Status</Badge>
-                      <Badge color='none'>View</Badge>
-                    </Flex>
-                  </ListGroupItem>
-                  <ListGroupItem>
-                    <Flex justifyBetween alignCenter>
-                      <p>TL</p>
-                      <p>{marine.last}</p>
-                      <p>Present</p>
-                      <Link to={`/show-marine/${marine._id}`}>
-                      <i class="material-icons">visibility</i>
-                      </Link>
-                    </Flex>
-                  </ListGroupItem>
-                </ListGroup>
-              </ListGroupItem>
-            </Collapse>)}
-
-            <ListGroupItem tag="a" onClick={toggle}>
-              <Flex justifyBetween alignCenter>2
-                <Badge color='none'>
-                  {teamTwo.length}
-                </Badge>
-                <Badge color='none'>
-                  {teamTwoAppointments}
-                </Badge>
-              </Flex>
-            </ListGroupItem>
-
-            {fullSquad.map(marine => 
 
             <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
