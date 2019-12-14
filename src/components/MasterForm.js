@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import Input from '../components/Input'
-import FormNavigation from '../components/FormNavigation'
 import {Button} from 'reactstrap'
 import axios from 'axios'
 function MasterForm(props) {
@@ -22,7 +21,8 @@ function MasterForm(props) {
         platoon: '',
         squad: '',
         team: '',
-        callsign: ''
+        callsign: '',
+        zap: ''
     })
   
     const handleChange = evt => {
@@ -58,7 +58,8 @@ function MasterForm(props) {
       platoon: '',
       squad: '',
       team: '',
-      callsign: ''
+      callsign: '',
+      zap: ''
     })
   })
   .catch(err => {
@@ -92,7 +93,7 @@ function MasterForm(props) {
     if(currentStep !==1){
       return (
         <button 
-          className="btn btn-secondary" 
+          className="btn btn-primary" 
           type="button" onClick={_prev}>
         Previous
         </button>
@@ -130,12 +131,20 @@ function MasterForm(props) {
           <UnitInformation 
             currentStep={data.currentStep} 
             handleChange={handleChange}
-            username={data.username}
+            unit={data.unit}
+            company={data.company}
+            platoon={data.platoon}
+            squad={data.squad}
+            team={data.team}
+
           />
           <ZapInformation
             currentStep={data.currentStep} 
             handleChange={handleChange}
-            password={data.password}
+            edipi={data.edipi}
+            blood_type={data.blood_type}
+            zap={data.zap}
+
           />
 
           {previousButton()}
@@ -269,7 +278,7 @@ function MasterForm(props) {
      <Input
               type='text'
               placeholder='EDIPI'
-              name='unit'
+              name='edipi'
               className='form-control'
               value={props.edipi}
               helperText='e.g "1234567890"'
@@ -280,10 +289,18 @@ function MasterForm(props) {
               placeholder='Blood Type'
               name='blood_type'
               className='form-control'
-              value={props.company}
+              value={props.blood_type}
               helperText='e.g "O+"'
               onChange={props.handleChange}
             />
+            <Input
+              type='text'
+              placeholder='Zap #'
+              name='zap'
+              className='form-control'
+              value={props.zap}
+              onChange={props.handleChange}/>
+
             
       <Button block type="submit">Add Marine</Button>
       </>

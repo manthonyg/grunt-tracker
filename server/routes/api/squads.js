@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   Squad.findById(req.params.id)
     .then(squad => res.json(squad))
-    .catch(err => res.status(404).json({ nobookfound: 'No Book found' }));
+    .catch(err => res.status(404).json({ nosquadsfound: 'No Squad found' }));
 });
 
 

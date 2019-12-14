@@ -29,6 +29,7 @@ function ArrowTab(props) {
 
         <ToastBody>
           {props.children}
+          
         </ToastBody>
 
         <Link to={props.link}>
