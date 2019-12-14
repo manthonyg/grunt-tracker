@@ -3,7 +3,7 @@
 ## 12/13 Update
 
 | SquadOverview |  SearchResults | SearchResultsTwo | 
-| ------ | ------ | 
+| ------ | ------ | ------ |
 | ![](./src/docs/1213_squadoverview.png) | ![](./src/docs/1213_2.png) | ![](./src/docs/1213_3.png) |
 
 - Working on converting much of the querying from the frontend to the backend.
