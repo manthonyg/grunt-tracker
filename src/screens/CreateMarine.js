@@ -8,8 +8,7 @@ import {Alert} from 'reactstrap';
 
 function CreateMarine(props) {
 
-  const [marineData,
-    setMarineData] = useState({
+  const [marineData, setMarineData] = useState({
     first: '',
     last: '',
     rank: '',

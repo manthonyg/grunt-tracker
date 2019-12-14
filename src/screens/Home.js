@@ -16,6 +16,8 @@ function Home() {
       .then(res => setSquadList(res.data))
   }, [])
 
+  
+
 
   const onDeleteClick = (evt) => {
     evt.persist();
