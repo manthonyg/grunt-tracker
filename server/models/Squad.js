@@ -1,13 +1,10 @@
-// models/Book.js
+// models/Squad.js
 
 const mongoose = require('mongoose');
 
 
 const SquadSchema = new mongoose.Schema({
-  unit: {
-    type: String,
-    required: true
-  },
+
   company: {
     type: String,
     required: true
@@ -21,8 +18,7 @@ const SquadSchema = new mongoose.Schema({
     required: true
   },
   callsign: {
-    type: String,
-    required: true
+    type: String
   },
 
 });

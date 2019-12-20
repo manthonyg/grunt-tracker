@@ -34,13 +34,6 @@ const MarineSchema = new mongoose.Schema(
         }
     ],
 
-    gear: [
-        {
-        name: String,
-        amount: Number
-        }
-    ],
-
     body: {
         
         pft: [
@@ -55,12 +48,7 @@ const MarineSchema = new mongoose.Schema(
             last_updated: String
             }
         ]
-            },
-     
-    allergies: [
-        {type: String}
-    ],
-    
+            },  
 
     });
 

@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-import Container from '../components/Container'
 import HeaderBanner from '../components/HeaderBanner'
-import LogoSmall from '../components/LogoSmall'
-import Input from '../components/Input'
-import Button from '../components/Button'
+import { Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
 import { Alert } from 'reactstrap';
 import Loader from '../components/Loader'
 
@@ -14,7 +11,6 @@ function CreateSquad(props) {
 
   const [ squadData, setSquadData ] = useState(
   {
-  unit: '',
   company:'',
   squad:'',
   platoon: '',
@@ -23,7 +19,7 @@ function CreateSquad(props) {
 console.log(squadData)
 
 
-  const onChange = evt => {
+  const handleChange = evt => {
     const name = evt.target.name;
     const val = evt.target.value;
     setSquadData(prevState => {
@@ -32,22 +28,20 @@ console.log(squadData)
 }
 
 
-  const onSubmit = evt => {
+  const handleSubmit = evt => {
     evt.preventDefault();
 
     const data = {
-      unit: squadData.unit,
       company: squadData.company,
       squad: squadData.squad,
       platoon: squadData.platoon,
-      callsign: squadData.callsign,
+      callsign: squadData.company+squadData.platoon+squadData.squad,
     }
 
     axios
       .post('http://localhost:8082/api/squads', data)
       .then(res => {
         setSquadData({
-          unit: '',
           company:'',
           squad:'',
           platoon:'',
@@ -71,61 +65,51 @@ console.log(squadData)
 return (
   <>
 {squadData ?
-<Container full>
 
+<Container>
     <HeaderBanner>Add Squad</HeaderBanner>
+    <FormGroup>
+        <Label for="company">Company</Label>
+        <Input type="select" name="company" id="company" onChange={handleChange} value={props.company}>
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+          <option>D</option>
+          <option>E</option>
+          <option>F</option>
+          <option>G</option>
+          <option>H</option>
+          <option>I</option>
+          <option>J</option>
+          <option>K</option>
+          <option>L</option>
+          <option>M</option>
+          <option>W</option>
+        </Input>
 
-        <form noValidate onSubmit={onSubmit}>
-            <Input
-              type='text'
-              placeholder='Unit'
-              name='unit'
-              className='form-control'
-              value={squadData.unit}
-              helperText='e.g "V1/5"'
-              onChange={onChange}
-            />
-            <Input
-              type='text'
-              placeholder='Company'
-              name='company'
-              className='form-control'
-              value={squadData.company}
-              helperText='e.g "A"'
-              onChange={onChange}
-            />
-            <Input
-              type='text'
-              placeholder='Platoon'
-              name='platoon'
-              className='form-control'
-              value={squadData.platoon}
-              helperText='e.g "2"'
-              onChange={onChange}
-            />
-            <Input
-              type='text'
-              placeholder='Squad'
-              name='squad'
-              className='form-control'
-              value={squadData.squad}
-              helperText='e.g "3"'
-              onChange={onChange}
-            />
-            <Input
-              type='text'
-              placeholder='Callsign'
-              name='callsign'
-              className='form-control'
-              value={squadData.callsign}
-              helperText='e.g "Apache"'
-              onChange={onChange}
-            />
-           
-              <Button type="submit" >
-                  Submit
-                </Button>
-                <Alert color="success" isOpen={successVisible} toggle={onSucDismiss}>
+        <Label for="platoon">Platoon</Label>
+        <Input type="select" name="platoon" id="platoon" onChange={handleChange} value={props.platoon}>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>WPNS</option>
+          <option>HQ</option>
+        </Input>
+      
+        <Label for="squad">Squad</Label>
+        <Input type="select" name="squad" id="squad" onChange={handleChange} value={props.squad}>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>HQ</option>
+        </Input>
+      
+
+        <Button onClick={handleSubmit}>Submit</Button>
+      </FormGroup>
+                 
+      <Alert color="success" isOpen={successVisible} toggle={onSucDismiss}>
       Squad added
       <Button>
                   <Link to="/">
@@ -134,13 +118,11 @@ return (
                 </Button>
     </Alert>
     <Alert color="danger" isOpen={errorVisible} toggle={onErrDismiss}>
-      Failed to add squad
-     
-                
+      Failed to add squad        
     </Alert>
 
               
-          </form>
+         
      
       </Container>
      :

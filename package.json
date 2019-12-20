@@ -49,6 +49,7 @@
     "@storybook/react": "^5.2.6",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
+    "nodemon": "^2.0.2",
     "plop": "^2.5.3",
     "react-test-renderer": "^16.12.0"
   }
