@@ -7,11 +7,11 @@
 | ![](./src/docs/1213_squadoverview.png) | ![](./src/docs/1213_2.png) | ![](./src/docs/1213_3.png) |
 
 - Working on converting much of the querying from the frontend to the backend.
-- Created SquadOverviewCard to display most prominent info
+- Created `SquadOverviewCard` to display most prominent info
 
 ### TODO:
 - Continue to work on routes and validation in api
-- Create timestamps for accountability and get 'Squad Accountability' overview working correctly.
+- Create timestamps for accountability and get `Squad Accountability` overview working correctly.
 
 ## 11/30 Update
 
@@ -32,12 +32,9 @@
 
 ## 11/29 Update
 
-| Home | Squad Overview |
-| ------ | ------ |
-| ![](./src/docs/1128_home.png) | ![](./src/docs/1128_squadoverviewexpanded.png) |
-| Add Marine | Marine Overview |
-| ------ | ------ |
-| ![](./src/docs/1128_addmarine.png) | ![](./src/docs/1128_viewmarine.png) |
+| Home | Squad Overview | Add Marine | Marine Overview |
+| ------ | ------ | ------ | ------ |
+| ![](./src/docs/1128_home.png) | ![](./src/docs/1128_squadoverviewexpanded.png) | ![](./src/docs/1128_addmarine.png) | ![](./src/docs/1128_viewmarine.png) |
 
 - Figured out how to add objects to mongodb array (`CreateAppointment` now works)
 - Simplfied bottom nav and added feature to shrink on scroll for better viewport availiability
