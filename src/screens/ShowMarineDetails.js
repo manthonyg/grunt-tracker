@@ -173,15 +173,9 @@ function ShowMarineDetails(props) {
               <div className="card">
                 <div className="card-header" onClick={toggleWeaponsCollapse}>
                 Weapons<br/>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
                 {marineData.weapons.length ?
-=======
-                {marineData.weapons ?
->>>>>>> added stepper to create marine form
-=======
-                {marineData.weapons ?
->>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
+
                   <Flex justifyAround contentCenter>
                   <i class="material-icons">check</i>
                   </Flex>
@@ -198,15 +192,10 @@ function ShowMarineDetails(props) {
               <div className="card">
                 <div className="card-header" onClick={toggleGearCollapse}>
                   Gear<br/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                {marineData.gear.length ?
-=======
+
+    \
+
                 {marineData.gear ?
->>>>>>> added stepper to create marine form
-=======
-                {marineData.gear ?
->>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
                   <Flex justifyAround contentCenter>
                   <i class="material-icons">check</i>
                   </Flex>

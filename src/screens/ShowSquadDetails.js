@@ -17,15 +17,7 @@ function ShowSquadDetails(props) {
 
   const [ squadData, setSquadData ] = useState()
   const [ marineData, setMarineData ] = useState([])
-<<<<<<< HEAD
-<<<<<<< HEAD
-  // const [teamOne, setTeamOne ] = useState([])
-  // const [teamTwo, setTeamTwo] = useState([])
-  // const [teamThree, setTeamThree] = useState([])
-=======
->>>>>>> added stepper to create marine form
-=======
->>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
+
 
   useEffect(() => {
     axios
@@ -147,7 +139,6 @@ function ShowSquadDetails(props) {
                 <Badge color='none'>
                   {teamTwoAppointments}
                 </Badge>
-<<<<<<< HEAD
               </Flex>
             </ListGroupItem>
 
@@ -178,7 +169,7 @@ function ShowSquadDetails(props) {
               </ListGroupItem>
             </Collapse>)}
 
-<<<<<<< HEAD
+
             {teamOne.map(marine => 
 
             <Collapse isOpen={isOpen.collapse}>
@@ -217,13 +208,10 @@ function ShowSquadDetails(props) {
               </Flex>
             </ListGroupItem>
 
-            {fullSquad.map(marine => 
-=======
-              </Flex>
-            </ListGroupItem>
+
 
             {teamTwo.map(marine => 
->>>>>>> added stepper to create marine form
+
 
             <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
@@ -250,8 +238,7 @@ function ShowSquadDetails(props) {
               </ListGroupItem>
             </Collapse>)}
 
-=======
->>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
+
             <ListGroupItem tag="a" onClick={toggle}>
               <Flex justifyBetween alignCenter>3
                 <Badge color='none'>
