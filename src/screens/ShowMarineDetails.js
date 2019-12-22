@@ -190,7 +190,7 @@ function ShowMarineDetails(props) {
               <div className="card">
                 <div className="card-header" onClick={toggleGearCollapse}>
                   Gear<br/>
-                {marineData.gear.length ?
+                {marineData ?
                   <Flex justifyAround contentCenter>
                   <i class="material-icons">check</i>
                   </Flex>

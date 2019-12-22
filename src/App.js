@@ -32,11 +32,12 @@ const [marineSearch, setMarineSearch] = useState('')
   useEffect(() => {
     axios
       .get(`http://localhost:8082/api/marines/last`, {
-        params: {
-          marineSearch
-        }})
+          params: {
+            marineSearch
+          }})
       .then(res => setMarineData(res.data))
   }, [marineSearch])
+
   return (
   
 <Router>

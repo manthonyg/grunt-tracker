@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
+import { Alert, Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
+import HeaderBanner from '../components/HeaderBanner'
 import axios from 'axios'
 function MasterForm(props) {
 
   const [squadData, setSquadData] = useState([])
+  const [visible, setVisible] = useState(false);
+  const onDismiss = () => setVisible(false);
 
   useEffect(() => {
     axios
@@ -59,6 +62,7 @@ function MasterForm(props) {
       callsign: '',
       zap: ''
     })
+    setVisible(true)
   })
   .catch(err => {
     console.log("Error in CreateMarine/MasterForm");
@@ -114,7 +118,7 @@ function MasterForm(props) {
        
       return (
         <>
-        
+        <HeaderBanner>Create New Marine</HeaderBanner>
         <form onSubmit={handleSubmit}>
        
           <BasicInformation 
@@ -147,6 +151,10 @@ function MasterForm(props) {
           {nextButton()}
   
         </form>
+
+        <Alert color="success" isOpen={visible} toggle={onDismiss}>
+          Marine added
+        </Alert>
         </>
       );
     }
@@ -199,13 +207,16 @@ function MasterForm(props) {
       return null
     } 
     return(
+
+  <Container>
     <FormGroup>
-      <Label for="company">Squad</Label>
-      <Input type="select" name="squad" id="company" onChange={props.handleChange} value={props.company}>
+      <Label for="squad">Squad</Label>
+      <Input type="select" name="squad" id="squad" onChange={props.handleChange} value={props.squad}>
         {props.squadData.map(squad=>
-          <option>{squad.company} {squad.platoon}/{squad.squad}</option>)}
+          <option>{squad.company}{squad.platoon}{squad.squad}</option>)}
       </Input>
     </FormGroup>
+  </Container>
     );
   }
   

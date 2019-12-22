@@ -12,9 +12,13 @@ margin-bottom: 20px;
 
 function LogoSmall() {
     return (
-        <LogoWrapper>
-            <img alt='Grunt Tracker' src={GTLogo} style={{width: '50px'}}/>
-        </LogoWrapper>
+
+  <LogoWrapper>
+    <img alt='Grunt Tracker' src={GTLogo} style={{width: '50px'}}/>
+  </LogoWrapper>
+
+        
+ 
     )
 }
 

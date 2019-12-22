@@ -43,8 +43,8 @@ z-index: 2;
 
 const SearchInputWrapper = styled.div`
 position: absolute;
-  left: 0;
-  z-index: 1;
+left: 0;
+z-index: 1;
 `
 
 const SearchDropdownItems = styled.div`
@@ -80,21 +80,20 @@ width: 200px;
 `
 
 function SearchBar(props) {
+
     return (
   
-<>
-<ResultsWrapper>
-          {props.children}
-          </ResultsWrapper>
+  <>
+    <ResultsWrapper>{props.children}</ResultsWrapper>
+
     <SearchContainer>
-           
         <SearchIcon><i className='fa fa-search'></i></SearchIcon>
         <SearchInputWrapper>
-        <SearchInput onChange={props.onChange} onClick={props.onClick} value={props.value} type='search' label='Search Marine' placeholder='Search Marine'/>
-        <SearchDropdownItems></SearchDropdownItems>
+          <SearchInput onChange={props.onChange} onClick={props.onClick} value={props.value} type='search' label='Search Marine' placeholder='Search Marine'/>
+          <SearchDropdownItems/>
         </SearchInputWrapper>
     </SearchContainer>
-    </>
+  </>
  
  
     )

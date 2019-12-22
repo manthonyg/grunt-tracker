@@ -17,17 +17,17 @@ router.get('/', (req, res) => {
 
 
 // Last
-router.get('/last', (req, res) => {
-console.log(req.query)
+router.get(`/last`, (req, res) => {
 console.log(req.params)
-  Marine.find({last: new RegExp(req.query.marineSearch, 'i')}, ['last', 'rank'])
+console.log(req.query)
+Marine.find({last: new RegExp(req.query.marineSearch, 'i')}, ['last', 'rank'])
   .then(marines => {
     if (marines === null || marines === undefined){
       res.status(500).json({"error": "Bad data returned"})
     } else if (marines.length === 0) {
-res.status(404).json({"nomarinesfound": "no marines found"})
+      res.status(404).json({"nomarinesfound": "no marines found"})
     } else {
-res.json(marines.filter(x => x !== null && x !== undefined))
+      res.json(marines.filter(x => x !== null && x !== undefined))
 }
 })
     .catch(err => console.log(err))
