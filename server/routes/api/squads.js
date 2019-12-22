@@ -23,9 +23,17 @@ router.get('/', (req, res) => {
 // @route GET api/squads
 // @description add/save squad
 // @access Public
+router.put('/:id/team', (req, res) => {
+  Squad.findByIdAndUpdate(req.params.id, {$set: {team_one: req.body}})
+    .then(squad => res.json({ msg: 'Squad added successfully' }))
+    .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
+});
+
+
+// Add a Squad or Group
 router.post('/', (req, res) => {
   Squad.create(req.body)
-    .then(squad => res.json({ msg: 'Squad added successfully' }))
+    .then(marine => res.json({ msg: 'Squad added successfully' }))
     .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
 });
 
@@ -35,7 +43,7 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   Squad.findById(req.params.id)
     .then(squad => res.json(squad))
-    .catch(err => res.status(404).json({ nobookfound: 'No Book found' }));
+    .catch(err => res.status(404).json({ error: 'No Squad found' }));
 });
 
 

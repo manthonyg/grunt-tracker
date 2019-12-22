@@ -12,7 +12,7 @@ const MarineSchema = new mongoose.Schema(
     company: {type: String},
     platoon: {type: String},
     squad: {type: String},
-    team: {type: String},
+    team: {type: String, default: '1'},
     edipi: {type: String},
     blood_type: {type: String},
     religion: {type: String},
@@ -34,13 +34,6 @@ const MarineSchema = new mongoose.Schema(
         }
     ],
 
-    gear: [
-        {
-        name: String,
-        amount: Number
-        }
-    ],
-
     body: {
         
         pft: [
@@ -55,12 +48,7 @@ const MarineSchema = new mongoose.Schema(
             last_updated: String
             }
         ]
-            },
-     
-    allergies: [
-        {type: String}
-    ],
-    
+            },  
 
     });
 

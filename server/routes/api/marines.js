@@ -14,11 +14,22 @@ router.get('/', (req, res) => {
     .catch(err => res.status(404).json({ nomarinesfound: 'No Marines found' }));
 });
 
-// Get all Marine last names
-router.get('/last', (req, res) => {
-  Marine.find({}, {last: 1})
-    .then(marines => res.json(marines))
-    .catch(err => res.status(404).json({ nomarinesfound: 'No Marines found' }));
+
+// Last
+router.get(`/last`, (req, res) => {
+console.log(req.params)
+console.log(req.query)
+Marine.find({last: new RegExp(req.query.marineSearch, 'i')}, ['last', 'rank'])
+  .then(marines => {
+    if (marines === null || marines === undefined){
+      res.status(500).json({"error": "Bad data returned"})
+    } else if (marines.length === 0) {
+      res.status(404).json({"nomarinesfound": "no marines found"})
+    } else {
+      res.json(marines.filter(x => x !== null && x !== undefined))
+}
+})
+    .catch(err => console.log(err))
 });
 
 // Find by id

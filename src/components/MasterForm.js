@@ -1,25 +1,30 @@
-import React, {useState} from 'react'
-import Input from '../components/Input'
-import FormNavigation from '../components/FormNavigation'
-import {Button} from 'reactstrap'
+import React, {useState, useEffect} from 'react'
+import { Alert, Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
+import HeaderBanner from '../components/HeaderBanner'
 import axios from 'axios'
 function MasterForm(props) {
 
+  const [squadData, setSquadData] = useState([])
+  const [visible, setVisible] = useState(false);
+  const onDismiss = () => setVisible(false);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8082/api/squads/`)
+      .then(res => {
+        setSquadData(res.data)
+      })
+  }, []);
 
     const [ data, setData ] = useState({
         currentStep: 1,
         first:  '',
         last: '',
-        middle: '',
         birthdate: '',
-        birthplace: '',
         rank: '',
         billet: '',
         edipi: '',
         blood_type: '',
-        unit: '',
-        company: '',
-        platoon: '',
         squad: '',
         team: '',
         callsign: ''
@@ -46,21 +51,17 @@ function MasterForm(props) {
       setData({   
       first:  '',
       last: '',
-      middle: '',
       birthdate: '',
-      birthplace: '',
       rank: '',
       billet: '',
       edipi: '',
       blood_type: '',
-      unit: '',
-      company: '',
-      platoon: '',
       squad: '',
       team: '',
       callsign: '',
       zap: ''
     })
+    setVisible(true)
   })
   .catch(err => {
     console.log("Error in CreateMarine/MasterForm");
@@ -116,7 +117,7 @@ function MasterForm(props) {
        
       return (
         <>
-        
+        <HeaderBanner>Create New Marine</HeaderBanner>
         <form onSubmit={handleSubmit}>
        
           <BasicInformation 
@@ -131,7 +132,10 @@ function MasterForm(props) {
           <UnitInformation 
             currentStep={data.currentStep} 
             handleChange={handleChange}
-            username={data.username}
+            squad={data.squad}
+            team={data.team}
+            squadData={squadData}
+
           />
           <ZapInformation
             currentStep={data.currentStep} 
@@ -143,6 +147,10 @@ function MasterForm(props) {
           {nextButton()}
   
         </form>
+
+        <Alert color="success" isOpen={visible} toggle={onDismiss}>
+          Marine added
+        </Alert>
         </>
       );
     }
@@ -153,60 +161,39 @@ function MasterForm(props) {
     if (props.currentStep !== 1) {
       return null
     } 
-    return(
+    return (
 
-    <form noValidate>
-       Basic
-        <Input
-          type='text'
-          placeholder='First name'
-          name='first'
-          className='form-control'
-          value={props.first}
-          helperText=''
-          onChange={props.handleChange}/>
-        <Input
-          type='text'
-          placeholder='Last name'
-          name='last'
-          className='form-control'
-          value={props.last}
-          helperText=''
-          onChange={props.handleChange}/>
-        <Input
-          type='text'
-          placeholder='Middle Initial'
-          name='middle'
-          className='form-control'
-          value={props.middle}
-          helperText='e.g. "A"'
-          onChange={props.handleChange}/>
-        <Input
-          type='date'
-          placeholder='Birthdate'
-          name='birthdate'
-          className='form-control'
-          value={props.birthdate}
-          helperText='e.g. "03/26/1997"'
-          onChange={props.handleChange}/>
-        <Input
-          type='text'
-          placeholder='Rank'
-          name='rank'
-          className='form-control'
-          value={props.rank}
-          helperText='e.g. "LCpl"'
-          onChange={props.handleChange}/>
-        <Input
-          type='text'
-          placeholder='Billet'
-          name='billet'
-          className='form-control'
-          value={props.billet}
-          helperText='e.g. "Squad Leader"'
-          onChange={props.handleChange}/>
+<Container>
+  <Form>
+    <FormGroup>
+      <Label for="first">First</Label>
+      <Input name="first" id="first" onChange={props.handleChange} value={props.first}/>
+    </FormGroup>
 
-    </form>
+    <FormGroup>
+    <Label for="birthdate">Last</Label>
+      <Input name="last" id="last" onChange={props.handleChange} value={props.last}/>
+    </FormGroup>
+
+    <FormGroup>
+      <Label for="birthdate">Birthdate</Label>
+      <Input type="date" name="birthdate" id="birthdate" onChange={props.handleChange} value={props.birthdate}/>
+    </FormGroup>
+
+    <FormGroup>
+    <Label for="birthdate">Rank</Label>
+      <Input type="select" name="rank" id="rank" onChange={props.handleChange} value={props.rank}>
+        <option>PVT</option>
+        <option>PFC</option>
+        <option>LCPL</option>
+        <option>CPL</option>
+        <option>SGT</option>
+      </Input>
+    </FormGroup>
+
+  </Form>
+</Container>
+    
     
     );
   }
@@ -216,47 +203,16 @@ function MasterForm(props) {
       return null
     } 
     return(
-    <form noValidate>
-      Unit
-        <Input
-              type='text'
-              placeholder='Unit'
-              name='unit'
-              className='form-control'
-              value={props.unit}
-              helperText='e.g "V1/5"'
-              onChange={props.handleChange}
-            />
-            <Input
-              type='text'
-              placeholder='Company'
-              name='company'
-              className='form-control'
-              value={props.company}
-              helperText='e.g "A"'
-              onChange={props.handleChange}
-            />
-            <Input
-              type='text'
-              placeholder='Platoon'
-              name='platoon'
-              className='form-control'
-              value={props.platoon}
-              helperText='e.g "2"'
-              onChange={props.handleChange}
-            />
-            <Input
-              type='text'
-              placeholder='Squad'
-              name='squad'
-              className='form-control'
-              value={props.squad}
-              helperText='e.g "3"'
-              onChange={props.handleChange}
-            />
-            
-           
-      </form>
+
+  <Container>
+    <FormGroup>
+      <Label for="squad">Squad</Label>
+      <Input type="select" name="squad" id="squad" onChange={props.handleChange} value={props.squad}>
+        {props.squadData.map(squad=>
+          <option>{squad.company}{squad.platoon}{squad.squad}</option>)}
+      </Input>
+    </FormGroup>
+  </Container>
     );
   }
   
@@ -293,20 +249,7 @@ function MasterForm(props) {
               className='form-control'
               value={props.zap}
               onChange={props.handleChange}/>
-
-=======
-              value={props.company}
-              helperText='e.g "O+"'
-              onChange={props.handleChange}
-            />
->>>>>>> added stepper to create marine form
-=======
-              value={props.company}
-              helperText='e.g "O+"'
-              onChange={props.handleChange}
-            />
->>>>>>> b0ac6a4298b367ff1af9d83e98edefd4904f9151
-            
+ 
       <Button block type="submit">Add Marine</Button>
       </>
     );

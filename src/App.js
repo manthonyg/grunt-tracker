@@ -36,8 +36,17 @@ const [marineSearch, setMarineSearch] = useState('')
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
-  const handleClick = () => 
-  setMarineSearch('')
+  const handleClick = () => setMarineSearch('')
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8082/api/marines/last`, {
+          params: {
+            marineSearch
+          }})
+      .then(res => setMarineData(res.data))
+  }, [marineSearch])
+
   return (
   
 <Router>

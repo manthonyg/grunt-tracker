@@ -44,8 +44,7 @@ function CreateAppointment(props) {
       })
   };
 
-  const [visible,
-    setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const onDismiss = () => setVisible(false);
 
   return (
