@@ -51,7 +51,7 @@ margin: 20px 5px;
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="col-12">
                     
                         <div class="wrapper">
                         <div class="dates">
