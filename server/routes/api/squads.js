@@ -23,11 +23,24 @@ router.get('/', (req, res) => {
 // @route GET api/squads
 // @description add/save squad
 // @access Public
-router.put('/:id/team', (req, res) => {
-  Squad.findByIdAndUpdate(req.params.id, {$set: {team_one: req.body}})
+router.put('/:id/team-one', (req, res) => {
+  Squad.findByIdAndUpdate(req.params.id, {$set: {'teams.team_one': req.body}})
     .then(squad => res.json({ msg: 'Squad added successfully' }))
     .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
 });
+
+router.put('/:id/team-two', (req, res) => {
+  Squad.findByIdAndUpdate(req.params.id, {$set: {'teams.team_two': req.body}})
+    .then(squad => res.json({ msg: 'Squad added successfully' }))
+    .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
+});
+
+router.put('/:id/team-three', (req, res) => {
+  Squad.findByIdAndUpdate(req.params.id, {$set: {'teams':{ team_three: req.body}}})
+    .then(squad => res.json({ msg: 'Squad added successfully' }))
+    .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
+});
+
 
 
 // Add a Squad or Group

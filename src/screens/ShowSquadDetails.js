@@ -13,7 +13,8 @@ import Loader from '../components/Loader'
 import HeaderBanner from '../components/HeaderBanner'
 import Flex from '../components/Flex'
 import SquadOverviewCard from '../components/SquadOverviewCard'
-import QuoteApp from '../components/QuoteApp'
+import TeamList from '../components/TeamList'
+import TeamListV2 from '../components/TeamListV2'
 function ShowSquadDetails(props) {
 
   const [ squadData, setSquadData ] = useState([])
@@ -78,7 +79,7 @@ function ShowSquadDetails(props) {
                   unit={squadData.unit}
                   />}
 
-<QuoteApp squad_id={squadData._id}/>
+<TeamList squad_id={squadData._id}/>
       {squadData
         ? <ListGroup flush>
             <ListGroupItem color='secondary' tag="a" onClick={toggle}>

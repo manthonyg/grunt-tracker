@@ -4,8 +4,8 @@ import Flex from '../components/Flex'
 import Heading from '../components/Heading'
 import HeaderBanner from '../components/HeaderBanner'
 import ArrowTab from '../components/ArrowTab'
-import {Alert} from 'reactstrap';
-import Loader from '../components/Loader'
+import {Alert, Container} from 'reactstrap';
+import TeamListV2 from '../components/TeamListV2'
 import PulsingArrow from '../components/PulsingArrow'
 
 function Home() {
@@ -44,6 +44,8 @@ function Home() {
 
   return ( 
   <> 
+<Container><TeamListV2></TeamListV2></Container>
+
   <HeaderBanner>GRUNT TRACKER</HeaderBanner>
 
   <Flex contentCenter justifyCenter>
