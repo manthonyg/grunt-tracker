@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import styled from "@emotion/styled";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import type { Quote as QuoteType } from "../types";
 import axios from 'axios'
+const teamOneURL = `http://localhost:8082/api/squads/5e01981fcca0e036d25b9da1/team-one`
+const teamTwoURL = `http://localhost:8082/api/squads/5e01981fcca0e036d25b9da1/team-two`
+
 
 
 const grid = 8;
@@ -39,32 +41,39 @@ function Quote({ quote, index }) {
   );
 }
 
-const QuoteList = React.memo(function QuoteList({ quotes }) {
-  return quotes.map((quote: QuoteType, index: number) => (
-    <Quote quote={quote} index={index} key={quote.id} />
-  ));
-});
+
 
 function TeamListV2() {
-  const [initial, setInitial] = useState([])
-  
+  const QuoteList = React.memo(function QuoteList({ quotes }) {
+    return !!quotes.length && quotes.map((quote: QuoteType, index: number) => (
+      <Quote quote={quote} index={index} key={quote.id} />
+    ));
+  });
+const [teamOne, setTeamOne] = useState([])
+const initial = Array.from(teamOne, (v, k) => v).map(k => {
+  const custom: Quote = {
+    id: `id-${k}`,
+    content: `Quote ${k}`
+  };
+
+  return custom;
+});
+const [state, setState] = useState({ quotes: initial });
   useEffect(() => {
     axios 
-    .get(`http://localhost:8082/api/marines/`)
-    .then(res => setInitial(Array.from(res.data.map(mar => mar.last))))
+    .get(teamOneURL)
+    .then(res => {
+      setTeamOne(res.data.team_one)
+      console.log(res.data.team_one)
+      setState({quotes: initial})
+    })
 }, [] )
-console.log(initial)
-// const initial = Array.from({ length: 10 }, (v, k) => k).map(k => {
-//   const custom: Quote = {
-//     id: `id-${k}`,
-//     content: `Quote ${k}`
-//   };
 
-//   return custom;
-// });
+
+  console.log(initial)
+
   
-  const [state, setState] = useState({ quotes: initial });
-console.log(state)
+
   function onDragEnd(result) {
     if (!result.destination) {
       return;
@@ -75,7 +84,7 @@ console.log(state)
     }
 
     const quotes = reorder(
-      initial.quotes,
+      state.quotes,
       result.source.index,
       result.destination.index
     );

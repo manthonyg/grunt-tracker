@@ -6,7 +6,7 @@ import HeaderBanner from '../components/HeaderBanner'
 import ArrowTab from '../components/ArrowTab'
 import {Alert} from 'reactstrap';
 import PulsingArrow from '../components/PulsingArrow'
-
+import TeamListV2 from '../components/TeamListV2'
 function Home() {
 
   const [ squadList, setSquadList ] = useState()
@@ -41,7 +41,7 @@ function Home() {
 
   return ( 
   <> 
-
+<TeamListV2></TeamListV2>
   <HeaderBanner>GRUNT TRACKER</HeaderBanner>
 
   <Flex contentCenter justifyCenter>
