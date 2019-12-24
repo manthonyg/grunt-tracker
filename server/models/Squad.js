@@ -64,12 +64,13 @@ const SquadSchema = new mongoose.Schema({
 
   callsign: {type: String},
 
-  teams: {
-      team_hq: [MarineSchema],
-      team_one: [MarineSchema],
-      team_two: [MarineSchema], 
-      team_three: [MarineSchema]
-  },
+  team_hq: [MarineSchema],
+
+  team_one: [MarineSchema],
+
+  team_two: [MarineSchema], 
+
+  team_three: [MarineSchema]
 
 });
 

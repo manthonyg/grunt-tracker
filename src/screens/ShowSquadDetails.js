@@ -14,18 +14,19 @@ import HeaderBanner from '../components/HeaderBanner'
 import Flex from '../components/Flex'
 import SquadOverviewCard from '../components/SquadOverviewCard'
 import TeamList from '../components/TeamList'
-import TeamListV2 from '../components/TeamListV2'
+
 function ShowSquadDetails(props) {
 
   const [ squadData, setSquadData ] = useState([])
   const [ marineData, setMarineData ] = useState([])
-
+  const [ isLoading, setIsLoading ] = useState(false)
 
   useEffect(() => {
     axios
       .get(`http://localhost:8082/api/squads/` + props.match.params.id)
       .then(res => {
         setSquadData(res.data)
+        
         return axios
           .get(`http://localhost:8082/api/marines`)
           .then(res => {
@@ -79,7 +80,7 @@ function ShowSquadDetails(props) {
                   unit={squadData.unit}
                   />}
 
-<TeamList squad_id={squadData._id}/>
+<TeamList id={squadData._id} isLoading={isLoading}/>
       {squadData
         ? <ListGroup flush>
             <ListGroupItem color='secondary' tag="a" onClick={toggle}>

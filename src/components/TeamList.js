@@ -2,32 +2,32 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem, Container, Row, Col } from 'reactstrap';
 import Flex from './Flex'
 import {Link} from 'react-router-dom';
+const baseURI = 'http://localhost:8082/api/'
+const teamOneURL = `http://localhost:8082/api/squads/5e01981fcca0e036d25b9da1/team-one`
+const teamTwoURL = `http://localhost:8082/api/squads/5e01981fcca0e036d25b9da1/team-two`
+
 
 const SortableContainer = sortableContainer(({ 
   children}) => 
-<ListGroup>{children}</ListGroup>
+<ListGroup flush>{children}</ListGroup>
 );
 
 const Sortable = sortableElement(({
-  team, 
+  value, 
   marine }) => 
 <ListGroupItem>
-    {team}
+    {value}
     <Flex justifyBetween alignCenter>
         <Link to={`/show-marine/${marine}`}>
-            <i class="material-icons">visibility</i>
+            {/* <i class="material-icons">visibility</i> */}
         </Link>
   </Flex>
 </ListGroupItem>);
 
-
-
-
-
-function TeamList({ squad_id }) {
+function TeamList({ id, isLoading }) {
 
   const [teamOne, setTeamOne] = useState([]);
   const [teamTwo, setTeamTwo] = useState([]);
@@ -40,18 +40,26 @@ function TeamList({ squad_id }) {
   const [isHoveringTeamOne, setIsHoveringTeamOne] = useState(false);
   const [isHoveringTeamTwo, setIsHoveringTeamTwo] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    axios 
-    .get(`http://localhost:8082/api/marines/`)
-    .then(res => setTeamOne(res.data))
-    return axios
-    .get(`http://localhost:8082/api/marines/`)
-    .then(res => setTeamTwo(res.data))
+      axios 
+      .get(teamOneURL)
+      .then(res => {
+        setTeamOne(res.data.team_one)
+        console.log(res.data.team_one)
+      })
+}, [] )
+  useEffect(() => {
+    const abortController = new AbortController();
+
+      axios 
+      .get(teamTwoURL)
+      .then(res => setTeamTwo(res.data.team_two))
+ 
 }, [] )
 
 
- 
   const onSortEnd = ({ oldIndex, newIndex, collection }) => {
     const allItems = teamOne.concat(teamTwo);
     const currentItem = allItems[oldIndex];
@@ -78,13 +86,13 @@ function TeamList({ squad_id }) {
   useEffect(() => {
   if (route.teamOne === true) {
     axios 
-    .put(`http://localhost:8082/api/squads/${squad_id}/team-one`, teamOne)
+    .put(`http://localhost:8082/api/squads/${id}/team-one`, teamOne)
     .then(res => console.log(res))
     .then(setRoute(!route.teamOne ))
   }
   if (route.teamTwo === true) {
     axios 
-    .put(`http://localhost:8082/api/squads/${squad_id}/team-two`, teamTwo)
+    .put(`http://localhost:8082/api/squads/${id}/team-two`, teamTwo)
     .then(res => console.log(res))
     .then(setRoute(!route.teamTwo ))
   }
@@ -92,13 +100,11 @@ function TeamList({ squad_id }) {
   else (console.log('nah boy'))
 }, [onSortEnd] )
 
-
   return (
   
-      <div
-
-      >
-    
+<Container>
+  <Row>
+    <Col xs='6'>
       <SortableContainer 
             axis="y"
             onSortEnd={onSortEnd}
@@ -108,17 +114,19 @@ function TeamList({ squad_id }) {
             updateBeforeSortStart={updateBeforeSortStart}
             setIsHoveringTeamOne={setIsHoveringTeamOne}
             >
-
-        {teamOne.map((marine, i) =>
+<ListGroupItem color='secondary'>Team One</ListGroupItem>
+    {teamOne.map((marine, i) =>
         <Sortable
             index={i}
             key={marine._id}
-            team={marine.last}
+            value={`${marine.last} ${i}`}
             marine={marine._id}
             collection="teamOne"
             />
         )}
       </SortableContainer>
+      </Col>
+      <Col xs='6'>
       <SortableContainer 
             axis="y"
             onSortEnd={onSortEnd}
@@ -128,13 +136,13 @@ function TeamList({ squad_id }) {
             updateBeforeSortStart={updateBeforeSortStart}
             setIsHoveringTeamOne={setIsHoveringTeamOne}
             >
-  
+<ListGroupItem color='secondary'>Team Two</ListGroupItem>
         {teamTwo.map((marine, i) => 
       
         <Sortable
             index={i} 
             key={marine._id} 
-            team={marine.rank} 
+            value={`${marine.last}${i}`}
             marine={marine._id}
             collection="teamTwo"
             />
@@ -142,9 +150,11 @@ function TeamList({ squad_id }) {
         )}
 
       </SortableContainer>
-   
-   
-  </div>
+      </Col>
+      </Row>
+      </Container>
+  
+
   );
 }
 

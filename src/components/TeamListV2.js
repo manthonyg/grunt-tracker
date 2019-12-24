@@ -1,90 +1,100 @@
-import React, { useState, useRef } from "react";
-import { render } from "react-dom";
-import {
-  SortableContainer,
-  SortableElement,
-  arrayMove
-} from "react-sortable-hoc";
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import styled from "@emotion/styled";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import type { Quote as QuoteType } from "../types";
+import axios from 'axios'
 
-const SortableItem = SortableElement(({ value }) => <div>{value}</div>);
 
-const SortableList = SortableContainer(
-  ({ numbers, letters, isDragging, setIsHoveringNumbers }) => (
-    <div>
-      <div
-        onMouseEnter={() => setIsHoveringNumbers(true)}
-        onMouseLeave={() => setIsHoveringNumbers(false)}
-      >
-        {numbers.map((value, index) => (
-          <SortableItem
-            key={`numbers-${index}`}
-            index={index}
-            value={value}
-            collection="numbers"
-          />
-        ))}
-      </div>
-      <hr />
-      {letters.map((value, index) => (
-        <SortableItem
-          key={`item-${index}`}
-          index={numbers.length + index}
-          value={value}
-          collection={isDragging ? "letters" : "numbers"}
-        />
-      ))}
-    </div>
-  )
-);
+const grid = 8;
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
-const TeamListV2 = props => {
-  const [numbers, setNumbers] = useState([
-    "Item 1",
-    "Item 2",
-    "Item 3",
-    "Item 4",
-    "Item 5",
-    "Item 6"
-  ]);
-  const [letters, setLetters] = useState(["A", "B", "C", "D", "E", "F"]);
-  const [isHoveringNumbers, setIsHoveringNumbers] = useState(false);
-  const [isHoveringLetters, setIsHoveringLetters] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+  return result;
+};
 
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    const allItems = numbers.concat(letters);
-    const currentItem = allItems[oldIndex];
+const QuoteItem = styled.div`
+  width: 200px;
+  border: 1px solid grey;
+  margin-bottom: ${grid}px;
+  background-color: lightblue;
+  padding: ${grid}px;
+`;
 
-    if (isHoveringNumbers) {
-      if (numbers.includes(currentItem)) {
-        setNumbers(arrayMove(numbers, oldIndex, newIndex));
-      } else {
-        numbers.splice(newIndex, 0, currentItem);
-        letters.splice(letters.indexOf(currentItem), 1);
-        setNumbers([...numbers]);
-        setLetters([...letters]);
-      }
+function Quote({ quote, index }) {
+  return (
+    <Draggable draggableId={quote.id} index={index}>
+      {provided => (
+        <QuoteItem
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          {quote.content}
+        </QuoteItem>
+      )}
+    </Draggable>
+  );
+}
+
+const QuoteList = React.memo(function QuoteList({ quotes }) {
+  return quotes.map((quote: QuoteType, index: number) => (
+    <Quote quote={quote} index={index} key={quote.id} />
+  ));
+});
+
+function TeamListV2() {
+  const [initial, setInitial] = useState([])
+  
+  useEffect(() => {
+    axios 
+    .get(`http://localhost:8082/api/marines/`)
+    .then(res => setInitial(Array.from(res.data.map(mar => mar.last))))
+}, [] )
+console.log(initial)
+// const initial = Array.from({ length: 10 }, (v, k) => k).map(k => {
+//   const custom: Quote = {
+//     id: `id-${k}`,
+//     content: `Quote ${k}`
+//   };
+
+//   return custom;
+// });
+  
+  const [state, setState] = useState({ quotes: initial });
+console.log(state)
+  function onDragEnd(result) {
+    if (!result.destination) {
+      return;
     }
-    setIsDragging(false);
-  };
 
-  const updateBeforeSortStart = () => {
-    setIsDragging(true);
-  };
+    if (result.destination.index === result.source.index) {
+      return;
+    }
+
+    const quotes = reorder(
+      initial.quotes,
+      result.source.index,
+      result.destination.index
+    );
+
+    setState({ quotes });
+  }
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      <SortableList
-        numbers={numbers}
-        letters={letters}
-        updateBeforeSortStart={updateBeforeSortStart}
-        isDragging={isDragging}
-        onSortEnd={onSortEnd}
-        setIsHoveringNumbers={setIsHoveringNumbers}
-        setIsHoveringLetters={setIsHoveringLetters}
-      />
-    </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="list">
+        {provided => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            <QuoteList quotes={state.quotes} />
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
-};
+}
 
 export default TeamListV2

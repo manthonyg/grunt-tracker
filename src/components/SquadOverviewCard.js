@@ -49,22 +49,22 @@ margin: 20px 5px;
 
     return (
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col-12">
                     
-                        <div class="wrapper">
-                        <div class="dates">
+                        <div className="wrapper">
+                        <div className="dates">
                          
-                            <div class="ends"><strong><h3>A 2/3</h3></strong>
+                            <div className="ends"><strong><h3>A 2/3</h3></strong>
                                 
                             </div>
-                            <div class="starts"><strong>ACCOUNTABILITY</strong>
+                            <div className="starts"><strong>ACCOUNTABILITY</strong>
                                 11/12
                             </div>
                         </div>
 
-                        <div class="stats">
+                        <div className="stats">
 
                             <div>
                                 <strong>TOTAL MARINES</strong> {props.totalMarines}
@@ -80,7 +80,7 @@ margin: 20px 5px;
 
                         </div>
 
-                        <div class="stats">
+                        <div className="stats">
 
                             <div>
                                 <strong>PFT AVG</strong> 267
@@ -96,7 +96,7 @@ margin: 20px 5px;
 
                         </div>
 
-                        <div class="stats">
+                        <div className="stats">
 
                             <div>
                                 <strong>IAR</strong> 7
@@ -112,7 +112,7 @@ margin: 20px 5px;
 
                         </div>
 
-                        <div class="footer">
+                        <div className="footer">
                            
                         </div>
                     </div>

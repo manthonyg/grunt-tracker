@@ -7,7 +7,7 @@ import { Container } from 'reactstrap';
 
 function HeaderBanner(props) {
     return (
-        <Container full>
+        <Container>
             <Heading center h3>{props.children}</Heading>
         </Container>
     )

@@ -4,8 +4,7 @@ import Flex from '../components/Flex'
 import Heading from '../components/Heading'
 import HeaderBanner from '../components/HeaderBanner'
 import ArrowTab from '../components/ArrowTab'
-import {Alert, Container} from 'reactstrap';
-import TeamListV2 from '../components/TeamListV2'
+import {Alert} from 'reactstrap';
 import PulsingArrow from '../components/PulsingArrow'
 
 function Home() {
@@ -18,8 +17,6 @@ function Home() {
       .get('http://localhost:8082/api/squads')
       .then(res => setSquadList(res.data))
   }, [])
-
-  
 
 
   const onDeleteClick = (evt) => {
@@ -44,7 +41,6 @@ function Home() {
 
   return ( 
   <> 
-<Container><TeamListV2></TeamListV2></Container>
 
   <HeaderBanner>GRUNT TRACKER</HeaderBanner>
 

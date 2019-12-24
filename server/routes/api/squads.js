@@ -24,22 +24,30 @@ router.get('/', (req, res) => {
 // @description add/save squad
 // @access Public
 router.put('/:id/team-one', (req, res) => {
-  Squad.findByIdAndUpdate(req.params.id, {$set: {'teams.team_one': req.body}})
+  Squad.findByIdAndUpdate(req.params.id, {$set: {'team_one': req.body}})
     .then(squad => res.json({ msg: 'Squad added successfully' }))
     .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
 });
 
 router.put('/:id/team-two', (req, res) => {
-  Squad.findByIdAndUpdate(req.params.id, {$set: {'teams.team_two': req.body}})
+  Squad.findByIdAndUpdate(req.params.id, {$set: {'team_two': req.body}})
     .then(squad => res.json({ msg: 'Squad added successfully' }))
     .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
 });
 
-router.put('/:id/team-three', (req, res) => {
-  Squad.findByIdAndUpdate(req.params.id, {$set: {'teams':{ team_three: req.body}}})
-    .then(squad => res.json({ msg: 'Squad added successfully' }))
-    .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
+router.get('/:id/team-one', (req, res) => {
+  Squad.findById(req.params.id, {'team_one.last': 1, '_id': 0})
+    .then(team => res.json(team))
+    .catch(err => res.status(400).json({ error: 'Unable to find team' }));
 });
+
+router.get('/:id/team-two', (req, res) => {
+  Squad.findById(req.params.id, {'team_two.last': 1, '_id' : 0})
+    .then(team => res.json(team))
+    .catch(err => res.status(400).json({ error: 'Unable to find team' }));
+});
+
+
 
 
 

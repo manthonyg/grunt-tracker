@@ -18,8 +18,6 @@ router.get('/', (req, res) => {
 
 // Last
 router.get(`/last`, (req, res) => {
-console.log(req.params)
-console.log(req.query)
 Marine.find({last: new RegExp(req.query.marineSearch, 'i')}, ['last', 'rank'])
   .then(marines => {
     if (marines === null || marines === undefined){
