@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
+import {Badge, Button, ButtonDropdown, Dropdown, DropdownToggle} from 'reactstrap';
 function SquadOverviewCard(props) {
 
 const Tile = styled.div`
@@ -67,15 +68,15 @@ margin: 20px 5px;
                         <div className="stats">
 
                             <div>
-                                <strong>TOTAL MARINES</strong> {props.totalMarines}
+                                <strong>TOTAL MARINES</strong> 12
                             </div>
 
                             <div>
-                                <strong>APPOINTMENTS</strong> {props.appointments}
+                                <strong>APPOINTMENTS</strong> 2
                             </div>
 
                             <div>
-                                <strong>DECLINED</strong> 182
+                                <strong>LAST UPDATED</strong> XX/XX 00:00
                             </div>
 
                         </div>
@@ -99,15 +100,15 @@ margin: 20px 5px;
                         <div className="stats">
 
                             <div>
-                                <strong>IAR</strong> 7
+                                <Button color='primary' onClick={props.onClick}><strong>View Master T/O</strong></Button>
                             </div>
 
                             <div>
-                                <strong>M38</strong> 1
+                            <Button color='primary' onClick={props.onClick}><strong>View All Appointments</strong></Button>
                             </div>
 
                             <div>
-                                <strong>203</strong> 2
+                            <Button color='primary' onClick={props.onClick}><strong>View All Discrepancies</strong></Button>
                             </div>
 
                         </div>

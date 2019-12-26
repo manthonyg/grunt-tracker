@@ -4,9 +4,9 @@ import Flex from '../components/Flex'
 import Heading from '../components/Heading'
 import HeaderBanner from '../components/HeaderBanner'
 import ArrowTab from '../components/ArrowTab'
-import {Alert} from 'reactstrap';
+import {Alert, Container, Row, Col} from 'reactstrap';
 import PulsingArrow from '../components/PulsingArrow'
-import TeamListV2 from '../components/TeamListV2'
+import TeamListV3 from '../components/TeamListV3'
 function Home() {
 
   const [ squadList, setSquadList ] = useState()
@@ -41,7 +41,7 @@ function Home() {
 
   return ( 
   <> 
-<TeamListV2></TeamListV2>
+
   <HeaderBanner>GRUNT TRACKER</HeaderBanner>
 
   <Flex contentCenter justifyCenter>
@@ -58,6 +58,8 @@ function Home() {
       </ArrowTab>)
       : <><PulsingArrow/>Add Squad to Start</>
 }
+
+
   </Flex> 
   <Alert color = "success" isOpen = {visible} toggle = {onDismiss}> 
     {deletedSquad} Successfully Deleted 

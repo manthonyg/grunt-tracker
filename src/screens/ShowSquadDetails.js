@@ -13,13 +13,14 @@ import Loader from '../components/Loader'
 import HeaderBanner from '../components/HeaderBanner'
 import Flex from '../components/Flex'
 import SquadOverviewCard from '../components/SquadOverviewCard'
-import TeamList from '../components/TeamList'
+import TeamListV3 from '../components/TeamListV3'
 
 function ShowSquadDetails(props) {
 
   const [ squadData, setSquadData ] = useState([])
   const [ marineData, setMarineData ] = useState([])
-  const [ isLoading, setIsLoading ] = useState(false)
+  const [ dndVisible, setDndVisible] = useState(false)
+  
 
   useEffect(() => {
     axios
@@ -43,22 +44,23 @@ function ShowSquadDetails(props) {
       : 'keyboard_arrow_up'
   })
 
-  const teamOne = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '1')
-  const teamTwo = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '2')
-  const teamThree = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '3')
-  const fullSquad = marineData.filter(marine => marine.squad === squadData.callsign)
+  
 
-  const squadLength = [ ...teamOne, ...teamTwo, ...teamThree ].length
+  // const teamTwo = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '2')
+  // const teamThree = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '3')
+  // const fullSquad = marineData.filter(marine => marine.squad === squadData.callsign)
 
-  const teamOneAppointments = teamOne
-    .map(marine => marine.appointments.length)
-    .reduce((total, currentValue) => total + currentValue, 0)
-  const teamTwoAppointments = teamTwo
-    .map(marine => marine.appointments.length)
-    .reduce((total, currentValue) => total + currentValue, 0)
-  const teamThreeAppointments = teamThree
-    .map(marine => marine.appointments.length)
-    .reduce((total, currentValue) => total + currentValue, 0)
+  // const squadLength = [ ...teamOne, ...teamTwo, ...teamThree ].length
+
+  // const teamOneAppointments = teamOne
+  //   .map(marine => marine.appointments.length)
+  //   .reduce((total, currentValue) => total + currentValue, 0)
+  // const teamTwoAppointments = teamTwo
+  //   .map(marine => marine.appointments.length)
+  //   .reduce((total, currentValue) => total + currentValue, 0)
+  // const teamThreeAppointments = teamThree
+  //   .map(marine => marine.appointments.length)
+  //   .reduce((total, currentValue) => total + currentValue, 0)
     
   return (
 
@@ -75,13 +77,13 @@ function ShowSquadDetails(props) {
                   company={squadData.company}
                   platoon={squadData.platoon}
                   squad={squadData.squad}
-                  totalMarines={fullSquad.length}
-                  appointments={squadLength.appointments}
-                  unit={squadData.unit}
+                  // totalMarines={fullSquad.length}
+                  // appointments={squadLength.appointments}
+                  // unit={squadData.unit}
+                  onClick={setDndVisible}
                   />}
 
-<TeamList id={squadData._id} isLoading={isLoading}/>
-      {squadData
+      {/* {squadData
         ? <ListGroup flush>
             <ListGroupItem color='secondary' tag="a" onClick={toggle}>
               <Flex justifyBetween alignCenter>
@@ -239,6 +241,10 @@ function ShowSquadDetails(props) {
         : <Container>
           Loading...
         </Container>
+} */}
+
+{dndVisible &&
+<TeamListV3 id={squadData._id}/>
 }
     </Container>
 

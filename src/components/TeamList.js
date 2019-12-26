@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
-import {sortableContainer, sortableElement} from 'react-sortable-hoc';
+import {sortableContainer, sortableElement, sortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import {ListGroup, ListGroupItem, Container, Row, Col} from 'reactstrap';
 import Flex from './Flex'
@@ -9,17 +9,27 @@ import styled from 'styled-components'
 const teamOneURL = `http://localhost:8082/api/squads/5e01981fcca0e036d25b9da1/team-one`
 const teamTwoURL = `http://localhost:8082/api/squads/5e01981fcca0e036d25b9da1/team-two`
 
-const ColorContainer = styled.div `
-border: ${props => (props.hovering
+const DropzoneContainer = styled.div `
+border: ${props => (props.active
   ? '2px dotted black'
+  : 'white')}
+background-color: ${props => (props.active
+  ? 'gray'
   : 'white')}`
 
-const SortableContainer = sortableContainer(({children, hovering}) => 
-  <ListGroup flush><ColorContainer hovering={hovering}>{children}</ColorContainer></ListGroup>)
+const DragHandle = sortableHandle(() =>
+<span>
+  <i class="material-icons">drag_indicator</i>
+</span>);
 
-const Sortable = sortableElement(({value, marine}) => <ListGroupItem>
+const SortableContainer = sortableContainer(({children}) =>
+<ListGroup flush>{children}</ListGroup>)
+
+const Sortable = sortableElement(({value, marine}) =>
+<ListGroupItem>
+<Flex justifyAround alignCenter>
+  <DragHandle/>
   {value}
-  <Flex justifyBetween alignCenter>
     <Link to={`/show-marine/${marine}`}>
       {/* <i class="material-icons">visibility</i> */}
     </Link>
@@ -31,25 +41,18 @@ function TeamList({id, isLoading}) {
   const [teamOne, setTeamOne] = useState([]);
   const [teamTwo, setTeamTwo] = useState([]);
   const [route, setRoute] = useState({
-    teamOne: false,
-    teamTwo: false,
-    teamThree: false,
-    team_hq: false})
+    teamOne: false, 
+    teamTwo: false, 
+    teamThree: false, 
+    teamHq: false})
 
   const [isHoveringTeamOne, setIsHoveringTeamOne] = useState(false);
   const [isHoveringTeamTwo, setIsHoveringTeamTwo] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
-  const [numbers, setNumbers] = useState([
-    "Itema 1",
-    "Itemb 2",
-    "Itemc 3",
-    "Itemd 4",
-    "Iteme 5",
-    "Itemf 6"
-  ]);
-  console.log(`hovering team one: ${isHoveringTeamOne} and dragging is ${isDragging}`)
-  console.log(`hovering team two: ${isHoveringTeamTwo} and dragging is ${isDragging}`)
+
+  // console.log(`hovering team one: ${isHoveringTeamOne} and dragging is ${isDragging}`)
+  // console.log(`hovering team two: ${isHoveringTeamTwo} and dragging is ${isDragging}`)
 
   useEffect(() => {
     axios
@@ -63,42 +66,60 @@ function TeamList({id, isLoading}) {
       .then(res => setTeamTwo(res.data.team_two))
   }, [])
 
+
+  const onSortMove = (evt) => {
+ 
+  }
+
+  const onSortOver = ({oldIndex, newIndex, collection})=> {
+   
+  }
+
+
   const onSortEnd = ({oldIndex, newIndex, collection}) => {
     const allItems = [
       ...teamOne,
       ...teamTwo
     ];
-    const currentItem = allItems[oldIndex];
-    console.log(allItems)
+    const currentItem = isHoveringTeamOne? allItems[oldIndex] : allItems[oldIndex + teamOne.length];
+    console.log(currentItem, oldIndex, newIndex, collection)
+    switch(collection) {
 
-    if (isHoveringTeamOne) {
-      if (teamOne.includes(currentItem)) {
-        setTeamOne(arrayMove(teamOne, oldIndex, newIndex))
-        setRoute({teamOne: true})
+      case 'teamOne': 
+      if (isHoveringTeamOne) {
        
-      } else if (!teamOne.includes(currentItem)) {
-        teamOne.splice(newIndex, 0, currentItem);
-        teamTwo.splice(teamTwo.indexOf(currentItem), 1);
-        setTeamOne([...teamOne]);
-        setTeamTwo([...teamTwo]);
-      }
-    }
-    console.log(currentItem)
+        if (teamOne.includes(currentItem)) {
+          setRoute((prevState => {
+            return {
+            ...prevState,
+              teamOne: true}}))
+         setTeamOne(arrayMove(teamOne, oldIndex, newIndex));
+          } else { 
+            console.log('next options')
+           
+          }}
+    break
+    case 'teamTwo': 
+      if (isHoveringTeamTwo) {
+        if (teamTwo.includes(currentItem)) {
+         setTeamTwo(arrayMove(teamTwo, oldIndex, newIndex));
+          setRoute((prevState => {
+              return {
+              ...prevState,
+                teamTwo: true}}))
+              } else {
+                console.log('next options')}}
+         
+          
+    break
+              }}
 
-    if (isHoveringTeamTwo) {
-      if (teamTwo.includes(currentItem)) {
-        setRoute({teamTwo: true})
-        setTeamTwo(arrayMove(teamTwo, oldIndex, newIndex))
-        
-      } else if (!teamTwo.includes(currentItem)) {
-        // teamOne.splice(newIndex, 0, currentItem);
-        // teamTwo.splice(teamTwo.indexOf(currentItem), 1);
-        // setTeamOne([...teamOne]);
-        // setTeamTwo([...teamTwo]);
-      }
-    }
-    setIsDragging(false);
-  }
+//while dragging, if container is being hovered, separate the items
+
+// on dropping, if container is hovered and contains the current item, splice the current item into the current index.
+
+//if container hovered does not contain the current item, slice the item from the original list and splice the current item into the current list.
+
 
   const updateBeforeSortStart = () => {
     setIsDragging(true);
@@ -109,27 +130,41 @@ function TeamList({id, isLoading}) {
       axios
         .put(`http://localhost:8082/api/squads/${id}/team-one`, teamOne)
         .then(res => console.log(res))
-        .then(setRoute(!route.teamOne))
+        .then(console.log(`teamOne route is ${route.teamOne}. teamTwo route is${route.teamTwo}`))
+        .then(setRoute((prevState => {
+          return {
+          ...prevState,
+            teamOne: !teamOne}})))
     }
     if (route.teamTwo === true) {
       axios
         .put(`http://localhost:8082/api/squads/${id}/team-two`, teamTwo)
         .then(res => console.log(res))
-        .then(setRoute(!route.teamTwo))
+        .then(console.log(`teamTwo route is ${route.teamTwo}`))
+        .then(setRoute((prevState => {
+          return {
+          ...prevState,
+            teamTwo: !teamTwo}})))
     } else 
-      (console.log('nah boy'))
+      return undefined
   }, [onSortEnd])
 
   return (
 
     <SortableContainer
+      helperContainer={isHoveringTeamOne? 'f' : 'd'}
+      useDragHandle
       hovering={isDragging}
       axis="y"
       onSortEnd={onSortEnd}
       pressDelay='100'
       onSortStart={(_, event) => event.preventDefault()}
       isDragging={isDragging}
-      updateBeforeSortStart={updateBeforeSortStart}>
+      updateBeforeSortStart={updateBeforeSortStart}
+      onSortMove={onSortMove}
+      onSortOver={onSortOver}
+      setIsHoveringTeamOne={setIsHoveringTeamOne}
+      setIsHoveringTeamTwo={setIsHoveringTeamTwo}>
 
       <Container>
 
@@ -139,27 +174,31 @@ function TeamList({id, isLoading}) {
             xs='6'
             onMouseEnter={() => setIsHoveringTeamOne(true)}
             onMouseLeave={() => setIsHoveringTeamOne(false)}>
-            <ListGroupItem color='secondary'>Team One</ListGroupItem>
-            {teamOne.map((marine, i) => <Sortable
-              index={i}
-              key={marine._id}
-              value={`${marine.last} ${i}`}
-              marine={marine._id}
-              collection="teamOne"/>)}
+            <DropzoneContainer active={isDragging && isHoveringTeamOne}>
+              <ListGroupItem color='secondary'>Team One</ListGroupItem>
+              {teamOne.map((marine, i) => <Sortable
+                index={i}
+                key={marine._id}
+                value={`${marine.last} ${i}`}
+                marine={marine._id}
+                collection="teamOne"/>)}
+            </DropzoneContainer>
           </Col>
 
           <Col
             xs='6'
             onMouseEnter={() => setIsHoveringTeamTwo(true)}
             onMouseLeave={() => setIsHoveringTeamTwo(false)}>
-
-            <ListGroupItem color='secondary'>Team Two</ListGroupItem>
-            {numbers.map((marine, i) => <Sortable
-              index={i}
-              key={marine}
-              value={`${marine} e ${i}`}
-              marine={marine}
-              collection="teamTwo"/>)}
+            <DropzoneContainer active={isDragging && isHoveringTeamTwo}>
+              <ListGroupItem color='secondary'>Team Two</ListGroupItem>
+              {teamTwo.map((marine, i) => 
+              <Sortable
+                index={i}
+                key={marine._id}
+                value={`${marine.last}copy ${i}`}
+                marine={marine._id}
+                collection="teamTwo"/>)}
+            </DropzoneContainer>
           </Col>
 
         </Row>

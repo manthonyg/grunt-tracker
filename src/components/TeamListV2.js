@@ -1,109 +1,194 @@
-import React, { useState, useEffect } from "react";
-import styled from "@emotion/styled";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import type { Quote as QuoteType } from "../types";
-import axios from 'axios'
-const teamOneURL = `http://localhost:8082/api/squads/5e01981fcca0e036d25b9da1/team-one`
-const teamTwoURL = `http://localhost:8082/api/squads/5e01981fcca0e036d25b9da1/team-two`
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
+// fake data generator
+const getItems = (count, offset = 0) =>
+    Array.from({ length: count }, (v, k) => k).map(k => ({
+        id: `item-${k + offset}`,
+        content: `item ${k + offset}`
+    }));
 
-
-const grid = 8;
+// a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
 
-  return result;
+    return result;
 };
 
-const QuoteItem = styled.div`
-  width: 200px;
-  border: 1px solid grey;
-  margin-bottom: ${grid}px;
-  background-color: lightblue;
-  padding: ${grid}px;
-`;
+/**
+ * Moves an item from one list to another list.
+ */
+const move = (source, destination, droppableSource, droppableDestination) => {
+    const sourceClone = Array.from(source);
+    const destClone = Array.from(destination);
+    const [removed] = sourceClone.splice(droppableSource.index, 1);
 
-function Quote({ quote, index }) {
-  return (
-    <Draggable draggableId={quote.id} index={index}>
-      {provided => (
-        <QuoteItem
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          {quote.content}
-        </QuoteItem>
-      )}
-    </Draggable>
-  );
-}
+    destClone.splice(droppableDestination.index, 0, removed);
 
+    const result = {};
+    result[droppableSource.droppableId] = sourceClone;
+    result[droppableDestination.droppableId] = destClone;
 
+    return result;
+};
 
-function TeamListV2() {
-  const QuoteList = React.memo(function QuoteList({ quotes }) {
-    return !!quotes.length && quotes.map((quote: QuoteType, index: number) => (
-      <Quote quote={quote} index={index} key={quote.id} />
-    ));
-  });
-const [teamOne, setTeamOne] = useState([])
-const initial = Array.from(teamOne, (v, k) => v).map(k => {
-  const custom: Quote = {
-    id: `id-${k}`,
-    content: `Quote ${k}`
-  };
+const grid = 8;
 
-  return custom;
+const getItemStyle = (isDragging, draggableStyle) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: 'none',
+    padding: grid * 2,
+    margin: `0 0 ${grid}px 0`,
+
+    // change background colour if dragging
+    background: isDragging ? 'lightgreen' : 'grey',
+
+    // styles we need to apply on draggables
+    ...draggableStyle
 });
-const [state, setState] = useState({ quotes: initial });
-  useEffect(() => {
-    axios 
-    .get(teamOneURL)
-    .then(res => {
-      setTeamOne(res.data.team_one)
-      console.log(res.data.team_one)
-      setState({quotes: initial})
-    })
-}, [] )
+
+const getListStyle = isDraggingOver => ({
+    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    padding: grid,
+    width: 250
+});
+
+class TeamListV2 extends Component {
 
 
-  console.log(initial)
 
-  
+    state = {
+        items: getItems(10),
+        selected: getItems(5, 10),
+        data: []
+    };
 
-  function onDragEnd(result) {
-    if (!result.destination) {
-      return;
-    }
+    /**
+     * A semi-generic way to handle multiple lists. Matches
+     * the IDs of the droppable container to the names of the
+     * source arrays stored in the state.
+     */
+    id2List = {
+        droppable: 'items',
+        droppable2: 'selected'
+    };
 
-    if (result.destination.index === result.source.index) {
-      return;
-    }
+    getList = id => this.state[this.id2List[id]];
 
-    const quotes = reorder(
-      state.quotes,
-      result.source.index,
-      result.destination.index
-    );
+    onDragEnd = result => {
+        const { source, destination } = result;
 
-    setState({ quotes });
+        // dropped outside the list
+        if (!destination) {
+            return;
+        }
+
+        if (source.droppableId === destination.droppableId) {
+            const items = reorder(
+                this.getList(source.droppableId),
+                source.index,
+                destination.index
+            );
+
+            let state = { items };
+
+            if (source.droppableId === 'droppable2') {
+                state = { selected: items };
+            }
+
+            this.setState(state);
+        } else {
+            const result = move(
+                this.getList(source.droppableId),
+                this.getList(destination.droppableId),
+                source,
+                destination
+            );
+
+            this.setState({
+                items: result.droppable,
+                selected: result.droppable2
+            });
+        }
+    };
+
+      componentDidMount() {
+    fetch('http://localhost:8082/api/squads/5e01981fcca0e036d25b9da1/team-one')
+      .then(response => response.json())
+      .then(data => this.setState({ data: data.team_one }))
+      console.log(this.state)
   }
 
-  return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="list">
-        {provided => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            <QuoteList quotes={state.quotes} />
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
-  );
+    // Normally you would want to split things out into separate components.
+    // But in this example everything is just done in one place for simplicity
+    render() {
+
+      
+        return (
+            <DragDropContext onDragEnd={this.onDragEnd}>
+              {console.log(this.state)}
+                <Droppable droppableId="droppable">
+                    {(provided, snapshot) => (
+                        <div
+                            ref={provided.innerRef}
+                            style={getListStyle(snapshot.isDraggingOver)}>
+                            {this.state.data.map((item, index) => (
+                                <Draggable
+                                    key={item.last}
+                                    draggableId={item.last}
+                                    index={index}>
+                                    {(provided, snapshot) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            style={getItemStyle(
+                                                snapshot.isDragging,
+                                                provided.draggableProps.style
+                                            )}>
+                                            {item.last}
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+                <Droppable droppableId="droppable2">
+                    {(provided, snapshot) => (
+                        <div
+                            ref={provided.innerRef}
+                            style={getListStyle(snapshot.isDraggingOver)}>
+                            {this.state.selected.map((item, index) => (
+                                <Draggable
+                                    key={item.id}
+                                    draggableId={item.id}
+                                    index={index}>
+                                    {(provided, snapshot) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            style={getItemStyle(
+                                                snapshot.isDragging,
+                                                provided.draggableProps.style
+                                            )}>
+                                            {item.content}
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+        );
+    }
 }
 
 export default TeamListV2
