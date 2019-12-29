@@ -12,7 +12,7 @@ const MarineSchema = new mongoose.Schema(
     company: {type: String},
     platoon: {type: String},
     squad: {type: String},
-    team: {type: String, default: '1'},
+    team: {type: String, default: 'teamHq'},
     edipi: {type: String},
     blood_type: {type: String},
     religion: {type: String},

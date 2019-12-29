@@ -1,130 +1,137 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import {Badge, Collapse, ListGroupItem, Container, Row, Col} from 'reactstrap';
-import Flex from '../components/Flex'
+import {Link} from 'react-router-dom';
+import {
+  Badge,
+  Collapse,
+  ListGroupItem,
+  Container,
+  Row,
+  Col
+} from 'reactstrap';
+import Flex, {Column} from '../components/Flex'
 
 function TeamListV3({id}) {
-
-    const teamOneURL = `http://localhost:8082/api/squads/${id}/team-one`
-    const teamTwoURL = `http://localhost:8082/api/squads/${id}/team-two`
-    const teamThreeURL = `http://localhost:8082/api/squads/${id}/team-three`
-    const teamHqURL = `http://localhost:8082/api/squads/${id}/team-hq`
-
-    const [state, setState] = useState({
-        teamOne: [],
-        teamTwo: [],
-        teamThree: [],
-        teamHq: []
-      })
-
-      console.log(state)
-    
+  const teamsURI = `http://localhost:8082/api/squads/${id}/teams`
+  const [state,
+    setState] = useState({
+      unplaced: [], 
+      team_one: [], 
+      team_two: [], 
+      team_three: [], 
+      team_hq: []})
   useEffect(() => {
     axios
-      .get(teamOneURL)
-      .then(res => setState((prevState) => {
-        return {
-          ...prevState,
-          teamOne: res.data.team_one
-        }
+      .get(teamsURI)
+      .then(res => setState({
+          unplaced: res.data.teams.unplaced,
+          team_one: res.data.teams.team_one,
+          team_two: res.data.teams.team_two,
+          team_three: res.data.teams.team_three,
+          team_hq: res.data.teams.team_hq
       }))
-  }, [id])
- 
-  useEffect(() => {
-    axios
-      .get(teamTwoURL)
-      .then(res => setState((prevState) => {
-        return {
-          ...prevState,
-          teamTwo: res.data.team_two
-        }
-      }))
-  }, [id])
+  }, [])
 
-  useEffect(() => {
-    axios
-      .get(teamThreeURL)
-      .then(res => setState((prevState) => {
-        return {
-          ...prevState,
-          teamThree: res.data.team_three
-        }
-      }))
-  }, [id])
-
-  useEffect(() => {
-    axios
-      .get(teamHqURL)
-      .then(res => setState((prevState) => {
-        return {
-          ...prevState,
-          teamHq: res.data.team_hq
-        }
-      }))
-  }, [id])
-
-  // a little function to help us with reordering the result
+  console.log(state)
 
   const grid = 4;
 
-  const getItemStyle = (isDragging, draggableStyle) => ({
-    userSelect: 'none',
-    padding: grid * 2,
-    margin: `0 0 ${grid}px 0`,
-    background: isDragging
-      ? '#F2F2F2'
-      : '#FFFFFF',
+  const getUnplacedItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: 'none',
+  padding: '5px 8px',
+  margin: `0 ${grid}px 0 0`,
+  color: 'white',
 
-    // styles we need to apply on draggables
-    ...draggableStyle
+  // change background colour if dragging
+  background: isDragging ? '#29a8ab' : 'grey',
+
+  // styles we need to apply on draggables
+  ...draggableStyle,
   });
 
-  const getListStyle = isDraggingOver => ({
-    background: isDraggingOver
-      ? '#DBF3FA'
-      : '#F2F2F2',
-    padding: grid,
-    width: '120%'
+  const getUnplacedListStyle = isDraggingOver => ({
+  background: isDraggingOver ? '#eeeeee' : 'white',
+  display: 'flex',
+  padding: grid,
+  overflow: 'auto',
+  width: '100%',
+  border: isDraggingOver? '2px dotted black' : 'none'
+
+
 
   });
+
+
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: 'none',
+  padding: grid,
+  width: '100%',
+
+
+  // change background colour if dragging
+  background: isDragging ? 'lightgreen' : 'none',
+  border: '1px solid grey',
+
+  // styles we need to apply on draggables
+  ...draggableStyle,
+});
+
+const getListStyle = isDraggingOver => ({
+
+  background: isDraggingOver ? "lightblue" : "none",
+  padding: grid,
+  textAlign: 'left',
+  width: '30vw',
+
+  borderRadius: '5px',
+  border: isDraggingOver? '2px dotted black' : 'none'
+});
+
+
+  const onDragEnd = result => {
+
+    const _getList = id => {
+      if (id === 'unplaced') {
+        return state.unplaced
+      }
+      if (id === 'team_one') {
+        return state.team_one
+      }
+      if (id === 'team_two') {
+        return state.team_two
+      }
+      if (id === 'team_three') {
+        return state.team_three
+      }
+      if (id === 'team_hq') {
+        return state.team_hq
+      } else {
+        return null
+      }
+    };
 
     const _reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
+      const result = Array.from(list);
+      const [removed] = result.splice(startIndex, 1);
+      result.splice(endIndex, 0, removed);
+      return result;
     };
 
     const _move = (source, destination, droppableSource, droppableDestination) => {
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
-    destClone.splice(droppableDestination.index, 0, removed);
-    const result = {};
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
-    return result;
-  };
+      const sourceClone = Array.from(source);
+      const destClone = Array.from(destination);
+      const [removed] = sourceClone.splice(droppableSource.index, 1);
+      destClone.splice(droppableDestination.index, 0, removed);
+      const result = {};
+      result[droppableSource.droppableId] = sourceClone;
+      result[droppableDestination.droppableId] = destClone;
+      return result;
+    };
 
-  const _getList = id => {
-    if (id === 'teamOne') {
-      return state.teamOne
-    }
-    if (id === 'teamTwo') {
-      return state.teamTwo
-    } 
-    if (id === 'teamThree') {
-      return state.teamThree
-    } 
-    if (id === 'teamHq') {
-      return state.teamHq
-    } else {
-      return null
-    }
-  };
-
-  const onDragEnd = result => {
     const {source, destination} = result;
     if (!destination) {
       return;
@@ -132,253 +139,181 @@ function TeamListV3({id}) {
 
     if (source.droppableId === destination.droppableId) {
 
-      const reorderedItems = 
-      _reorder(_getList(source.droppableId),
-      source.index,
-      destination.index);
-console.log(source.droppableId)
-      if (source.droppableId === 'teamOne') {
-        setRoute((prevState) => {
-            return {
-              ...prevState,
-              teamOne: true
-            }
-          })
-        setState((prevState) => {
-          return {
-            ...prevState,
-            teamOne: reorderedItems
-          }
-        })
-      } else if (source.droppableId === 'teamTwo') {
+      const reorderedItems = _reorder(_getList(source.droppableId), source.index, destination.index);
 
-        setRoute((prevState) => {
-            return {
-              ...prevState,
-              teamTwo: true
-            }
-          })
-
-        setState((prevState) => {
-          return {
-            ...prevState,
-            teamTwo: reorderedItems
-          }
-        })
-    } else if (source.droppableId === 'teamThree') {
-
-        setRoute((prevState) => {
-            return {
-              ...prevState,
-              teamThree: true
-            }
-          })
-
-        setState((prevState) => {
-          return {
-            ...prevState,
-            teamThree: reorderedItems
-          }
-        })
-      }
-      else if (source.droppableId === 'teamHq') {
-
-        setRoute((prevState) => {
-            return {
-              ...prevState,
-              teamHq: true
-            }
-          })
-
-        setState((prevState) => {
-          return {
-            ...prevState,
-            teamHq: reorderedItems
-          }
-        })
-      }
+      setState((prevState => {
+        return {
+          ...prevState,
+          [source.droppableId]: reorderedItems
+        }
+      }))
+      setRoute(true)
 
     } else {
 
-      const result = 
-      _move(_getList(source.droppableId), 
-      _getList(destination.droppableId),
-      source,
-      destination);
+      const result = _move(_getList(source.droppableId), _getList(destination.droppableId), source, destination);
+      console.log('result', result)
       
       setState((prevState => {
-          return {
-                ...prevState,
-                ...result,
+        return {
+          ...prevState,
+          ...result
+          // [source.droppableId]: result[Object.keys(result)[0]],
+          // [destination.droppableId]: result[Object.keys(result)[1]]
+        }
+      }))
+      setRoute(true)
+     
+     
+    }}
 
-          }}))
-        }}
-      
-
-  const [route, setRoute] = useState({
-    teamOne: false, 
-    teamTwo: false, 
-    teamThree: false, 
-    teamHq: false})
+  const [route,
+    setRoute] = useState(false)
 
   useEffect(() => {
-    if (route.teamOne === true) {
+    if (route === true) {
       axios
-        .put(`http://localhost:8082/api/squads/${id}/team-one`, state.teamOne)
+        .put(`http://localhost:8082/api/squads/${id}/teams/update`, state)
         .then(res => console.log(res))
-        .then(setRoute((prevState => {
-          return {
-          ...prevState,
-            teamOne: !state.teamOne}})))
+        .then(setRoute(!route))
     }
-    if (route.teamTwo === true) {
-      axios
-        .put(`http://localhost:8082/api/squads/${id}/team-two`, state.teamTwo)
-        .then(res => console.log(res))
-        .then(setRoute((prevState => {
-          return {
-          ...prevState,
-            teamTwo: !state.teamTwo}})))
-    } 
-    if (route.teamThree === true) {
-        axios
-          .put(`http://localhost:8082/api/squads/${id}/team-three`, state.teamThree)
-          .then(res => console.log(res))
-          .then(setRoute((prevState => {
-            return {
-            ...prevState,
-              teamThree: !state.teamThree}})))
-      }
-      if (route.teamHq === true) {
-        axios
-          .put(`http://localhost:8082/api/squads/${id}/team-hq`, state.teamHq)
-          .then(res => console.log(res))
-          .then(setRoute((prevState => {
-            return {
-            ...prevState,
-              teamHq: !state.teamHq}})))
-      } else 
-      return undefined
   }, [onDragEnd])
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => setIsOpen(!isOpen);
-
   return (
-     
+
     <DragDropContext onDragEnd={onDragEnd}>
-        <Container fluid={true}>
-            <Row>
-                <Col xs='4'>
-                <Badge color="secondary">1</Badge>
-      <Droppable droppableId="teamOne">
-        {(provided, snapshot) => (
-          <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-            {state
-              .teamOne
-              .map((item, index) => (
+      
+      <Container fluid={true}>
+      {!!state.unplaced.length &&
+          <Row>
+            <Col>
+            <Badge color="none">Unplaced</Badge>
+            <Droppable droppableId="unplaced" direction="horizontal">
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  style={getUnplacedListStyle(snapshot.isDraggingOver)}>
+
+                  {state
+                    .unplaced
+                    .map((item, index) => (
+                      <Link to={`/show-marine/${item._id}`}>
+                      <Draggable key={item.last} draggableId={item.last} index={index}>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={getUnplacedItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                            {item.last}
+                            
+                          </div>
+                        )}
+                      </Draggable>
+                      </Link>
+                    ))}
+                  {provided.placeholder}
+                </div>
+              )}
+         
+      </Droppable>
+      </Col>
+      </Row>}
+      
         
-                <Draggable key={item.last} draggableId={item.last} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                      {item.last}
-                    </div>
-                  )}
-                </Draggable>
-          
-              ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-      </Col>
-      <Col xs='4'>
-      <Badge color="secondary">2</Badge>
-      <Droppable droppableId="teamTwo">
-        {(provided, snapshot) => (
-          <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-            {state
-              .teamTwo
-              .map((item, index) => (
-                <Draggable key={item.last} draggableId={item.last} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                      {item.last}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-      </Col>
-      <Col xs='4'>
-      <Badge color="secondary" >3</Badge>
-      <Droppable droppableId="teamThree">
-        {(provided, snapshot) => (
-          <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-            {state
-              .teamThree
-              .map((item, index) => (
-                <Draggable key={item.last} draggableId={item.last} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                      {item.last}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-      </Col>
-      </Row>
-      <Row>
-      <Col xs='12'>
-      <Badge color="secondary">HQ</Badge>
-      <Droppable droppableId="teamHq">
-        {(provided, snapshot) => (
-          <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-            {state
-              .teamHq
-              .map((item, index) => (
-                <Draggable key={item.last} draggableId={item.last} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                      {item.last}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-      </Col>
-      </Row>
-      </Container>
-    </DragDropContext>
+    
+          <Row>
+            <Col>
+            <Badge color="none">1st Team</Badge>
+              <Droppable droppableId="team_one" direction="horizontal">
+                {(provided, snapshot) => (
+                  
+                  <div ref={provided.innerRef} style={getUnplacedListStyle(snapshot.isDraggingOver)}>
 
-  );
-}
+                    {state
+                      .team_one
+                      .map((item, index) => (
+                      <Link to={`/show-marine/${item._id}`}>
+                     
+                        <Draggable key={item.last} draggableId={item.last} index={index}>
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getUnplacedItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                              {item.last}
+                            </div>
+                          )}
+                        </Draggable></Link>
 
-export default TeamListV3
+                      ))}
+
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </Col>
+            </Row>
+            <Row>
+            <Col>
+            <Badge color="none">2nd Team</Badge>
+              <Droppable droppableId="team_two" direction="horizontal">
+                {(provided, snapshot) => (
+                  <div ref={provided.innerRef} style={getUnplacedListStyle(snapshot.isDraggingOver)}>
+
+                    {state
+                      .team_two
+                      .map((item, index) => (
+                        <Draggable key={item.last} draggableId={item.last} index={index}>
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getUnplacedItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                             {item.last}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </Col>
+            </Row>
+            <Row>
+            <Col>
+            <Badge color="none">3rd Team</Badge>
+              <Droppable droppableId="team_three" direction="horizontal">
+                {(provided, snapshot) => (
+                  <div ref={provided.innerRef} style={getUnplacedListStyle(snapshot.isDraggingOver)}>
+
+                    {state
+                      .team_three
+                      .map((item, index) => (
+                        <Draggable key={item.last} draggableId={item.last} index={index}>
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getUnplacedItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                              {item.last}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </Col>
+          </Row>
+        </Container>
+      </DragDropContext>
+
+  )}
+
+  export default TeamListV3

@@ -7,20 +7,25 @@ import {
   ListGroupItem,
   Container,
   Badge,
-  Collapse
+  Collapse,
+  Button,
+  ButtonGroup
 } from 'reactstrap';
 import Loader from '../components/Loader'
 import HeaderBanner from '../components/HeaderBanner'
 import Flex from '../components/Flex'
 import SquadOverviewCard from '../components/SquadOverviewCard'
 import TeamListV3 from '../components/TeamListV3'
+import CreateMarine from '../screens/CreateMarine'
 
 function ShowSquadDetails(props) {
 
   const [ squadData, setSquadData ] = useState([])
   const [ marineData, setMarineData ] = useState([])
   const [ dndVisible, setDndVisible] = useState(false)
-  
+  const handleSetDndVisible = () => {
+    setDndVisible(!dndVisible)
+  }
 
   useEffect(() => {
     axios
@@ -44,24 +49,15 @@ function ShowSquadDetails(props) {
       : 'keyboard_arrow_up'
   })
 
-  
+  const [ toggleAdd, setToggleAdd] = useState(false)
+  const handleSetToggleAdd = () => {
+    setToggleAdd(!toggleAdd)
+  }
+  const [ toggleRemove, setToggleRemove] = useState(false)
+  const handleSetToggleRemove = () => {
+    setToggleRemove(!toggleRemove)
+  }
 
-  // const teamTwo = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '2')
-  // const teamThree = marineData.filter(marine => marine.unit === squadData.unit && marine.team === '3')
-  // const fullSquad = marineData.filter(marine => marine.squad === squadData.callsign)
-
-  // const squadLength = [ ...teamOne, ...teamTwo, ...teamThree ].length
-
-  // const teamOneAppointments = teamOne
-  //   .map(marine => marine.appointments.length)
-  //   .reduce((total, currentValue) => total + currentValue, 0)
-  // const teamTwoAppointments = teamTwo
-  //   .map(marine => marine.appointments.length)
-  //   .reduce((total, currentValue) => total + currentValue, 0)
-  // const teamThreeAppointments = teamThree
-  //   .map(marine => marine.appointments.length)
-  //   .reduce((total, currentValue) => total + currentValue, 0)
-    
   return (
 
 <Container>
@@ -71,17 +67,39 @@ function ShowSquadDetails(props) {
         ? <HeaderBanner>SQUAD OVERVIEW</HeaderBanner>
         : <Loader/>
 }
-
+{toggleAdd && 
+<CreateMarine id={squadData._id}/>}
+{/* //CREATE MARINE NEEDS TO PASS THE ID OF THE SQUAD SO IT CAN POST IT. 
+IT ALSO HAS SOME STUFF WRONG WITH IT AS FAR AS FOR SELECTING THE SQUAD.
+ THE SQUAD NAME SHOULD BE AUTOMATIC, NAD PERHAPS IT SHOULD SPECIFY
+THAT YOU ARE ADDING A MARINE TO 'X' SQUAD */}
 {squadData &&
 <SquadOverviewCard
-                  company={squadData.company}
-                  platoon={squadData.platoon}
-                  squad={squadData.squad}
+                  callsign={squadData.callsign}
                   // totalMarines={fullSquad.length}
                   // appointments={squadLength.appointments}
                   // unit={squadData.unit}
-                  onClick={setDndVisible}
+                  onClick={handleSetDndVisible}
+                  toggleAdd={handleSetToggleAdd}
+                  toggleRemove={handleSetToggleRemove}
+                  
                   />}
+
+
+
+
+
+{dndVisible &&
+<TeamListV3 id={squadData._id}/>
+}
+    </Container>
+
+  )
+}
+
+export default ShowSquadDetails;
+
+
 
       {/* {squadData
         ? <ListGroup flush>
@@ -242,13 +260,3 @@ function ShowSquadDetails(props) {
           Loading...
         </Container>
 } */}
-
-{dndVisible &&
-<TeamListV3 id={squadData._id}/>
-}
-    </Container>
-
-  )
-}
-
-export default ShowSquadDetails;

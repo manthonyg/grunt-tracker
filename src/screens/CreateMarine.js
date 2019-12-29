@@ -9,6 +9,7 @@ import '../App.css'
 function CreateMarine(props) {
 
   const [squadData, setSquadData] = useState([])
+  const [formVisible, setFormVisible] = useState(true);
   const [visible, setVisible] = useState(false);
   const onDismiss = () => setVisible(false);
 
@@ -68,7 +69,7 @@ function CreateMarine(props) {
 
       event.preventDefault()
       axios
-      .post('http://localhost:8082/api/marines', data)
+      .put(`http://localhost:8082/api/squads/${props.id}/teams/add`, data)
       .then(res => {
 
       setMarineData({   
@@ -85,6 +86,7 @@ function CreateMarine(props) {
       zap: ''
     })
     setVisible(true)
+    setFormVisible(false)
   })
   .catch(err => {
     console.log("Error in CreateMarine/MasterForm");
@@ -131,10 +133,14 @@ function CreateMarine(props) {
   }
        
       return (
+        
         <>
-        <HeaderBanner>Create New Marine</HeaderBanner>
+        
+        
+        
+        {formVisible &&
         <Form onSubmit={handleSubmit}>
-       
+        <HeaderBanner>Create New Marine</HeaderBanner>
           <BasicInformation 
             currentStep={marineData.currentStep} 
             handleChange={handleChange}
@@ -167,13 +173,15 @@ function CreateMarine(props) {
               {nextButton()}
             </Flex>
           </Container>
-  
-        </Form>
+        
+        </Form>}
 
         <Alert color="success" isOpen={visible} toggle={onDismiss}>
           Marine added
         </Alert>
+
         </>
+         
       );
     }
 
@@ -189,17 +197,17 @@ function CreateMarine(props) {
   <Form>
     <FormGroup>
       <Label for="first">First</Label>
-      <Input name="first" id="first" onChange={props.handleChange} value={props.first}/>
+      <Input bsSize="sm" name="first" id="first" onChange={props.handleChange} value={props.first}/>
     </FormGroup>
 
     <FormGroup>
     <Label for="birthdate">Last</Label>
-      <Input name="last" id="last" onChange={props.handleChange} value={props.last}/>
+      <Input bsSize="sm"name="last" id="last" onChange={props.handleChange} value={props.last}/>
     </FormGroup>
 
     <FormGroup>
       <Label for="birthdate">Birthdate</Label>
-      <Input type="date" name="birthdate" id="birthdate" onChange={props.handleChange} value={props.birthdate}/>
+      <Input bsSize="sm" type="date" name="birthdate" id="birthdate" onChange={props.handleChange} value={props.birthdate}/>
     </FormGroup>
 
     <FormGroup>
@@ -227,13 +235,15 @@ function CreateMarine(props) {
     return(
 
   <Container>
+    <Form>
     <FormGroup>
       <Label for="squad">Squad</Label>
-      <Input type="select" name="squad" id="squad" onChange={props.handleChange} value={props.squad}>
+      <Input bsSize="sm" type="select" name="squad" id="squad" onChange={props.handleChange} value={props.squad}>
         {props.squadData.map(squad=>
           <option>{squad.company}{squad.platoon}{squad.squad}</option>)}
       </Input>
     </FormGroup>
+    </Form>
   </Container>
     );
   }
@@ -248,12 +258,12 @@ function CreateMarine(props) {
       <Form>
         <FormGroup>
           <Label for="edipi">EDIPI</Label>
-          <Input name="edipi" id="edipi" onChange={props.handleChange} value={props.edipi}/>
+          <Input bsSize="sm" name="edipi" id="edipi" onChange={props.handleChange} value={props.edipi}/>
         </FormGroup>
 
          <FormGroup>
           <Label for="blood_type">Blood Type</Label>
-            <Input type="select" name="blood_type" id="blood_type" onChange={props.handleChange} value={props.blood_type}>
+            <Input bsSize="sm" type="select" name="blood_type" id="blood_type" onChange={props.handleChange} value={props.blood_type}>
               <option>A+</option>
               <option>A-</option>
               <option>B+</option>
