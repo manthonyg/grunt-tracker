@@ -1,5 +1,12 @@
 # GruntTracker
 
+## 12/29 Update
+
+
+| DND Feature | | |
+| ------ | ------ | ------ |
+| ![](./src/docs/1229_2.webm) | | |
+
 ## 12/13 Update
 
 | SquadOverview |  SearchResults | SearchResultsTwo | 
