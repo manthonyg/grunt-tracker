@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-import HeaderBanner from '../components/HeaderBanner'
-import { Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
+import { Button, FormGroup, Label, Input, Container } from 'reactstrap';
 import { Alert } from 'reactstrap';
 import Loader from '../components/Loader'
 
@@ -67,7 +66,6 @@ return (
 {squadData ?
 
 <Container>
-    <HeaderBanner>Add Squad</HeaderBanner>
     <FormGroup>
         <Label for="company">Company</Label>
         <Input type="select" name="company" id="company" onChange={handleChange} value={props.company}>

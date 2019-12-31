@@ -1,32 +1,16 @@
 import React from 'react';
 import styled from 'styled-components'
-import {
-  Badge,
-  Button,
-  ButtonGroup,
-  ButtonDropdown,
-  Dropdown,
-  DropdownToggle
-} from 'reactstrap';
+import {Badge, Container, Row, Col} from 'reactstrap';
+
 function SquadOverviewCard(props) {
 
-  const Tile = styled.div `
-width: 100%;
-background:#fff;
-border-radius:5px;
-box-shadow:0px 2px 3px -1px rgba(151, 171, 187, 0.7);
-float:left;
-transform-style: preserve-3d;
-margin: 10px 5px;
-`
-  const Header = styled.div `
-border-bottom:1px solid #ebeff2;
-padding:19px 0;
+  const Header = styled.h4 `
 text-align:center;
 color:#59687f;
-font-size:600;
-font-size:19px;	
+font-weight:600;
+font-size:14px;	
 position:relative;
+line-height: 1;
 `
   const Dates = styled.div `
 border:1px solid #ebeff2;
@@ -38,7 +22,36 @@ color:#5aadef;
 font-weight:600;	
 overflow:auto;
 `
+  const EndsHeader = styled.h4 `
+font-size: 32px;
+font-weight: 600;
+`
   const Stats = styled.div `
+border-right:1px solid #aaa;
+width: 33.33333%;
+float:left;
+text-align:center
+padding: .25rem;
+display:block;
+color:#adb8c2;
+font-size:13px;
+line-height: .5;
+font-weight:700;
+&:nth-child(3) {
+border-right: none
+}
+`
+
+  const Ends = styled.div `
+text-align: center;
+float: center;
+
+`
+
+  const Wrapper = styled.div `
+
+`
+  const StatsContainer = styled.div `
 border-top:1px solid #ebeff2;
 background:#f7f8fa;
 overflow:auto;
@@ -48,92 +61,73 @@ color:#59687f;
 font-weight:600;
 border-radius: 0 0 5px 5px;
 `
-  const Footer = styled.div `
-text-align: right;
-position: relative;
-margin: 20px 5px;
-`
+//   const Footer = styled.div `
+// text-align: right;
+// position: relative;
+// margin: 20px 5px;
+// padding: 10px 25px;
+// background-color: #DADADA;
+// color: #666;
+// margin: 10px 2px;
+// text-transform: uppercase;
+// font-weight: bold;
+// text-decoration: none;
+// border-radius: 3px;
+// `
 
   return (
 
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-12">
+    <Container fluid={true}>
+      <Row>
+        <Col>
+          <Wrapper>
+            <Dates>
+              <Ends>
+                <EndsHeader>{props.callsign}
+                  OVERVIEW</EndsHeader>
+              </Ends>
+            </Dates>
 
-          <div className="wrapper">
-            <div className="dates">
+            <StatsContainer>
+              <Stats>
+                <Header>Accountability</Header><br/>
+                11 / 12</Stats>
+              <Stats>
+                <Header>Appointments</Header><br/>
+                2</Stats>
+              <Stats>
+                <Header>Discrepancies</Header><br/>
+                0</Stats>
+            </StatsContainer>
 
-              <div className="ends">
-                <strong>
-                  <h3>{props.callsign}</h3>
-                </strong>
+            <StatsContainer>
+              <Stats>
+                <Header>Something</Header><br/>
+                Interesting</Stats>
+              <Stats>
+                <Header>Else</Header><br/>
+                Would be</Stats>
+              <Stats>
+                <Header>Here</Header><br/>
+                0</Stats>
+            </StatsContainer>
 
-              </div>
-              <div className="starts">
-                <strong>ACCOUNTABILITY</strong>
-                11/12
-              </div>
-            </div>
-
-            <div className="stats">
-
-              <div>
-                <strong>TOTAL MARINES</strong>
-                12
-              </div>
-
-              <div>
-                <strong>APPOINTMENTS</strong>
-                2
-              </div>
-
-              <div>
-                <strong>LAST UPDATED</strong>
-                XX/XX 00:00
-              </div>
-
-            </div>
-
-            <div className="stats">
-
-              <div>
-                <strong>PFT AVG</strong>
-                300
-              </div>
-
-              <div>
-                <strong>CFT AVG</strong>
-                300
-              </div>
-
-              <div>
-                <strong>TOTAL AVG</strong>
-                300
-              </div>
-
-            </div>
-
-            <div className="stats">
-
-              <div>
+            <StatsContainer>
+              <Stats>
                 <Badge onClick={props.onClick} color="secondary">View T/O</Badge>
-              </div>
-
-              <div>
+              </Stats>
+              <Stats>
                 <Badge onClick={props.toggleAdd} color="secondary">Add</Badge>/<Badge onClick={props.toggleAdd} color="secondary">Remove</Badge>
-              </div>
+              </Stats>
+              <Stats>
+                
+              </Stats>
+            </StatsContainer>
 
-              <div>
-                <Badge onClick={props.toggleAdd} color="secondary">Zap Generator</Badge>
-              </div>
-
-            </div>
-
-            <div className="footer"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </Wrapper>
+        </Col>
+      </Row>
+    </Container>
 
   )
 }

@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import '../App.css';
 import axios from 'axios';
-import Container from '../components/Container'
-import Input from '../components/Input'
 import Button from '../components/Button'
 import TimeField from 'react-simple-timefield';
-import {Alert} from 'reactstrap';
+import {Alert, Input, Container} from 'reactstrap';
 
 function CreateAppointment(props) {
   const [marineData,

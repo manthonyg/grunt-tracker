@@ -1,27 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import '../App.css';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
 import {
-  ListGroup,
-  ListGroupItem,
   Container,
-  Badge,
-  Collapse,
-  Button,
-  ButtonGroup
 } from 'reactstrap';
 import Loader from '../components/Loader'
-import HeaderBanner from '../components/HeaderBanner'
-import Flex from '../components/Flex'
 import SquadOverviewCard from '../components/SquadOverviewCard'
-import TeamListV3 from '../components/TeamListV3'
+import TeamListV3 from '../components/TeamList'
 import CreateMarine from '../screens/CreateMarine'
 
 function ShowSquadDetails(props) {
 
   const [ squadData, setSquadData ] = useState([])
-  const [ marineData, setMarineData ] = useState([])
+  // const [ marineData, setMarineData ] = useState([])
   const [ dndVisible, setDndVisible] = useState(false)
   const handleSetDndVisible = () => {
     setDndVisible(!dndVisible)
@@ -32,22 +23,15 @@ function ShowSquadDetails(props) {
       .get(`http://localhost:8082/api/squads/` + props.match.params.id)
       .then(res => {
         setSquadData(res.data)
-        
-        return axios
-          .get(`http://localhost:8082/api/marines`)
-          .then(res => {
-            setMarineData(res.data)
-          })
+        // return axios
+        //   .get(`http://localhost:8082/api/marines`)
+        //   .then(res => {
+        //     setMarineData(res.data)
+        //     console.log(res.data)
+        //   })
       })
-  }, []);
+  }, [props.match.params.id]);
 
-  const [ isOpen, setIsOpen ] = useState({collapse: false, icon: 'keyboard_arrow_down'});
-  const toggle = () => setIsOpen({
-    collapse: !isOpen.collapse,
-    icon: isOpen.collapse === true
-      ? 'keyboard_arrow_down'
-      : 'keyboard_arrow_up'
-  })
 
   const [ toggleAdd, setToggleAdd] = useState(false)
   const handleSetToggleAdd = () => {
@@ -64,15 +48,10 @@ function ShowSquadDetails(props) {
  
     
       {squadData
-        ? <HeaderBanner>SQUAD OVERVIEW</HeaderBanner>
+        ? <></>
         : <Loader/>
 }
-{toggleAdd && 
-<CreateMarine id={squadData._id}/>}
-{/* //CREATE MARINE NEEDS TO PASS THE ID OF THE SQUAD SO IT CAN POST IT. 
-IT ALSO HAS SOME STUFF WRONG WITH IT AS FAR AS FOR SELECTING THE SQUAD.
- THE SQUAD NAME SHOULD BE AUTOMATIC, NAD PERHAPS IT SHOULD SPECIFY
-THAT YOU ARE ADDING A MARINE TO 'X' SQUAD */}
+
 {squadData &&
 <SquadOverviewCard
                   callsign={squadData.callsign}
@@ -86,7 +65,8 @@ THAT YOU ARE ADDING A MARINE TO 'X' SQUAD */}
                   />}
 
 
-
+{toggleAdd && 
+<CreateMarine id={squadData._id}/>}
 
 
 {dndVisible &&

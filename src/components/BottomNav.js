@@ -14,7 +14,6 @@ height: 50px;
 background-color: #f8f9fa;
 transition: all 300ms;
 margin-top: 40px;
-
 `
 
 const MobileNavItem = styled.div `

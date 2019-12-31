@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
 import '../App.css';
 import axios from 'axios';
-import Container from '../components/Container'
-import Input from '../components/Input'
-import Button from '../components/Button'
-import {Alert} from 'reactstrap';
+import {Alert, Input, Button, Container} from 'reactstrap';
 
 function CreatePFT(props) {
   const [marineData,

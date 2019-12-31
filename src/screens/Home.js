@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import Flex from '../components/Flex'
-import Heading from '../components/Heading'
-import HeaderBanner from '../components/HeaderBanner'
 import ArrowTab from '../components/ArrowTab'
-import {Alert, Container, Row, Col} from 'reactstrap';
+import {Alert} from 'reactstrap';
 import PulsingArrow from '../components/PulsingArrow'
-import TeamListV3 from '../components/TeamListV3'
+
 function Home() {
 
   const [ squadList, setSquadList ] = useState()
@@ -42,18 +40,19 @@ function Home() {
   return ( 
   <> 
 
-  <HeaderBanner>GRUNT TRACKER</HeaderBanner>
 
   <Flex contentCenter justifyCenter>
     {squadList && squadList.length
-      ? squadList.map(squad => <ArrowTab
+      ? squadList.map(squad => 
+      
+      <ArrowTab
         link={`/show-squad/${squad._id}`}
         id={squad._id}
         onClick={onDeleteClick}
         squad={squad}
         key={squad.callsign}>{squad.unit} {squad.platoon}/{squad.squad}
 
-        <Heading h4>{squad.callsign}</Heading>
+        
 
       </ArrowTab>)
       : <><PulsingArrow/>Add Squad to Start</>

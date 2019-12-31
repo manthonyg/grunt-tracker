@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import '../App.css';
 import axios from 'axios';
 import {useLocation} from 'react-router-dom'
-import Container from '../components/Container'
-import HeaderBanner from '../components/HeaderBanner'
 import {
   TabContent,
   TabPane,
@@ -21,24 +19,25 @@ import Flex from '../components/Flex'
 import CreateAppointment from '../screens/CreateAppointment'
 import CreatePFT from '../screens/CreatePFT'
 import CreateCFT from '../screens/CreateCFT'
-import { Collapse } from 'reactstrap';
+import { Collapse, Container } from 'reactstrap';
 
 
 
 function ShowMarineDetails(props) {
 
-  const [ marineData, setMarineData ] = useState('');
+  const [ marineData, setMarineData ] = useState([]);
     const location = useLocation()
  
   useEffect(() => {
     axios
-      .get(`http://localhost:8082/api/marines/${props.match.params.id}`)
+      .get(`http://localhost:8082/api/squads/show-marine/${props.match.params.id}`)
       .then(res => setMarineData(res.data))
+      .then(res => console.log(res.data))
       .catch(err => {
         console.log(err)
         console.log('Error in ShowMarineDetails.js')
       })
-  }, [location])
+  }, [location, props.match.params.id])
 
   const [activeTab, setActiveTab] = useState('1');
 
@@ -109,9 +108,7 @@ function ShowMarineDetails(props) {
     </Flex> 
 
 
-    <HeaderBanner> 
-        {marineData.rank}{marineData.last}, {marineData.first} 
-    </HeaderBanner>
+  
       
     <Flex justifyAround alignCenter>
       <TabContent activeTab={activeTab}>
@@ -122,7 +119,7 @@ function ShowMarineDetails(props) {
               
                 <div className="card-header" onClick={toggleAppointmentsCollapse}>
                   Appointments<br/>
-                  {marineData.appointments.length ?
+                  {marineData.appointments ?
                   <Flex justifyAround contentCenter>
                     <i class="material-icons">notification_important</i>
                   </Flex>
@@ -173,7 +170,7 @@ function ShowMarineDetails(props) {
               <div className="card">
                 <div className="card-header" onClick={toggleWeaponsCollapse}>
                 Weapons<br/>
-                {marineData.weapons.length ?
+                {marineData.weapons  ?
                   <Flex justifyAround contentCenter>
                   <i class="material-icons">check</i>
                   </Flex>
@@ -219,7 +216,7 @@ function ShowMarineDetails(props) {
                     <strong>PFT</strong>
                   </div>
 
-                {marineData.body.pft.length ?
+                {marineData.body.pft ?
                   <>
                   <div className="main-description">Last updated:
                   {marineData.body
@@ -246,7 +243,7 @@ function ShowMarineDetails(props) {
                     <strong>CFT</strong>
                   </div>
                   
-                  {marineData.body.cft.length ?
+                  {marineData.body.cft  ?
                   <>
                   <div className="main-description">Last updated:
                   {marineData.body

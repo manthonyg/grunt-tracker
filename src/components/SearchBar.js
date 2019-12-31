@@ -25,12 +25,12 @@ const SearchContainer = styled.div`
   }
   :hover {
     width: 200px;
+    border-bottom: 3px solid black;
   }
 `
 
 const SearchIcon = styled.div`
-background-color: #eee;
-border: 1px solid #eef;
+background-color: transparent;
 display: table-cell;
 height: 44px;
 border-radius: 4px;
@@ -60,7 +60,7 @@ left: 0px;
 
 
 const SearchInput = styled.input`
-border: 1px solid #cccccc;
+border: none;
 height: 44px;
 padding: 0px;
 padding-left: 60px;

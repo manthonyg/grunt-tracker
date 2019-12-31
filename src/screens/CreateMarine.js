@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Alert, Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
 import Flex from '../components/Flex'
-import HeaderBanner from '../components/HeaderBanner'
 import axios from 'axios'
 import '../App.css'
 
@@ -140,7 +139,7 @@ function CreateMarine(props) {
         
         {formVisible &&
         <Form onSubmit={handleSubmit}>
-        <HeaderBanner>Create New Marine</HeaderBanner>
+        
           <BasicInformation 
             currentStep={marineData.currentStep} 
             handleChange={handleChange}

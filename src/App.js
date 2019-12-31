@@ -31,7 +31,7 @@ const [marineSearch, setMarineSearch] = useState('')
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8082/api/marines/last`, {
+      .get(`http://localhost:8082/api/squads/teams`, {
           params: {
             marineSearch
           }})
