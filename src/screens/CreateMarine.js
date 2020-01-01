@@ -1,24 +1,33 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Alert, Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
 import Flex from '../components/Flex'
-import axios from 'axios'
-import '../App.css'
+import { getAllSquads } from '../services/get'
+import { createNewMarine } from '../services/post'
 
 
-function CreateMarine(props) {
-
-  const [squadData, setSquadData] = useState([])
-  const [formVisible, setFormVisible] = useState(true);
-  const [visible, setVisible] = useState(false);
-  const onDismiss = () => setVisible(false);
+function CreateMarine({ id }) {
+  const [squadData, setSquadData] = useState([]);
+  const componentIsMounted = useRef(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8082/api/squads/`)
+    getAllSquads()
       .then(res => {
-        setSquadData(res.data)
-      })
-  }, []);
+        if (componentIsMounted.current) {
+        setSquadData(res)
+        }})
+        .catch(err => {
+          console.log(err)
+        });
+        return () => {
+          componentIsMounted.current = false
+        }
+      }, [])
+     
+  
+  const [formVisible, setFormVisible] = useState(true);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const onDismiss = () => setAlertVisible(false);
+ 
 
     const [ marineData, setMarineData ] = useState({
         currentStep: 1,
@@ -34,6 +43,7 @@ function CreateMarine(props) {
         zap: ''
         
     })
+    console.log(marineData)
   
     const handleChange = evt => {
       const name = evt.target.name;
@@ -46,7 +56,6 @@ function CreateMarine(props) {
         }
       })
     }
-    console.log(marineData)
      
     const handleSubmit = event => {
 
@@ -67,30 +76,31 @@ function CreateMarine(props) {
       }
 
       event.preventDefault()
-      axios
-      .put(`http://localhost:8082/api/squads/${props.id}/teams/add`, data)
-      .then(res => {
 
-      setMarineData({   
-      first:  '',
-      last: '',
-      birthdate: '',
-      rank: '',
-      billet: '',
-      edipi: '',
-      blood_type: '',
-      squad: '',
-      team: '',
-      callsign: '',
-      zap: ''
-    })
-    setVisible(true)
-    setFormVisible(false)
-  })
-  .catch(err => {
-    console.log("Error in CreateMarine/MasterForm");
-  })
-};
+      createNewMarine(id, data)
+      .then(res => {
+        
+          setMarineData({   
+            first:  '',
+            last: '',
+            birthdate: '',
+            rank: '',
+            billet: '',
+            edipi: '',
+            blood_type: '',
+            squad: '',
+            team: '',
+            callsign: '',
+            zap: ''
+          })
+          setAlertVisible(true)
+          setFormVisible(false)
+      })
+        .catch(err => {
+          console.log('Error in CreateMarine', err)
+        });
+      }
+
   
    
     
@@ -175,7 +185,7 @@ function CreateMarine(props) {
         
         </Form>}
 
-        <Alert color="success" isOpen={visible} toggle={onDismiss}>
+        <Alert color="success" isOpen={alertVisible} toggle={onDismiss}>
           Marine added
         </Alert>
 

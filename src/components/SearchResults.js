@@ -8,20 +8,25 @@ position: absolute;
 top: 0px;
 left: 0px;
 `
-function SearchResults(props) {
+function SearchResults({
+isOpen,
+toggle,
+filteredMarines,
+handleClick
+}) {
 
     return (
         
         
         <ResultsWrapper>
-            <Dropdown isOpen={props.isOpen} toggle={props.toggle}>
+            <Dropdown isOpen={isOpen} toggle={toggle}>
               <DropdownToggle caret>
-                {props.filteredMarines.length} {props.filteredMarines.length === 1 ? 'Result' : 'Results'}
+                {filteredMarines.length} {filteredMarines.length === 1 ? 'Result' : 'Results'}
               </DropdownToggle>
               <DropdownMenu>
-                {props.filteredMarines.length && props.filteredMarines.map(marine =>
+                {filteredMarines.length && filteredMarines.map(marine =>
                  <DropdownItem>
-                    <Link onClick={props.handleClick} to={`/show-marine/${marine._id}`}>{marine.rank} {marine.last}</Link>
+                    <Link onClick={handleClick} to={`/show-marine/${marine._id}`}>{marine.rank} {marine.last}</Link>
                   </DropdownItem>)}
               </DropdownMenu>
             </Dropdown>

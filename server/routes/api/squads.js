@@ -17,17 +17,17 @@ router.get('/', (req, res) => {
     .catch(err => res.status(404).json({ nosquadsfound: 'No Squads Found' }));
 });
 
-// route PUT api/squads/id/teams/add
-// description add/save squad
-router.put('/:id/teams/add', (req, res) => {
-  Squad.findByIdAndUpdate(req.params.id, {$push: {'teams.unplaced': req.body}})
+// route PUT api/squads/id/teams/
+// description add/save team
+router.post('/:id/teams/', (req, res) => {
+  Squad.findByIdAndUpdate(req.params.id, {$set: {'teams': req.body}})
     .then(squad => res.json({ msg: 'Squad added successfully' }))
     .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
 });
 
 // route PUT api/squads/id/teams/update
 // description add/save squad
-router.put('/:id/teams/update', (req, res) => {
+router.put('/:id/teams/', (req, res) => {
   Squad.findByIdAndUpdate(req.params.id, {$set: {'teams': req.body}})
     .then(squad => res.json({ msg: 'Squad updated successfully' }))
     .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));
@@ -35,7 +35,7 @@ router.put('/:id/teams/update', (req, res) => {
 
 // route PUT api/squads/id/teams/unplaced
 // create a new marine and place into teams/unplaced
-router.put('/:id/teams/unplaced', (req, res) => {
+router.post('/:id/teams/unplaced', (req, res) => {
   Squad.findByIdAndUpdate(req.params.id, {$push: {'teams.unplaced': req.body}})
     .then(squad => res.json({ msg: 'Squad added successfully' }))
     .catch(err => res.status(400).json({ error: 'Unable to add Squad' }));

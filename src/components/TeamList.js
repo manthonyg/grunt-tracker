@@ -1,33 +1,32 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import axios from 'axios'
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
-import {
-  Container,
-  Row,
-  Col,
-  Badge
-} from 'reactstrap';
+import { Container, Row, Col, Badge } from 'reactstrap';
+import { getTeamsById } from '../services/get';
+import { updateTeamsById } from '../services/put';
 
 function TeamList({id}) {
 
   const BadgeOuter = styled.div `
   align-items: center;
   background-color: #fff;
-	border: 2px solid #00a0b0;
+	border: 2px solid #80a0b0;
 	border-radius: 99em;
-	color: #00a0b0;
+	color: #000;
 	display: flex;
 	font-size: 0.77em;
-	font-weight: 400;
+	font-weight: 700;
 	height: 2em;
 	justify-content: center;
 	line-height: 1;
 	min-width: 2em;
 	position: absolute;
 	right: -2px;
-	top: -2px;
+  top: -2px;
+  &:nth-type(4) {
+   border: 5px solid black;
+  }
   `
   const BadgeInner = styled.span `
   border: 0 !important;
@@ -37,6 +36,9 @@ function TeamList({id}) {
 	padding: 0 !important;
 	position: absolute !important;
   width: 1px !important;
+  &:nth-of-type(4) {
+    display: none;
+  }
   `
 
   const Button = styled.div `
@@ -59,11 +61,11 @@ function TeamList({id}) {
   const ButtonInner = styled.span `
   align-items: center;
   background: #fff;
-  border: #65737e 1px solid;
-	border-radius: 4px;
+  border: #000 1px solid;
+	border-radius: 0px;
 	color: #000;
 	display: flex;
-	font-weight: 600;
+	font-weight: 300;
 	height: 1.75em;
 	min-width: 2.5em;
 	padding: 1em 1em;
@@ -71,53 +73,59 @@ function TeamList({id}) {
 	transition: 0.2s ease;
   width: 100%;
   `
-
   const grid = 4;
 
   const getUnplacedItemStyle = (isDragging, draggableStyle) => ({
     userSelect: 'none',
     padding: '5px 8px',
     margin: `0 ${grid}px 0 0`,
-    color: '#696969',
     background: isDragging
-      ? '#fff'
+      ? '#50a0b0'
       : '#fff',
     ...draggableStyle
   });
 
   const getUnplacedListStyle = isDraggingOver => ({
     background: isDraggingOver
-      ? '#00a0b0'
+      ? '#fff'
       : '#fff',
     display: 'flex',
     padding: grid,
     overflow: 'auto',
     width: '100%',
     border: isDraggingOver
-      ? '2px dotted black'
+      ? '2px dashed black'
       : 'none'
   });
 
-
-  const teamsURI = `http://localhost:8082/api/squads/${id}/teams`
   const [state, setState] = useState({
-    unplaced: [], 
-    team_one: [], 
-    team_two: [], 
-    team_three: [], 
-    team_hq: []})
+      unplaced: [], 
+      team_one: [], 
+      team_two: [], 
+      team_three: [], 
+      team_hq: []})
+
+  const componentIsMounted = useRef(true);
 
   useEffect(() => {
-    axios
-      .get(teamsURI)
-      .then(res => setState({
-        unplaced: res.data.teams.unplaced, 
-        team_one: res.data.teams.team_one, 
-        team_two: res.data.teams.team_two, 
-        team_three: res.data.teams.team_three, 
-        team_hq: res.data.teams.team_hq}))
-  }, [teamsURI, id])
-
+    getTeamsById(id)
+    .then(res => {
+      if (componentIsMounted.current) {
+        setState({
+          unplaced: res.teams.unplaced, 
+          team_one: res.teams.team_one, 
+          team_two: res.teams.team_two, 
+          team_three: res.teams.team_three, 
+          team_hq: res.teams.team_hq})
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    });
+    return () => {
+      componentIsMounted.current = false
+    }
+  }, [id])
 
   const onDragEnd = useCallback((result) => {
 
@@ -191,24 +199,22 @@ function TeamList({id}) {
     }
   }, [state.team_hq, state.team_one, state.team_two, state.team_three, state.unplaced])
 
-  const [route, setRoute] = useState(false)
+  const [route,
+    setRoute] = useState(false)
 
   useEffect(() => {
     if (route === true) {
-      axios
-        .put(`http://localhost:8082/api/squads/${id}/teams/update`, state)
-        .then(res => console.log(res))
-        .then(setRoute(!route))
-    }
-  }, [ onDragEnd, state, route, id ])
+      updateTeamsById(id, state)}
+  }, [onDragEnd, state, route, id])
 
   return (
 
     <DragDropContext onDragEnd={onDragEnd}>
+
       <Container fluid={true}>
         <Row>
           <Col>
-          <Badge color="none">Unplaced ({state.unplaced.length})</Badge>
+            <Badge color="none">Unplaced ({state.unplaced.length})</Badge>
             <Droppable droppableId="unplaced" direction="horizontal">
               {(provided, snapshot) => (
                 <div
@@ -242,7 +248,7 @@ function TeamList({id}) {
         </Row>
         <Row>
           <Col>
-          <Badge color="none">HQ ({state.team_hq.length})</Badge>
+            <Badge color="none">HQ ({state.team_hq.length})</Badge>
             <Droppable droppableId="team_hq" direction="horizontal">
               {(provided, snapshot) => (
 
@@ -266,16 +272,14 @@ function TeamList({id}) {
                                 {item.last}
                               </ButtonInner>
                               <BadgeOuter color={index}>
-                                <BadgeInner {...index}></BadgeInner>
+                                <BadgeInner></BadgeInner>
                                 {index === 0
-                                  ? 'TL'
+                                  ? 'SL'
                                   : index === 1
-                                    ? 'G'
+                                    ? 'A/'
                                     : index === 2
-                                      ? 'AR'
-                                      : index === 3
-                                        ? 'R'
-                                        : null}
+                                      ? 'DM'
+                                        : 'RO'}
                               </BadgeOuter>
                             </Button>
 
@@ -293,9 +297,9 @@ function TeamList({id}) {
         </Row>
         <Row>
           <Col>
-          <Badge color="none">Team One ({state.team_one.length})</Badge>
+            <Badge color="none">Team One ({state.team_one.length})</Badge>
             <Droppable droppableId="team_one" direction="horizontal">
-              
+
               {(provided, snapshot) => (
 
                 <div
@@ -305,7 +309,7 @@ function TeamList({id}) {
                   {state
                     .team_one
                     .map((item, index) => (
-                    
+
                       <Link to={`/show-marine/${item._id}`}>
 
                         <Draggable key={item.last} draggableId={item.last} index={index}>
@@ -326,9 +330,7 @@ function TeamList({id}) {
                                     ? 'G'
                                     : index === 2
                                       ? 'AR'
-                                      : index === 3
-                                        ? 'R'
-                                        : null}
+                                      : 'R' }
                               </BadgeOuter>
                             </Button>
 
@@ -346,7 +348,7 @@ function TeamList({id}) {
         </Row>
         <Row>
           <Col>
-          <Badge color="none">Team Two ({state.team_two.length})</Badge>
+            <Badge color="none">Team Two ({state.team_two.length})</Badge>
             <Droppable droppableId="team_two" direction="horizontal">
               {(provided, snapshot) => (
                 <div
@@ -374,9 +376,7 @@ function TeamList({id}) {
                                   ? 'G'
                                   : index === 2
                                     ? 'AR'
-                                    : index === 3
-                                      ? 'R'
-                                      : null}
+                                    : 'R'}
                             </BadgeOuter>
                           </Button>
 
@@ -391,7 +391,7 @@ function TeamList({id}) {
         </Row>
         <Row>
           <Col>
-          <Badge color="none">Team Three ({state.team_three.length})</Badge>
+            <Badge color="none">Team Three ({state.team_three.length})</Badge>
             <Droppable droppableId="team_three" direction="horizontal">
               {(provided, snapshot) => (
                 <div
@@ -419,9 +419,7 @@ function TeamList({id}) {
                                   ? 'G'
                                   : index === 2
                                     ? 'AR'
-                                    : index === 3
-                                      ? 'R'
-                                      : null}
+                                    : 'R' }
                             </BadgeOuter>
                           </Button>
 

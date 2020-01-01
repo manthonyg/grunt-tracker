@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components'
 import {Badge, Container, Row, Col} from 'reactstrap';
+import HeaderBanner from '../components/HeaderBanner';
 
 function SquadOverviewCard(props) {
 
-  const Header = styled.h4 `
+const Header = styled.h4 `
 text-align:center;
 color:#59687f;
 font-weight:600;
@@ -12,28 +13,14 @@ font-size:14px;
 position:relative;
 line-height: 1;
 `
-  const Dates = styled.div `
-border:1px solid #ebeff2;
-border-radius:5px;
-padding:20px 0px;
-margin:10px 20px;
-font-size:16px;
-color:#5aadef;
-font-weight:600;	
-overflow:auto;
-`
-  const EndsHeader = styled.h4 `
-font-size: 32px;
-font-weight: 600;
-`
-  const Stats = styled.div `
-border-right:1px solid #aaa;
+const Stats = styled.div `
+border-right:1px solid #028090;
 width: 33.33333%;
 float:left;
 text-align:center
 padding: .25rem;
 display:block;
-color:#adb8c2;
+color:#fff;
 font-size:13px;
 line-height: .5;
 font-weight:700;
@@ -42,51 +29,30 @@ border-right: none
 }
 `
 
-  const Ends = styled.div `
-text-align: center;
-float: center;
+const Wrapper = styled.div `
 
 `
-
-  const Wrapper = styled.div `
-
-`
-  const StatsContainer = styled.div `
-border-top:1px solid #ebeff2;
-background:#f7f8fa;
+const StatsContainer = styled.div `
+border-bottom:1px solid #028090;
+background:#eee;
 overflow:auto;
 padding:15px 0;
 font-size:16px;
 color:#59687f;
 font-weight:600;
 border-radius: 0 0 5px 5px;
-`
-//   const Footer = styled.div `
-// text-align: right;
-// position: relative;
-// margin: 20px 5px;
-// padding: 10px 25px;
-// background-color: #DADADA;
-// color: #666;
-// margin: 10px 2px;
-// text-transform: uppercase;
-// font-weight: bold;
-// text-decoration: none;
-// border-radius: 3px;
-// `
 
+`
   return (
 
     <Container fluid={true}>
       <Row>
         <Col>
           <Wrapper>
-            <Dates>
-              <Ends>
-                <EndsHeader>{props.callsign}
-                  OVERVIEW</EndsHeader>
-              </Ends>
-            </Dates>
+
+            <HeaderBanner>
+                {props.callsign} OVERVIEW
+            </HeaderBanner>
 
             <StatsContainer>
               <Stats>
@@ -119,9 +85,7 @@ border-radius: 0 0 5px 5px;
               <Stats>
                 <Badge onClick={props.toggleAdd} color="secondary">Add</Badge>/<Badge onClick={props.toggleAdd} color="secondary">Remove</Badge>
               </Stats>
-              <Stats>
-                
-              </Stats>
+              <Stats></Stats>
             </StatsContainer>
 
           </Wrapper>
