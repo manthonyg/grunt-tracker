@@ -10,6 +10,7 @@ const SearchContainer = styled.div`
   top: 0px;
   right: 0px;
   width: 44px;
+  background-color: none;
   transition: all .25s;
   overflow: hidden;
   ::after {
@@ -19,23 +20,24 @@ const SearchContainer = styled.div`
     box-sizing: border-box;
   }
   :focus {
-    background: #fbfbfb;
-    color: #333333;
+    background: none;
+    color: #ffffff;
     outline: 0;
   }
   :hover {
     width: 200px;
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid #AEBD38;
   }
 `
 
 const SearchIcon = styled.div`
-background-color: transparent;
+background-color: none;
 display: table-cell;
 height: 44px;
 border-radius: 4px;
 position: relative;
 text-align: center;
+color: #AEBD38;
 vertical-align: middle;
 width: 50px;
 z-index: 2;
@@ -63,17 +65,24 @@ const SearchInput = styled.input`
 border: none;
 height: 44px;
 padding: 0px;
+color: #000;
 padding-left: 60px;
 width: 200px;
+background: transparent;
+border: none;
 -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
+-moz-transition: all 0.5s;
+-ms-transition: all 0.5s;
+-o-transition: all 0.5s;
+transition: all 0.5s;
   :focus {
     padding-left: 60px;
+    background: #fff;
     padding-right: 10px;
     width: 200px;
+    }
+    :after {
+      background: #000;
     }
   }
 }

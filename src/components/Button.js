@@ -4,31 +4,22 @@ import Loader from './Loader'
 
 const StyledButton = styled.button `
     border-radius: 3px;
-    background-color: ${props => (props.secondary
-  ? '#ccc'
-  : props.none
-    ? 'none'
-    : '#DEDEDE')};
+    border: 4px solid #AEBD38;
+    background-color: #fff;
+    margin: .25rem .25rem .25rem 0;
     color: #000;
- 
     font-size: ${props => {
-  if (props.big) 
-    return '20px'
+  if (props.big) return '20px'
   return '16px'}};
     outline: none;
-    border: none;
     cursor: pointer;
-    border: 1px solid ${props => (props.secondary
-    ? '#ccc'
-    : props.none
-      ? 'none'
-      : '#BBBBBB')};
-    ${props => {
-    return (props.inverse && css `
-                background-color: #fff;
-                color: #000;
-            `)}}
-`
+    &:hover {
+      background-color: #AEBD38;
+      color: #fff;
+    }
+    `
+    
+  
 
     const Button = ({
       secondary,

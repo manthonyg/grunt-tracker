@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import {ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import {useHistory} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 const MobileNavWrapper = styled.nav `
 position: fixed;
@@ -10,77 +11,92 @@ left: 0;
 right: 0;
 padding: 10px 0px;
 display: flex;
-height: 50px;
-background-color: #f8f9fa;
+height: 70px;
+background-color: #505160;
 transition: all 300ms;
 margin-top: 40px;
+&:after {
+  content: '';
+  background-color: #AEBD38;
+  width: 100%;
+  height: .2rem;
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+}
 `
 
 const MobileNavItem = styled.div `
 flex-grow: 1;
+color: #fff;
 text-align: center;
-font-size: 12px;
+font-size: ${props => {
+  if (props.center) return '2px'
+  return '12px'}}
 display: flex;
 flex-direction: column;
 justify-content: center;
-
 :active {
-    color: white;
+    color: #fff;
+}
+&:a {
+  color: #fff;
 }
 `
 
+const StyledLink = styled(Link)`
+color: #fff
+:active {
+  color: #AEBD38;
+}
+`
+
+const StyledDropdownToggle = styled(DropdownToggle)`
+color: #fff;
+`
 const MobileNavItemContent = styled.div `
 display: flex;
 flex-direction: column;
 padding: 10px 0px;
 z-index: 50000;
+color: #fff;
 
 `
 
+
 function BottomNav(props) {
 
-  const [dropdownOpen,
-    setOpen] = useState(false);
+  const [dropdownOpen, setOpen] = useState(false);
   const toggle = () => setOpen(!dropdownOpen);
   const history = useHistory()
   return (
-<MobileNavWrapper>
-  <MobileNavItem>
-      <MobileNavItemContent>
-          <a href='#' onClick={history.goBack}><i className='material-icons'>arrow_back</i></a>
-        </MobileNavItemContent>
-      </MobileNavItem>
+    <MobileNavWrapper>
       <MobileNavItem>
         <MobileNavItemContent>
-          <a href='/'><i className="material-icons">home</i></a>
+          <i className='material-icons' onClick={history.goBack}>arrow_back</i>
+        </MobileNavItemContent>
+      </MobileNavItem>
+      <MobileNavItem center>
+        <MobileNavItemContent>
+      
+            <StyledLink to='/'><i className="material-icons">home</i></StyledLink>
+      
         </MobileNavItemContent>
       </MobileNavItem>
       <MobileNavItem>
         <MobileNavItemContent>
           <ButtonDropdown direction="up" isOpen={dropdownOpen} toggle={toggle}>
-            <DropdownToggle size='sm' color='none'>
-            <i className='material-icons'>add</i>
-            </DropdownToggle>
+            <StyledDropdownToggle size='sm' color='none'>
+              <i className='material-icons'>add</i>
+            </StyledDropdownToggle>
             <DropdownMenu>
               <DropdownItem href='/create-squad'>Squad</DropdownItem>
             </DropdownMenu>
-            </ButtonDropdown>
+          </ButtonDropdown>
         </MobileNavItemContent>
       </MobileNavItem>
     </MobileNavWrapper>
-  )}
-
+  )
+}
 
 export default BottomNav
-
-//       <MobileNavWrapper {...props}>       <nav class="tab" data-selected="2">
-// 	<div class="icons">   <a href='#' onClick={history.goBack}><div
-// data-index="1" class="icon"><i
-// className='material-icons'>arrow_back</i></div></a> 		<a
-// href='/create-squad'><div data-index="1" class="icon"><i
-// className='material-icons'>add</i></div></a> 		<div data-index="1"
-// class="icon"><a href='/'><i className="material-icons">home</i></a></div>
-// 	</div> 	<div class="bar"> 		<div class="cap"></div> 		<div class="middle">
-// 			<div class="side"></div> 			<div class="circle"></div> 			<div
-// class="side"></div> 		</div> 		<div class="cap"></div> 	</div> </nav>
-// </MobileNavWrapper>

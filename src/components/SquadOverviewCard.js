@@ -1,97 +1,110 @@
-import React from 'react';
-import styled from 'styled-components'
-import {Badge, Container, Row, Col} from 'reactstrap';
+import React, {useEffect, useRef, useState} from 'react';
+import styled, {keyframe} from 'styled-components'
+import Badge from '../components/Badge';
+import Flex from '../components/Flex'
 import HeaderBanner from '../components/HeaderBanner';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import {Carousel} from 'react-responsive-carousel';
+import Button from '../components/Button'
+import {getAllMarinesInSquad} from '../services/get';
 
-function SquadOverviewCard(props) {
+
+function SquadOverviewCard({data, callsign, onClick, toggleAdd}) {
 
 const Header = styled.h4 `
 text-align:center;
-color:#59687f;
-font-weight:600;
-font-size:14px;	
+color:#fff;
+font-weight: 700;
+font-size: .85rem;	
 position:relative;
 line-height: 1;
 `
 const Stats = styled.div `
-border-right:1px solid #028090;
+border-right:2px solid #fff;
+&:nth-child() {
+  border-right:2px solid #AEBD38;
+}
 width: 33.33333%;
 float:left;
+background-color: red;
+padding: 10px;
+background:#505160 ;
 text-align:center
-padding: .25rem;
 display:block;
+height: 5rem;
 color:#fff;
 font-size:13px;
 line-height: .5;
-font-weight:700;
+font-weight:300;
 &:nth-child(3) {
 border-right: none
 }
 `
-
-const Wrapper = styled.div `
-
-`
 const StatsContainer = styled.div `
-border-bottom:1px solid #028090;
-background:#eee;
 overflow:auto;
-padding:15px 0;
 font-size:16px;
-color:#59687f;
+color:#AEBD38;
 font-weight:600;
-border-radius: 0 0 5px 5px;
-
 `
+
   return (
 
-    <Container fluid={true}>
-      <Row>
-        <Col>
-          <Wrapper>
+    <div>
 
-            <HeaderBanner>
-                {props.callsign} OVERVIEW
-            </HeaderBanner>
+      <HeaderBanner>
+        <strong>{callsign}</strong>
+        OVERVIEW
+      </HeaderBanner>
 
-            <StatsContainer>
-              <Stats>
-                <Header>Accountability</Header><br/>
-                11 / 12</Stats>
-              <Stats>
-                <Header>Appointments</Header><br/>
-                2</Stats>
-              <Stats>
-                <Header>Discrepancies</Header><br/>
-                0</Stats>
-            </StatsContainer>
+      <Carousel
+        centerMode
+        centerSlidePercentage={100}
+        showStatus={false}
+        showIndicators={false}
+        infiniteLoop
+        emulateTouch
+        showThumbs={false}>
+        <div>
+          <StatsContainer>
+          {data &&
+            <Stats>
+              <Header>Accountability</Header><br/>
+              {data.length}</Stats>}
+            <Stats>
+              <Header>Appointments</Header><br/>
+              2</Stats>
+            <Stats>
+              <Header>Discrepancies</Header><br/>
+              0</Stats>
+          </StatsContainer>
+        </div>
+        <div>
+          <StatsContainer>
+            <Stats>
+              <Header>Something</Header><br/>
+              Interesting</Stats>
+            <Stats>
+              <Header>Else</Header><br/>
+              Would be</Stats>
+            <Stats>
+              <Header>Here</Header><br/>
+              0</Stats>
+          </StatsContainer>
 
-            <StatsContainer>
-              <Stats>
-                <Header>Something</Header><br/>
-                Interesting</Stats>
-              <Stats>
-                <Header>Else</Header><br/>
-                Would be</Stats>
-              <Stats>
-                <Header>Here</Header><br/>
-                0</Stats>
-            </StatsContainer>
-
-            <StatsContainer>
-              <Stats>
-                <Badge onClick={props.onClick} color="secondary">View T/O</Badge>
-              </Stats>
-              <Stats>
-                <Badge onClick={props.toggleAdd} color="secondary">Add</Badge>/<Badge onClick={props.toggleAdd} color="secondary">Remove</Badge>
-              </Stats>
-              <Stats></Stats>
-            </StatsContainer>
-
-          </Wrapper>
-        </Col>
-      </Row>
-    </Container>
+        </div>
+        <div>
+          <StatsContainer>
+            <Stats>
+              <Badge onClick={onClick} color="secondary">View T/O</Badge>
+            </Stats>
+            <Stats>
+              <Badge onClick={toggleAdd} color="secondary">Add</Badge>/<Badge onClick={toggleAdd} color="secondary">Remove</Badge>
+            </Stats>
+            <Stats></Stats>
+          </StatsContainer>
+        </div>
+      </Carousel>
+    </div>
 
   )
 }

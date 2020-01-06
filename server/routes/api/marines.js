@@ -41,8 +41,24 @@ router.get('/:id', (req, res) => {
 
 
 // Add a Marine or Group
-router.post('/', (req, res) => {
-  Marine.create(req.body)
+router.route('/')
+.post((req, res) => {
+const first = req.body.first
+const last = req.body.last
+const birthdate = Date.parse(req.body.birth_date)
+const rank = req.body.rank
+const squad = req.body.squad
+const edipi = req.body.edipi
+
+  const newMarine = new Marine({
+    first,
+    last,
+    birthdate,
+    rank,
+    squad,
+    edipi
+  })
+  newMarine.save()
     .then(marine => res.json({ msg: 'Marine added successfully' }))
     .catch(err => res.status(400).json({ error: 'Unable to add Marine' }));
 });

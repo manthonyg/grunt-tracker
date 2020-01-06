@@ -1,87 +1,88 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import '../App.css';
 import axios from 'axios';
-import {
-  Container,
-} from 'reactstrap';
+import {Container} from 'reactstrap';
 import Loader from '../components/Loader'
 import SquadOverviewCard from '../components/SquadOverviewCard'
-import TeamListV3 from '../components/TeamList'
+import TeamList from '../components/TeamList'
 import CreateMarine from '../screens/CreateMarine'
+import ShowMarineOverview from '../components/ShowMarineOverview'
+import Button from '../components/Button'
+import Flex from '../components/Flex'
+import {getAllMarinesInSquad, getSquadById, getTeamsById} from '../services/get'
 
 function ShowSquadDetails(props) {
 
-  const [ squadData, setSquadData ] = useState([])
-  // const [ marineData, setMarineData ] = useState([])
-  const [ dndVisible, setDndVisible] = useState(false)
-  const handleSetDndVisible = () => {
-    setDndVisible(!dndVisible)
+  const componentIsMounted = useRef(true);
+
+  const [squadData, setSquadData] = useState([])
+  const [marineData, setMarineData] = useState([])
+  
+  const [currentView, setCurrentView] = useState('')
+  const handleSetCurrentView = (evt) => {
+    if (!!evt.target.id) {
+      setCurrentView(evt.target.id)
+    }
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8082/api/squads/` + props.match.params.id)
+   getSquadById(props.match.params.id)
       .then(res => {
-        setSquadData(res.data)
-        // return axios
-        //   .get(`http://localhost:8082/api/marines`)
-        //   .then(res => {
-        //     setMarineData(res.data)
-        //     console.log(res.data)
-        //   })
+        if (componentIsMounted.current) {
+        setSquadData(res)
+        }
       })
-  }, [props.match.params.id]);
+      return () => {
+        componentIsMounted.current = false
+      }
+  }, [props.match.params.id, currentView]);
 
 
-  const [ toggleAdd, setToggleAdd] = useState(false)
-  const handleSetToggleAdd = () => {
-    setToggleAdd(!toggleAdd)
-  }
-  const [ toggleRemove, setToggleRemove] = useState(false)
+useEffect(() => {
+  getAllMarinesInSquad(props.match.params.id)
+    .then(res => {
+        setMarineData(res)
+    })
+}, [props.match.params.id, squadData, currentView])
+console.table('marine data is now', marineData)
+
+
+  const [toggleRemove, setToggleRemove] = useState(false)
   const handleSetToggleRemove = () => {
     setToggleRemove(!toggleRemove)
   }
 
   return (
 
-<Container>
- 
-    
-      {squadData
-        ? <></>
-        : <Loader/>
-}
+   <>
 
-{squadData &&
-<SquadOverviewCard
-                  callsign={squadData.callsign}
-                  // totalMarines={fullSquad.length}
-                  // appointments={squadLength.appointments}
-                  // unit={squadData.unit}
-                  onClick={handleSetDndVisible}
-                  toggleAdd={handleSetToggleAdd}
-                  toggleRemove={handleSetToggleRemove}
-                  
-                  />}
+      {!!squadData &&
+      <SquadOverviewCard 
+      callsign={squadData.callsign}
+      data={marineData}/>}
 
+    <Container>
+      <Flex justifyBetween>
+        <Button id='addMarine' onClick={handleSetCurrentView}>Add Member</Button>
+        <Button id='viewAll' onClick={handleSetCurrentView}>View All</Button>
+        <Button id='dragAndDrop' onClick={handleSetCurrentView}>Change T/O</Button>
+      </Flex>
+     </Container>
 
-{toggleAdd && 
-<CreateMarine id={squadData._id}/>}
+      {currentView === 'addMarine' && <CreateMarine id={squadData._id}/>}
 
+      {currentView === 'viewAll' && <ShowMarineOverview id={squadData._id} marines={marineData}/>}
 
-{dndVisible &&
-<TeamListV3 id={squadData._id}/>
-}
-    </Container>
+      {currentView === 'dragAndDrop' && <TeamList id={squadData._id}/>}
+
+    </>
 
   )
 }
 
 export default ShowSquadDetails;
 
-
-
-      {/* {squadData
+{/* {squadData
         ? <ListGroup flush>
             <ListGroupItem color='secondary' tag="a" onClick={toggle}>
               <Flex justifyBetween alignCenter>
@@ -102,7 +103,7 @@ export default ShowSquadDetails;
               </Flex>
             </ListGroupItem>
 
-           {teamOne.map(marine => 
+           {teamOne.map(marine =>
 
             <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
@@ -140,7 +141,7 @@ export default ShowSquadDetails;
               </Flex>
             </ListGroupItem>
 
-            {teamTwo.map(marine => 
+            {teamTwo.map(marine =>
 
             <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
@@ -167,7 +168,7 @@ export default ShowSquadDetails;
               </ListGroupItem>
             </Collapse>)}
 
-            {teamOne.map(marine => 
+            {teamOne.map(marine =>
 
             <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
@@ -205,9 +206,9 @@ export default ShowSquadDetails;
               </Flex>
             </ListGroupItem>
 
-            
 
-             {teamThree.map(marine => 
+
+             {teamThree.map(marine =>
 
             <Collapse isOpen={isOpen.collapse}>
               <ListGroupItem tag="button" action>
@@ -239,4 +240,5 @@ export default ShowSquadDetails;
         : <Container>
           Loading...
         </Container>
-} */}
+} */
+}

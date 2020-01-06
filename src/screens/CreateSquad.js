@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
-import { Button, FormGroup, Label, Input, Container } from 'reactstrap';
+import {FormGroup, Label, Input, Container } from 'reactstrap';
 import { Alert } from 'reactstrap';
 import Loader from '../components/Loader'
-
+import HeaderBanner from '../components/HeaderBanner'
+import Button from '../components/Button'
+import Flex from '../components/Flex'
 function CreateSquad(props) {
 
   const [ squadData, setSquadData ] = useState(
@@ -63,6 +65,7 @@ console.log(squadData)
 
 return (
   <>
+  <HeaderBanner><strong>Create Squad</strong></HeaderBanner>
 {squadData ?
 
 <Container>
@@ -108,12 +111,14 @@ return (
       </FormGroup>
                  
       <Alert color="success" isOpen={successVisible} toggle={onSucDismiss}>
+        <Flex justifyAround>
       Squad added
       <Button>
                   <Link to="/">
                   View
                   </Link>
                 </Button>
+                </Flex>
     </Alert>
     <Alert color="danger" isOpen={errorVisible} toggle={onErrDismiss}>
       Failed to add squad        

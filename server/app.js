@@ -14,6 +14,7 @@ const squads = require('./routes/api/squads')
 
 
 
+
 // Connect Database
 connectDB();
 

@@ -48,7 +48,9 @@ const MarineSchema = new mongoose.Schema(
             last_updated: String
             }
         ]
-            },  
+            },
+        currSquad: { type: mongoose.Schema.Types.ObjectId, ref: 'squad' }
+          
 
     });
 

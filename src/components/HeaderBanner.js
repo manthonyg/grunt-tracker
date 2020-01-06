@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import {Container} from 'reactstrap';
 const Wrapper = styled.div `
-border:1px solid #ebeff2;
 border-radius:5px;
 padding:20px 0px;
 margin:10px 20px;
@@ -15,16 +14,29 @@ float: center;
 `
 const Header = styled.h4 `
 font-size: 32px;
-font-weight: 600;
+font-weight: ${props => {
+  if (props.secondary) return '400'
+  return '100'
+}}
+text-transform: uppercase;
+border-bottom: ${props => {
+  if (props.secondary) return 'none'
+  return '2px solid #05668d'
+}}
+font-size: ${props => {
+  if (props.secondary) return '20px'
+  return '32px'
+}}
 `
-
 
 const HeaderBanner = props => {
 
   return (
-    <Wrapper>
-        <Header>{props.children}</Header>
-    </Wrapper>
+    <Container>
+      <Wrapper>
+        <Header secondary={props.secondary}>{props.children}</Header>
+      </Wrapper>
+    </Container>
   )
 }
 

@@ -19,7 +19,7 @@ function PulsingArrow() {
 
 const ArrowWrapper = styled.div`
 position: absolute;
-bottom: 60px;
+bottom: 80px;
 right: 40px;
 width: 60px;
 height: 60px;

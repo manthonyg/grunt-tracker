@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import Flex from '../components/Flex'
 import ArrowTab from '../components/ArrowTab'
-import {Alert} from 'reactstrap';
+import {Alert, Container} from 'reactstrap';
 import PulsingArrow from '../components/PulsingArrow'
-
+import HeaderBanner from '../components/HeaderBanner'
 function Home() {
 
   const [ squadList, setSquadList ] = useState()
@@ -41,6 +41,8 @@ function Home() {
   <> 
 
 
+  <HeaderBanner>grunttracker</HeaderBanner>
+  <HeaderBanner secondary>my squads</HeaderBanner>
   <Flex contentCenter justifyCenter>
     {squadList && squadList.length
       ? squadList.map(squad => 
@@ -60,6 +62,7 @@ function Home() {
 
 
   </Flex> 
+ 
   <Alert color = "success" isOpen = {visible} toggle = {onDismiss}> 
     {deletedSquad} Successfully Deleted 
   </Alert>

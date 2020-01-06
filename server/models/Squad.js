@@ -1,7 +1,7 @@
 // models/Squad.js
 
 const mongoose = require('mongoose');
-
+const Schema = mongoose.Schema
 
 const MarineSchema = new mongoose.Schema(
     {
@@ -49,7 +49,8 @@ const MarineSchema = new mongoose.Schema(
             last_updated: String
             }
         ]
-            },  
+            },
+            current_squad: { type: mongoose.Schema.Types.ObjectId, ref: 'squad' }  
 
     });
 
@@ -64,18 +65,18 @@ const SquadSchema = new mongoose.Schema({
 
   callsign: {type: String},
   teams: {
-    unplaced: [MarineSchema],
 
-    team_hq: [MarineSchema],
+    team_hq: [{ type: Schema.Types.ObjectId, ref: 'marine' }],
 
-    team_one: [MarineSchema],
+    team_one: [{ type: Schema.Types.ObjectId, ref: 'marine' }],
 
-    team_two: [MarineSchema], 
+    team_two: [{ type: Schema.Types.ObjectId, ref: 'marine' }], 
 
-    team_three: [MarineSchema]
-  }
-  
+    team_three: [{ type: Schema.Types.ObjectId, ref: 'marine' }]
+  },
+  marines: [{ type: Schema.Types.ObjectId, ref: 'marine' }]
 
 });
+
 
 module.exports = Squad = mongoose.model('squad', SquadSchema);

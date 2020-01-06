@@ -6,8 +6,7 @@ import TimeField from 'react-simple-timefield';
 import {Alert, Input, Container} from 'reactstrap';
 
 function CreateAppointment(props) {
-  const [marineData,
-    setMarineData] = useState({date: '', appointment_type: '', location: '', time: ''});
+  const [marineData, setMarineData] = useState({date: '', appointment_type: '', location: '', time: ''});
 
   const onChange = evt => {
     const name = evt.target.name;

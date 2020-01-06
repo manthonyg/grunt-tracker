@@ -203,7 +203,7 @@ function CreateMarine({ id }) {
     return (
 
 <Container>
-  <Form>
+
     <FormGroup>
       <Label for="first">First</Label>
       <Input bsSize="sm" name="first" id="first" onChange={props.handleChange} value={props.first}/>
@@ -230,7 +230,7 @@ function CreateMarine({ id }) {
       </Input>
     </FormGroup>
 
-  </Form>
+
 </Container>
     
     
@@ -244,7 +244,7 @@ function CreateMarine({ id }) {
     return(
 
   <Container>
-    <Form>
+   
     <FormGroup>
       <Label for="squad">Squad</Label>
       <Input bsSize="sm" type="select" name="squad" id="squad" onChange={props.handleChange} value={props.squad}>
@@ -252,7 +252,7 @@ function CreateMarine({ id }) {
           <option>{squad.company}{squad.platoon}{squad.squad}</option>)}
       </Input>
     </FormGroup>
-    </Form>
+
   </Container>
     );
   }
@@ -264,7 +264,7 @@ function CreateMarine({ id }) {
     return(
       <>
     <Container>
-      <Form>
+
         <FormGroup>
           <Label for="edipi">EDIPI</Label>
           <Input bsSize="sm" name="edipi" id="edipi" onChange={props.handleChange} value={props.edipi}/>
@@ -285,7 +285,7 @@ function CreateMarine({ id }) {
           </FormGroup>
 
         Zap Number: {props.first && props.first[0]}
-      </Form>
+
     </Container>
 
       <Container>
