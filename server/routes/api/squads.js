@@ -6,9 +6,6 @@ const mongoose = require('mongoose');
 // Load Squad model
 const Squad = require('../../models/Squad');
 const Marine = require('../../models/Marine');
-// route GET api/squads/test description tests squads route
-router.get('/test', (req, res) => res.send('squad route testing'));
-
 // route GET api/squads description Get all squads
 router.get('/', (req, res) => {
   Squad
@@ -54,8 +51,9 @@ router.put('/:id/teams/', (req, res) => {
     .catch(err => res.status(400).json({error: 'Unable to add Squad'}));
 });
 
+
 // route PUT api/squads/id/teams/unplaced create a new marine and place into
-// teams/unplaced
+// teams/teamHq
 router.route('/:id/teams/add')
 .post((req, res) => {
 const id = mongoose.Types.ObjectId
@@ -72,7 +70,7 @@ const id = mongoose.Types.ObjectId
   
 
   Squad.findByIdAndUpdate(req.params.id, {$push:
-    {'teams.team_hq': newMarine.id,
+    {'teams.teamHq': newMarine.id,
     'marines': newMarine.id }}, {new: true})
     .then(function (team) {
       res.json(team)
@@ -85,15 +83,17 @@ const id = mongoose.Types.ObjectId
 
 // route GET api/squads/id/teams
 // description get teams array of current squad
-router.get('/:id/teams', (req, res) => {
+router
+.get('/:id/teams', (req, res) => {
   Squad
     .findById(req.params.id)
-    .populate(['teams.team_hq', 'teams.team_one', 'teams.team_two', 'teams.team_three'])
+    .populate(['teams.teamHq', 'teams.teamOne', 'teams.teamTwo', 'teams.teamThree'])
     .then(team => res.json(team))
     .catch(err => res.status(400).json({error: 'Unable to find team'}));
 });
 
-// route POST api/squads description create new squad
+// route POST api/squads 
+// description create new squad
 router
   .route('/')
   .post((req, res) => {
@@ -122,12 +122,12 @@ router.get('/:id', (req, res) => {
 
 // route GET api/squads/:id description delete squad by id
 router.delete('/:id', (req, res) => {
+  console.log(req.params)
   Squad
-    .findByIdAndRemove(req.params.id, req.body)
+    .findByIdAndRemove(req.params.id)
     .then(squad => res.json({mgs: 'Squad deleted successfully'}))
     .catch(err => res.status(404).json({error: 'No Squad Found'}));
 });
-
 
 
 module.exports = router;

@@ -53,6 +53,8 @@ color: #fff
 
 const StyledDropdownToggle = styled(DropdownToggle)`
 color: #fff;
+&:a {color: #fff}
+&:i {color #fff}
 `
 const MobileNavItemContent = styled.div `
 display: flex;
@@ -85,14 +87,7 @@ function BottomNav(props) {
       </MobileNavItem>
       <MobileNavItem>
         <MobileNavItemContent>
-          <ButtonDropdown direction="up" isOpen={dropdownOpen} toggle={toggle}>
-            <StyledDropdownToggle size='sm' color='none'>
-              <i className='material-icons'>add</i>
-            </StyledDropdownToggle>
-            <DropdownMenu>
-              <DropdownItem href='/create-squad'>Squad</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
+        <StyledLink to='/create-squad'><i className="material-icons">add</i></StyledLink>
         </MobileNavItemContent>
       </MobileNavItem>
     </MobileNavWrapper>

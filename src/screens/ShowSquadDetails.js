@@ -1,15 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react';
-import '../App.css';
-import axios from 'axios';
 import {Container} from 'reactstrap';
-import Loader from '../components/Loader'
 import SquadOverviewCard from '../components/SquadOverviewCard'
 import TeamList from '../components/TeamList'
 import CreateMarine from '../screens/CreateMarine'
 import ShowMarineOverview from '../components/ShowMarineOverview'
 import Button from '../components/Button'
 import Flex from '../components/Flex'
-import {getAllMarinesInSquad, getSquadById, getTeamsById} from '../services/get'
+import {getAllMarinesInSquad, getSquadById} from '../services/squadServices'
 
 function ShowSquadDetails(props) {
 
@@ -18,7 +15,7 @@ function ShowSquadDetails(props) {
   const [squadData, setSquadData] = useState([])
   const [marineData, setMarineData] = useState([])
   
-  const [currentView, setCurrentView] = useState('')
+  const [currentView, setCurrentView] = useState('viewAll')
   const handleSetCurrentView = (evt) => {
     if (!!evt.target.id) {
       setCurrentView(evt.target.id)
@@ -54,20 +51,21 @@ console.table('marine data is now', marineData)
 
   return (
 
-   <>
+    <Container>
 
       {!!squadData &&
+      
       <SquadOverviewCard 
       callsign={squadData.callsign}
       data={marineData}/>}
 
-    <Container>
+    
       <Flex justifyBetween>
         <Button id='addMarine' onClick={handleSetCurrentView}>Add Member</Button>
         <Button id='viewAll' onClick={handleSetCurrentView}>View All</Button>
         <Button id='dragAndDrop' onClick={handleSetCurrentView}>Change T/O</Button>
       </Flex>
-     </Container>
+     
 
       {currentView === 'addMarine' && <CreateMarine id={squadData._id}/>}
 
@@ -75,7 +73,7 @@ console.table('marine data is now', marineData)
 
       {currentView === 'dragAndDrop' && <TeamList id={squadData._id}/>}
 
-    </>
+      </Container>
 
   )
 }

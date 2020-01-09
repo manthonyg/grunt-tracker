@@ -10,6 +10,7 @@ const StyledButton = styled.button `
     color: #000;
     font-size: ${props => {
   if (props.big) return '20px'
+  if (props.small) return '12px'
   return '16px'}};
     outline: none;
     cursor: pointer;
@@ -18,19 +19,17 @@ const StyledButton = styled.button `
       color: #fff;
     }
     `
-    
-  
-
     const Button = ({
       secondary,
       big,
+      small,
       inverse,
       loading,
       children,
       ...props
     }) => {
       return (
-        <StyledButton secondary={secondary} big={big} inverse={inverse} {...props}>
+        <StyledButton secondary={secondary} small={small} big={big} inverse={inverse} {...props}>
           {loading
             ? <Loader small white/>
             : children}

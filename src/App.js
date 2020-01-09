@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import axios from 'axios';
 import './App.css';
 import Home from './screens/Home';
 import LogoSmall from './components/LogoSmall'
@@ -11,7 +10,7 @@ import ShowSquadDetails from './screens/ShowSquadDetails';
 import ShowMarineDetails from './screens/ShowMarineDetails';
 import SearchBar from './components/SearchBar'
 import SearchResults from './components/SearchResults'
-import {getAllMarines} from './services/get'
+import {getMarinesBySearchInput} from './services/marineServices'
 const App = () => {
 
   const [marineData, setMarineData] = useState([])
@@ -24,16 +23,19 @@ const App = () => {
   const handleClick = () => setMarineSearch('')
 
   useEffect(() => {
-    getAllMarines()
+    getMarinesBySearchInput(marineSearch)
     .then(marines => setMarineData(marines))
     .catch(err => console.log(err))
-  }, [] )
+  }, [marineSearch] )
+
   return (
 
     <Router>
       <LogoSmall/>
 
-      <SearchBar hovered onChange={handleSearch} value={marineSearch}/> {!!marineSearch.length && <SearchResults
+      <SearchBar hovered onChange={handleSearch} value={marineSearch}/> 
+      {!!marineSearch.length && 
+      <SearchResults
         isOpen={dropdownOpen}
         toggle={toggle}
         filteredMarines={marineData}

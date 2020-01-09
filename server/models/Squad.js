@@ -66,13 +66,13 @@ const SquadSchema = new mongoose.Schema({
   callsign: {type: String},
   teams: {
 
-    team_hq: [{ type: Schema.Types.ObjectId, ref: 'marine' }],
+    teamHq: [{ type: Schema.Types.ObjectId, ref: 'marine' }],
 
-    team_one: [{ type: Schema.Types.ObjectId, ref: 'marine' }],
+    teamOne: [{ type: Schema.Types.ObjectId, ref: 'marine' }],
 
-    team_two: [{ type: Schema.Types.ObjectId, ref: 'marine' }], 
+    teamTwo: [{ type: Schema.Types.ObjectId, ref: 'marine' }], 
 
-    team_three: [{ type: Schema.Types.ObjectId, ref: 'marine' }]
+    teamThree: [{ type: Schema.Types.ObjectId, ref: 'marine' }]
   },
   marines: [{ type: Schema.Types.ObjectId, ref: 'marine' }]
 

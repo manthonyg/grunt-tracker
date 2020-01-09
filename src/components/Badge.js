@@ -9,7 +9,7 @@ text-align: center;
 font-size: 12px;
 color: #AEBD38;
 font-weight: 800;
-display: inline-block;
+
 `
   return (
     <BadgeOuter>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Alert, Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
 import Flex from '../components/Flex'
-import { getAllSquads } from '../services/get'
-import { createNewMarine } from '../services/post'
+import { getAllSquads } from '../services/squadServices'
+import { addMarineToSquad } from '../services/squadServices'
 
 
 function CreateMarine({ id }) {
@@ -77,7 +77,7 @@ function CreateMarine({ id }) {
 
       event.preventDefault()
 
-      createNewMarine(id, data)
+      addMarineToSquad(id, data)
       .then(res => {
         
           setMarineData({   
@@ -186,7 +186,9 @@ function CreateMarine({ id }) {
         </Form>}
 
         <Alert color="success" isOpen={alertVisible} toggle={onDismiss}>
-          Marine added
+          <Flex justifyAround>
+          Marine successfully added
+          </Flex>
         </Alert>
 
         </>

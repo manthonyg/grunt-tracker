@@ -1,12 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styled, {keyframe} from 'styled-components'
-import Badge from '../components/Badge';
-import Flex from '../components/Flex'
+import Button from '../components/Button';
 import HeaderBanner from '../components/HeaderBanner';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {Carousel} from 'react-responsive-carousel';
-import Button from '../components/Button'
-import {getAllMarinesInSquad} from '../services/get';
+
 
 
 function SquadOverviewCard({data, callsign, onClick, toggleAdd}) {
@@ -72,10 +70,10 @@ font-weight:600;
               {data.length}</Stats>}
             <Stats>
               <Header>Appointments</Header><br/>
-              2</Stats>
+              -</Stats>
             <Stats>
               <Header>Discrepancies</Header><br/>
-              0</Stats>
+              -</Stats>
           </StatsContainer>
         </div>
         <div>
@@ -88,17 +86,17 @@ font-weight:600;
               Would be</Stats>
             <Stats>
               <Header>Here</Header><br/>
-              0</Stats>
+              !</Stats>
           </StatsContainer>
 
         </div>
         <div>
           <StatsContainer>
             <Stats>
-              <Badge onClick={onClick} color="secondary">View T/O</Badge>
+              +ZAP Cards
             </Stats>
             <Stats>
-              <Badge onClick={toggleAdd} color="secondary">Add</Badge>/<Badge onClick={toggleAdd} color="secondary">Remove</Badge>
+              +Morning Report
             </Stats>
             <Stats></Stats>
           </StatsContainer>

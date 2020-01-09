@@ -56,11 +56,11 @@ height: 56px;
 width: 56px;
 position: absolute;
 margin: 0;
-animation: ${Pulsate} 1s ease-out;
+animation: ${Pulsate} 750ms ease-out;
 animation-iteration-count: infinite;
 opacity: 0.0;
 box-sizing: border-box;
-box-shadow: 0 0 1px 1px #89849b;
+box-shadow: 0 0 3px 1px #AEBD38;
 animation-delay: 2s;
 `
 

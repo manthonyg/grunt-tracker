@@ -53,13 +53,13 @@ function TeamList({id, isLoading}) {
   useEffect(() => {
     axios
       .get(teamOneURL)
-      .then(res => setTeamOne(res.data.team_one))
+      .then(res => setTeamOne(res.data.teamOne))
   }, [teamOneURL])
 
   useEffect(() => {
     axios
       .get(teamTwoURL)
-      .then(res => setTeamTwo(res.data.team_two))
+      .then(res => setTeamTwo(res.data.teamTwo))
   }, [teamTwoURL])
 
 
