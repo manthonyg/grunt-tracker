@@ -3,10 +3,9 @@ import '../App.css';
 import axios from 'axios';
 import {Alert, Input, Button, Container} from 'reactstrap';
 
-function CreateCFT(props) {
-  const [marineData, setMarineData] = useState({
-    cft_score: '', 
-    cft_date: ''});
+function CreatePFT(props) {
+  const [marineData,
+    setMarineData] = useState({pft_score: '', pft_date: ''});
 
   const onChange = evt => {
     const name = evt.target.name;
@@ -24,14 +23,14 @@ function CreateCFT(props) {
     evt.preventDefault();
 
     const data = {
-      score: marineData.cft_score,
-      last_updated: marineData.cft_date
+      score: marineData.pft_score,
+      last_updated: marineData.pft_date
     }
 
     axios
-      .put(`http://localhost:8082/api/marines/${props.marine}/body/cft`, data)
+      .put(`http://localhost:8082/api/marines/${props.marine}/body/pft`, data)
       .then(res => {
-        setMarineData({cft_score: '', cft_date: ''})
+        setMarineData({pft_score: '', pft_date: ''})
         setVisible(true)
       })
       .catch(err => {
@@ -39,7 +38,8 @@ function CreateCFT(props) {
       })
   };
 
-  const [ visible, setVisible ] = useState(false);
+  const [visible,
+    setVisible] = useState(false);
   const onDismiss = () => setVisible(false);
 
   return (
@@ -50,28 +50,28 @@ function CreateCFT(props) {
 
         <Input
           type='input'
-          name='cft_score'
-          placeholder='CFT Score'
+          name='pft_score'
+          placeholder='PFT Score'
           className='form-control'
-          value={marineData.cft_score}
+          value={marineData.pft_score}
           helperText='e.g "275"'
           onChange={onChange}/>
 
         <Input
           type='date'
-          name='cft_date'
+          name='pft_date'
           placeholder='Date'
           className='form-control'
-          value={marineData.cft_date}
+          value={marineData.pft_date}
           helperText='e.g "2019/01/01"'
           onChange={onChange}/>
 
 
 <br/>
 <Alert color="success" isOpen={visible} toggle={onDismiss}>
-          CFT Added
+          PFT Added
         </Alert>
-        <Button type="submit" onClick={props.onClick}>
+        <Button type="submit">
           Add Appointment
         </Button>
 
@@ -83,4 +83,4 @@ function CreateCFT(props) {
   )
 }
 
-export default CreateCFT;
+export default CreatePFT;

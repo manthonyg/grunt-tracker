@@ -6,7 +6,7 @@ import {Carousel} from 'react-responsive-carousel';
 
 
 
-function SquadOverviewCard({data, callsign, onClick, toggleAdd}) {
+function SquadCarousel({data, callsign, onClick, toggleAdd}) {
 
 const Header = styled.h4 `
 text-align:center;
@@ -106,4 +106,4 @@ font-weight:600;
   )
 }
 
-export default SquadOverviewCard
+export default SquadCarousel

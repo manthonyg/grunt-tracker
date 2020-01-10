@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Flex from '../components/Flex';
-import {Link} from 'react-router-dom';
-import {Toast, ToastHeader, ToastBody} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Toast, ToastHeader, ToastBody } from 'reactstrap';
 
 const Tab = styled.div `
   padding: 2px;

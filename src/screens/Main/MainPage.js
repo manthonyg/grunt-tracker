@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import Flex from '../components/Flex'
 import { Alert } from 'reactstrap';
-import Toast from '../components/Toast'
 import PulsingArrow from '../components/PulsingArrow'
 import HeaderBanner from '../components/HeaderBanner'
 import Card from '../components/Card'
-import Loader from '../components/Loader'
 import { deleteSquadById } from '../services/squadServices';
-function Home() {
+
+
+function MainPage() {
 
   const [ squadList, setSquadList ] = useState([])
 
@@ -73,4 +73,4 @@ function Home() {
 
 )}
 
-export default Home
+export default MainPage

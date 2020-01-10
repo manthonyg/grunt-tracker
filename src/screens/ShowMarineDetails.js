@@ -2,8 +2,6 @@ import React, {useState, useEffect, useRef} from 'react';
 import '../App.css';
 import axios from 'axios';
 import {useLocation} from 'react-router-dom'
-import styled from 'styled-components'
-import Loader from '../components/Loader'
 import Flex from '../components/Flex'
 import CreateAppointment from '../screens/CreateAppointment'
 import CreatePFT from '../screens/CreatePFT'

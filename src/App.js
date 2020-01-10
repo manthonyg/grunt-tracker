@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import Home from './screens/Home';
-import LogoSmall from './components/LogoSmall'
+import Logo from './components/Logo'
 import CreateSquad from './screens/CreateSquad';
 import CreateMarine from './screens/CreateMarine';
 import BottomNav from './components/BottomNav'
@@ -31,7 +31,7 @@ const App = () => {
   return (
 
     <Router>
-      <LogoSmall/>
+      <Logo/>
 
       <SearchBar hovered onChange={handleSearch} value={marineSearch}/> 
       {!!marineSearch.length && 

@@ -41,8 +41,9 @@ text-align: center;
 }`
 
 const BackgroundLayer = styled.div`
-background-image: url(${GTBG});
+
 background-attachment: fixed;
+opacity: 0.8;
 background-repeat: no repeat;
 background-position: center;
 position: absolute;

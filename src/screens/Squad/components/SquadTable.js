@@ -3,7 +3,8 @@ import {Table} from 'reactstrap'
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import HeaderBanner from './HeaderBanner'
-function ShowMarineOverview({marines}) {
+
+function SquadTable({marines}) {
 
   const StyledLink = styled(Link)`
 color: #68829e;
@@ -42,4 +43,4 @@ color: #68829e;
   )
 }
 
-export default ShowMarineOverview
+export default SquadTable

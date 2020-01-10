@@ -114,7 +114,7 @@ return (
         <Flex justifyAround>
       Squad added
       <Button>
-                  <Link to="/">
+                  <Link to={'/'}>
                   View
                   </Link>
                 </Button>

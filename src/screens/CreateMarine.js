@@ -286,7 +286,7 @@ function CreateMarine({ id }) {
             </Input>
           </FormGroup>
 
-        Zap Number: {props.first && props.first[0]}
+        
 
     </Container>
 
