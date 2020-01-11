@@ -1,38 +1,41 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
-import {ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
-import {useHistory} from 'react-router-dom'
-import {Link} from 'react-router-dom'
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+//Packages
+import styled from "styled-components";
+import { DropdownToggle } from "reactstrap";
 
-const MobileNavWrapper = styled.nav `
-position: fixed;
-bottom: 0px;
-left: 0;
-right: 0;
-padding: 10px 0px;
-display: flex;
-height: 70px;
-background-color: #505160;
-transition: all 300ms;
-margin-top: 40px;
-&:after {
-  content: '';
-  background-color: #AEBD38;
-  width: 100%;
-  height: .2rem;
-  position: absolute;
-  bottom: 0;
-  z-index: 2;
-}
-`
 
-const MobileNavItem = styled.div `
+const MobileNavWrapper = styled.nav`
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  padding: 10px 0px;
+  display: flex;
+  height: 70px;
+  background-color: #505160;
+  transition: all 300ms;
+  margin-top: 40px;
+  &:after {
+    content: "";
+    background-color: #aebd38;
+    width: 100%;
+    height: 0.2rem;
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+  }
+`;
+
+const MobileNavItem = styled.div`
 flex-grow: 1;
 color: #fff;
 text-align: center;
 font-size: ${props => {
-  if (props.center) return '2px'
-  return '12px'}}
+  if (props.center) return "2px";
+  return "12px";
+}}
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -42,56 +45,57 @@ justify-content: center;
 &:a {
   color: #fff;
 }
-`
+`;
 
 const StyledLink = styled(Link)`
-color: #fff
+  color: #fff
 :active {
-  color: #AEBD38;
-}
-`
+    color: #aebd38;
+  }
+`;
 
 const StyledDropdownToggle = styled(DropdownToggle)`
 color: #fff;
 &:a {color: #fff}
 &:i {color #fff}
-`
-const MobileNavItemContent = styled.div `
-display: flex;
-flex-direction: column;
-padding: 10px 0px;
-z-index: 50000;
-color: #fff;
-
-`
-
+`;
+const MobileNavItemContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+  z-index: 50000;
+  color: #fff;
+`;
 
 function BottomNav(props) {
-
   const [dropdownOpen, setOpen] = useState(false);
   const toggle = () => setOpen(!dropdownOpen);
-  const history = useHistory()
+  const history = useHistory();
   return (
     <MobileNavWrapper>
       <MobileNavItem>
         <MobileNavItemContent>
-          <i className='material-icons' onClick={history.goBack}>arrow_back</i>
+          <i className="material-icons" onClick={history.goBack}>
+            arrow_back
+          </i>
         </MobileNavItemContent>
       </MobileNavItem>
       <MobileNavItem center>
         <MobileNavItemContent>
-      
-            <StyledLink to='/'><i className="material-icons">home</i></StyledLink>
-      
+          <StyledLink to="/">
+            <i className="material-icons">home</i>
+          </StyledLink>
         </MobileNavItemContent>
       </MobileNavItem>
       <MobileNavItem>
         <MobileNavItemContent>
-        <StyledLink to='/create-squad'><i className="material-icons">add</i></StyledLink>
+          <StyledLink to="/create-squad">
+            <i className="material-icons">add</i>
+          </StyledLink>
         </MobileNavItemContent>
       </MobileNavItem>
     </MobileNavWrapper>
-  )
+  );
 }
 
-export default BottomNav
+export default BottomNav;

@@ -7,7 +7,8 @@ const BadgeOuter = styled.div `
 display: inline-block;
 text-align: center;
 font-size: 12px;
-color: #AEBD38;
+margin-left: 1rem;
+color: #000;
 font-weight: 800;
 
 `

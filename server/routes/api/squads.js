@@ -58,7 +58,7 @@ router.get('/:id/marines', (req, res) => {
 
 // route POST api/squads/id/teams/ 
 // description update teams
-router.post('/:id/teams/', (req, res) => {
+router.put('/:id/teams/', (req, res) => {
   Squad
     .findByIdAndUpdate(req.params.id, {
     $set: {

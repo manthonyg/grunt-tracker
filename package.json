@@ -19,6 +19,8 @@
     "react-scripts": "3.2.0",
     "react-simple-timefield": "^3.0.0",
     "react-sortable-hoc": "^1.10.1",
+    "react-switch": "^5.0.1",
+    "react-toggle-button": "^2.2.0",
     "reactstrap": "^8.1.1",
     "rendition": "^11.34.6",
     "styled-components": "^4.4.1",
@@ -58,6 +60,7 @@
     "enzyme-adapter-react-16": "^1.15.1",
     "nodemon": "^2.0.2",
     "plop": "^2.5.3",
+    "prettier": "^1.19.1",
     "react-test-renderer": "^16.12.0"
   }
 }

@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import axios from "axios";
+//Packages
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled, { keyframes, css } from "styled-components";
 import { Container, Row, Col, Alert } from "reactstrap";
-import Badge from "../components/Badge";
-import { getSquadsTeamsById, updateSquadById } from "../services/squadServices";
-import axios from "axios";
+//Global components
+import Badge from "../../../components/Badge";
+import Flex, { Column } from "../../../components/Flex";
+import Button from "../../../components/Button";
+//Services
+import { getSquadsTeamsById, updateSquadById } from "../../../services/squadServices";
 
-function TeamList({ id }) {
+
+function SquadDND({ id }) {
   const wobble = keyframes`
   {
     0% {
@@ -31,13 +37,13 @@ function TeamList({ id }) {
   `;
 
   const wobbleEffect = css`
-    animation: ${wobble} 0.3s infinite;
+    animation: ${wobble} 0.5s infinite;
   `;
 
   const BadgeOuter = styled.div`
   align-items: center;
   background-color: ${props => {
-    if (props.remove) return "red";
+    if (props.remove) return "crimson";
     return "#fff";
   }}
 	border: ${props => {
@@ -85,7 +91,7 @@ function TeamList({ id }) {
   }
   `;
 
-  const Button = styled.div`
+  const ButtonOuter = styled.div`
     background: transparent;
     color: inherit;
     display: inline-block;
@@ -116,8 +122,13 @@ function TeamList({ id }) {
     width: 100%;
   `;
 
+  const StyledIcon = styled.h1`
+  color: #AEBD38;
+  `
+
   const StyledAlert = styled(Alert)`
     z-index: 10000;
+    background-color: #AEBD38
   `;
   const grid = 4;
 
@@ -137,7 +148,7 @@ function TeamList({ id }) {
     padding: "5px 8px",
     margin: `0 ${grid}px 0 0`,
     borderRadius: ".25rem",
-    background: isDragging ? "#68829e" : "#fff",
+    background: isDragging ? "#fff" : "#fff",
     ...draggableStyle
   });
 
@@ -305,10 +316,23 @@ function TeamList({ id }) {
       <StyledAlert color="success" isOpen={toastVisible} toggle={onDismiss}>
         Marine Successfully Deleted
       </StyledAlert>
-      <Button onClick={handleRemoveStyle}>Remove</Button>
-      <Container fluid={true}>
-        <Row>
-          <Col>
+      <Flex justifyAround>
+     
+      <StyledIcon>
+        <i className="material-icons" onClick={handleRemoveStyle}>
+          {removeStyle ? 'delete_forever' : 'delete'}
+        </i>
+      </StyledIcon>
+      
+      <StyledIcon>
+        <i className="material-icons">
+          save_alt
+        </i>
+      </StyledIcon>
+      
+
+      </Flex>
+    <Flex>
             <Badge color="none">HQ ({state.teamHq.length})</Badge>
             <Droppable droppableId="teamHq" direction="horizontal">
               {(provided, snapshot) => (
@@ -323,8 +347,7 @@ function TeamList({ id }) {
                       index={index}
                     >
                       {(provided, snapshot) => (
-                        <Button
-                          remove={removeStyle}
+                        <ButtonOuter
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
@@ -353,7 +376,7 @@ function TeamList({ id }) {
                               billet.radioOperator
                             )}
                           </BadgeOuter>
-                        </Button>
+                        </ButtonOuter>
                       )}
                     </Draggable>
                   ))}
@@ -362,10 +385,8 @@ function TeamList({ id }) {
                 </div>
               )}
             </Droppable>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+      
+       
             <Badge color="none">Team One ({state.teamOne.length})</Badge>
             <Droppable droppableId="teamOne" direction="horizontal">
               {(provided, snapshot) => (
@@ -380,7 +401,7 @@ function TeamList({ id }) {
                       index={index}
                     >
                       {(provided, snapshot) => (
-                        <Button
+                        <ButtonOuter
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
@@ -390,17 +411,26 @@ function TeamList({ id }) {
                           )}
                         >
                           <ButtonInner>{item.last}</ButtonInner>
-                          <BadgeOuter color={index}>
+                          <BadgeOuter
+                            remove={removeStyle}
+                            onClick={removeMarine}
+                          >
                             <BadgeInner {...index}></BadgeInner>
-                            {index === 0
-                              ? "TL"
-                              : index === 1
-                              ? "G"
-                              : index === 2
-                              ? "AR"
-                              : "R"}
+                            {!!removeStyle ? (
+                              <i className="material-icons" id={item._id}>
+                                remove
+                              </i>
+                            ) : index === 0 ? (
+                              billet.teamLeader
+                            ) : index === 1 ? (
+                              billet.autoRifleman
+                            ) : index === 2 ? (
+                              billet.grenadier
+                            ) : (
+                              billet.rifleman
+                            )}
                           </BadgeOuter>
-                        </Button>
+                        </ButtonOuter>
                       )}
                     </Draggable>
                   ))}
@@ -409,10 +439,8 @@ function TeamList({ id }) {
                 </div>
               )}
             </Droppable>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+        
+      
             <Badge color="none">Team Two ({state.teamTwo.length})</Badge>
             <Droppable droppableId="teamTwo" direction="horizontal">
               {(provided, snapshot) => (
@@ -427,7 +455,7 @@ function TeamList({ id }) {
                       index={index}
                     >
                       {(provided, snapshot) => (
-                        <Button
+                        <ButtonOuter
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
@@ -437,17 +465,26 @@ function TeamList({ id }) {
                           )}
                         >
                           <ButtonInner>{item.last}</ButtonInner>
-                          <BadgeOuter color={index}>
+                          <BadgeOuter
+                            remove={removeStyle}
+                            onClick={removeMarine}
+                          >
                             <BadgeInner {...index}></BadgeInner>
-                            {index === 0
-                              ? "TL"
-                              : index === 1
-                              ? "G"
-                              : index === 2
-                              ? "AR"
-                              : "R"}
+                            {!!removeStyle ? (
+                              <i className="material-icons" id={item._id}>
+                                remove
+                              </i>
+                            ) : index === 0 ? (
+                              billet.teamLeader
+                            ) : index === 1 ? (
+                              billet.autoRifleman
+                            ) : index === 2 ? (
+                              billet.grenadier
+                            ) : (
+                              billet.rifleman
+                            )}
                           </BadgeOuter>
-                        </Button>
+                        </ButtonOuter>
                       )}
                     </Draggable>
                   ))}
@@ -455,10 +492,8 @@ function TeamList({ id }) {
                 </div>
               )}
             </Droppable>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+      
+       
             <Badge color="none">Team Three ({state.teamThree.length})</Badge>
             <Droppable droppableId="teamThree" direction="horizontal">
               {(provided, snapshot) => (
@@ -473,7 +508,7 @@ function TeamList({ id }) {
                       index={index}
                     >
                       {(provided, snapshot) => (
-                        <Button
+                        <ButtonOuter
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
@@ -483,17 +518,26 @@ function TeamList({ id }) {
                           )}
                         >
                           <ButtonInner>{item.last}</ButtonInner>
-                          <BadgeOuter color={index}>
+                          <BadgeOuter
+                            remove={removeStyle}
+                            onClick={removeMarine}
+                          >
                             <BadgeInner {...index}></BadgeInner>
-                            {index === 0
-                              ? "TL"
-                              : index === 1
-                              ? "G"
-                              : index === 2
-                              ? "AR"
-                              : "R"}
+                            {!!removeStyle ? (
+                              <i className="material-icons" id={item._id}>
+                                remove
+                              </i>
+                            ) : index === 0 ? (
+                              billet.teamLeader
+                            ) : index === 1 ? (
+                              billet.autoRifleman
+                            ) : index === 2 ? (
+                              billet.grenadier
+                            ) : (
+                              billet.rifleman
+                            )}
                           </BadgeOuter>
-                        </Button>
+                        </ButtonOuter>
                       )}
                     </Draggable>
                   ))}
@@ -501,11 +545,10 @@ function TeamList({ id }) {
                 </div>
               )}
             </Droppable>
-          </Col>
-        </Row>
-      </Container>
+       
+            </Flex>
     </DragDropContext>
   );
 }
 
-export default TeamList;
+export default SquadDND;

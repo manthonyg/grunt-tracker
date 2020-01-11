@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Container} from 'reactstrap';
+
 const Wrapper = styled.div `
 border-radius:5px;
-padding:20px 0px;
-margin:10px 20px;
 font-size:16px;
 color:#05668D;
 font-weight:600;	
@@ -32,11 +30,11 @@ font-size: ${props => {
 const HeaderBanner = props => {
 
   return (
-    <Container>
+
       <Wrapper>
         <Header secondary={props.secondary}>{props.children}</Header>
       </Wrapper>
-    </Container>
+ 
   )
 }
 
