@@ -4,8 +4,9 @@ import styled from "styled-components";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 //Global components
-import HeaderBanner from "../../../components/HeaderBanner";
+import Banner from "../../../components/Banner";
 import Button from "../../../components/Button";
+import Loader from "../../../components/Loader";
 
 function SquadCarousel({ data, callsign, handleSetCurrentView }) {
   const Header = styled.h4`
@@ -25,7 +26,9 @@ width: 33.33333%;
 float:left;
 background-color: red;
 padding: 10px;
-background:#505160 ;
+background: ${props => {
+  if (props.secondary) return '#aebd38'
+  return '#505160'}}
 text-align:center
 display:block;
 height: 8rem;
@@ -45,9 +48,7 @@ border-right: none
 
   return (
     <div>
-      <HeaderBanner>
-        <strong>{callsign}OVERVIEW</strong>
-      </HeaderBanner>
+      <Banner secondary>{callsign}overview</Banner>
 
       <Carousel
         centerMode
@@ -60,15 +61,28 @@ border-right: none
       >
         <div>
           <StatsContainer>
-            {data && (
-              <Stats>
-                <Header>Accountability</Header>
-                <br />
-                {data.length}
-                <br />
-                <i className="material-icons lg" id='accountability' onClick={handleSetCurrentView}>arrow_right_alt</i>
-              </Stats>
-            )}
+            <Stats>
+              <Header>Accountability</Header>
+              <br />
+              {data && data.length ? (
+                <>
+                  {data.filter(d => d.accountability.accountedFor).length}/
+                  {data.length}
+                  
+                  <br />
+                  <i
+                    className="material-icons"
+                    id="accountability"
+                    onClick={handleSetCurrentView}
+                  >
+                    arrow_right_alt
+                  </i>
+                </>
+              ) : (
+                <Loader white></Loader>
+              )}
+            </Stats>
+
             <Stats>
               <Header>Appointments</Header>
               <br />-
@@ -99,13 +113,13 @@ border-right: none
         </div>
         <div>
           <StatsContainer>
-            <Stats>
+            <Stats secondary>
               <Button secondary>Generate Zap #</Button>
             </Stats>
-            <Stats>
+            <Stats secondary>
               <Button secondary>Morning Report</Button>
             </Stats>
-            <Stats>
+            <Stats secondary>
               <Button secondary>Appointment List</Button>
             </Stats>
           </StatsContainer>

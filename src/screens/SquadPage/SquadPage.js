@@ -17,6 +17,8 @@ import {
 } from "../../services/squadServices";
 
 function SquadPage(props) {
+
+  
   const componentIsMounted = useRef(true);
 
   const [squadData, setSquadData] = useState([]);

@@ -40,6 +40,16 @@ router.get('/:id', (req, res) => {
     .catch(err => res.status(404).json({nomarinefound: 'No Marine found'}));
 });
 
+//************** */
+// find by id and update
+router.put('/:id/update', (req, res) => {
+  Marine
+    .findByIdAndUpdate(req.params.id, {$set: {'accountability': req.body }})
+    .then(marine => res.json(marine))
+    .catch(err => res.status(404).json({nomarinefound: 'No Marine found'}));
+});
+//************** */
+
 // create a new marine
 router
   .route('/')

@@ -19,6 +19,7 @@ font-weight: ${props => {
 text-transform: uppercase;
 border-bottom: ${props => {
   if (props.secondary) return 'none'
+  if (props.header) return 'none'
   return '2px solid #05668d'
 }}
 font-size: ${props => {
@@ -27,15 +28,15 @@ font-size: ${props => {
 }}
 `
 
-const HeaderBanner = props => {
+const Banner = props => {
 
   return (
 
       <Wrapper>
-        <Header secondary={props.secondary}>{props.children}</Header>
+        <Header header={props.header} secondary={props.secondary}>{props.children}</Header>
       </Wrapper>
  
   )
 }
 
-export default HeaderBanner
+export default Banner

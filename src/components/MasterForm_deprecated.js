@@ -117,7 +117,7 @@ function MasterForm(props) {
        
       return (
         <>
-        <HeaderBanner>Create New Marine</HeaderBanner>
+        <Banner>Create New Marine</Banner>
         <form onSubmit={handleSubmit}>
        
           <BasicInformation 

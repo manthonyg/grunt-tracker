@@ -4,7 +4,7 @@ import axios from "axios";
 import { FormGroup, Label, Input, Container } from "reactstrap";
 import { Alert } from "reactstrap";
 import Loader from "../components/Loader";
-import HeaderBanner from "../components/HeaderBanner";
+import Banner from "../components/Banner";
 import Button from "../components/Button";
 import Flex from "../components/Flex";
 function CreateSquad(props) {
@@ -59,9 +59,9 @@ function CreateSquad(props) {
 
   return (
     <>
-      <HeaderBanner>
+      <Banner>
         <strong>Create Squad</strong>
-      </HeaderBanner>
+      </Banner>
       {squadData ? (
         <Container>
           <FormGroup>

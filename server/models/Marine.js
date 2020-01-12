@@ -1,7 +1,12 @@
 
 const mongoose = require('mongoose');
 
-
+const AccountabilitySchema = new mongoose.Schema(
+    {
+        accountedFor: {type: Boolean},
+        date: {type: Date}
+    }
+)
 const MarineSchema = new mongoose.Schema(
     {
     first: {type: String},
@@ -16,7 +21,7 @@ const MarineSchema = new mongoose.Schema(
     edipi: {type: String},
     blood_type: {type: String},
     religion: {type: String},
-    accountability: {type: Boolean},
+    accountability: AccountabilitySchema,
 
     appointments: [
         {

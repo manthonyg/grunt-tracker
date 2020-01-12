@@ -3,7 +3,7 @@ import axios from "axios";
 import Flex from "../../components/Flex";
 import { Alert } from "reactstrap";
 import PulsingArrow from "../../components/PulsingArrow";
-import HeaderBanner from "../../components/HeaderBanner";
+import Banner from "../../components/Banner";
 import Card from "../../components/Card";
 import { deleteSquadById } from "../../services/squadServices";
 
@@ -36,7 +36,7 @@ function MainPage() {
   return (
     <>
     
-      <HeaderBanner secondary>my squads</HeaderBanner>
+      <Banner secondary>my squads</Banner>
 
       <Flex contentCenter justifyCenter>
         {squadList && squadList.length ? (
@@ -50,11 +50,11 @@ function MainPage() {
                 key={squad._id}
                 id={squad._id}
               >
-                <HeaderBanner secondary>
+                <Banner secondary>
                   <h3>
                     {squad.company}/{squad.platoon}-{squad.squad}
                   </h3>
-                </HeaderBanner>
+                </Banner>
               </Card>
             </>
           ))

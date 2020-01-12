@@ -13,7 +13,7 @@ import BottomNav from "./components/BottomNav";
 import Logo from "./components/Logo";
 import SearchBar from "./components/SearchBar";
 import Flex from "./components/Flex";
-import HeaderBanner from "./components/HeaderBanner";
+import Banner from "./components/Banner";
 import SearchResults from "./components/SearchResults";
 //Services
 import { getMarinesBySearchInput } from "./services/marineServices";
@@ -75,7 +75,7 @@ const App = () => {
         <Header>
        
           <Flex justifyBetween>
-          <HeaderBanner>grunt</HeaderBanner> <Logo/><HeaderBanner>tracker</HeaderBanner>
+          <Banner>grunt</Banner> <Logo/><Banner>tracker</Banner>
           <SearchBar hovered onChange={handleSearch} value={marineSearch}/>
           {!!marineSearch.length && (
             <SearchResults
@@ -85,7 +85,7 @@ const App = () => {
               handleClick={handleClick}
             />
           )}
-          {/* <HeaderBanner intro>grunt<strong>tracker</strong></HeaderBanner> */}
+          {/* <Banner intro>grunt<strong>tracker</strong></Banner> */}
        
           </Flex>
           

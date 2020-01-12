@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "reactstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import HeaderBanner from "../../../components/HeaderBanner";
+import Banner from "../../../components/Banner";
 
 
 function SquadTable({ marines }) {
@@ -17,11 +17,11 @@ function SquadTable({ marines }) {
             <th>#</th>
             <th>Rank</th>
             <th>Last</th>
-            <th>EDIPI</th>
+            <th>Accountability</th>
           </tr>
         </thead>
       ) : (
-        <HeaderBanner secondary>Add Members to Squad</HeaderBanner>
+        <Banner secondary>Add Members to Squad</Banner>
       )}
       <tbody>
         {marines.map((marine, i) => (

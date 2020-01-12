@@ -7,7 +7,7 @@ import CreateCFT from "./components/CreateCFT";
 //Global
 import Flex from "../../components/Flex";
 import CreateAppointment from "./components/CreateAppointment";
-import HeaderBanner from "../../components/HeaderBanner";
+import Banner from "../../components/Banner";
 import Card from "../../components/Card";
 
 function MarinePage(props) {
@@ -32,19 +32,19 @@ function MarinePage(props) {
 
   return (
     <>
-      <HeaderBanner>
+      <Banner>
         <strong>{marineData.rank}</strong>
         {marineData.last}
-      </HeaderBanner>
+      </Banner>
       <Flex justifyAround>
         <Card primary noAnimation>
-          <HeaderBanner secondary>Weapons</HeaderBanner>
+          <Banner secondary>Weapons</Banner>
         </Card>
         <Card primary noAnimation>
-          <HeaderBanner secondary>Gear</HeaderBanner>
+          <Banner secondary>Gear</Banner>
         </Card>
         <Card primary noAnimation>
-          <HeaderBanner secondary>Body</HeaderBanner>
+          <Banner secondary>Body</Banner>
 
           <CreatePFT />
         </Card>
