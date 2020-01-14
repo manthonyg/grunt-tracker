@@ -3,11 +3,10 @@ import axios from "axios";
 //Packages
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled, { keyframes, css } from "styled-components";
-import { Container, Row, Col, Alert } from "reactstrap";
+import { Alert } from "reactstrap";
 //Global components
 import Badge from "../../../components/Badge";
-import Flex, { Column } from "../../../components/Flex";
-import Button from "../../../components/Button";
+import Flex from "../../../components/Flex";
 //Services
 import { getSquadsTeamsById, updateSquadById } from "../../../services/squadServices";
 
@@ -96,7 +95,7 @@ function SquadDND({ id }) {
     color: inherit;
     display: inline-block;
     font: inherit;
-    height: auto;
+    height: 1rem;
     line-height: 1;
     margin: 0;
     padding: 0;
@@ -108,13 +107,13 @@ function SquadDND({ id }) {
 
   const ButtonInner = styled.span`
     align-items: center;
-    border-radius: 0.25rem;
-    background: #fff;
-    border: #000 1px solid;
+    border-radius: .10rem;
+    background: #AEBD38;
+    border: #505160 2px solid;
     color: #000;
     display: flex;
     font-weight: 300;
-    height: 1.75em;
+    height: 1rem;
     min-width: 2.5em;
     padding: 1em 1em;
     position: relative;
@@ -123,7 +122,7 @@ function SquadDND({ id }) {
   `;
 
   const StyledIcon = styled.h1`
-  color: #AEBD38;
+  color: #05668d;
   `
 
   const StyledAlert = styled(Alert)`
@@ -145,10 +144,10 @@ function SquadDND({ id }) {
 
   const getUnplacedItemStyle = (isDragging, draggableStyle) => ({
     userSelect: "none",
-    padding: "5px 8px",
+    padding: "2px 8px",
     margin: `0 ${grid}px 0 0`,
     borderRadius: ".25rem",
-    background: isDragging ? "#fff" : "#fff",
+    background: isDragging ? "none" : "none",
     ...draggableStyle
   });
 
@@ -156,9 +155,10 @@ function SquadDND({ id }) {
     background: isDraggingOver ? "#fff" : "#fff",
     display: "flex",
     padding: grid,
+    height: '4rem',
     overflow: "auto",
     width: "100%",
-    border: isDraggingOver ? "2px dashed black" : "none"
+    border: isDraggingOver ? "4px dashed #AEBD38" : "4px dashed #eee"
   });
 
   const [state, setState] = useState({

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+//Packages
+import Moment from "react-moment";
+import "moment-timezone";
 //Local
 import CreatePFT from "./components/CreatePFT";
 import CreateCFT from "./components/CreateCFT";
@@ -11,6 +14,15 @@ import Banner from "../../components/Banner";
 import Card from "../../components/Card";
 
 function MarinePage(props) {
+  const calendarStrings = {
+    lastDay: "[Yesterday at] LT",
+    sameDay: "[Today at] HHmm",
+    nextDay: "[Tomorrow at] LT",
+    lastWeek: "[last] dddd [at] LT",
+    nextWeek: "dddd [at] LT",
+    sameElse: "L"
+  };
+
   const componentIsMounted = useRef(true);
   const [marineData, setMarineData] = useState([]);
   const location = useLocation();
@@ -29,14 +41,36 @@ function MarinePage(props) {
       componentIsMounted.current = false;
     };
   }, [location, props.match.params.id]);
-
+  console.log(marineData);
   return (
     <>
-      <Banner>
-        <strong>{marineData.rank}</strong>
-        {marineData.last}
+      <Banner secondary>
+        {marineData.rank} {marineData.last}
       </Banner>
       <Flex justifyAround>
+        <Card primary noAnimation>
+          <Banner secondary>Accountability</Banner>
+          <Banner small header>
+            <br />
+
+            {marineData.accountability && (
+              <>
+                <strong>
+                  {marineData.accountability.accountedFor
+                    ? <><i className="material-icons">check_circle_outline</i> accounted</>
+                    : <><i className="material-icons">help_outline</i> unaccounted</>}
+                    <br/>
+                
+                <br />
+                since 
+                <Moment calendar={calendarStrings}>
+                    {marineData.accountability.date}
+                </Moment>
+                </strong>
+              </>
+            )}
+          </Banner>
+        </Card>
         <Card primary noAnimation>
           <Banner secondary>Weapons</Banner>
         </Card>
@@ -47,6 +81,7 @@ function MarinePage(props) {
           <Banner secondary>Body</Banner>
 
           <CreatePFT />
+          <CreateCFT />
         </Card>
       </Flex>
     </>

@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container } from "reactstrap";
-//Local
+//Local components
 import SquadCarousel from "./components/SquadCarousel";
-import SquadMorningReport from "./components/SquadMorningReport";
 import SquadDND from "./components/SquadDND";
 import CreateMarine from "../MarinePage/components/CreateMarine";
 import SquadTable from "./components/SquadTable";
-//Global
+//Global components
 import Button from "../../components/Button";
-import ButtonGroup from "../../components/ButtonGroup";
 import Flex from "../../components/Flex";
 //Services
 import {
@@ -30,7 +28,6 @@ function SquadPage(props) {
       setCurrentView(evt.target.id);
     }
   };
-  console.log(currentView)
 
   useEffect(() => {
     getSquadById(props.match.params.id).then(res => {
@@ -57,13 +54,14 @@ function SquadPage(props) {
 
   return (
     <>
-      {!!squadData && (
+
+{!!squadData && (
         <SquadCarousel callsign={squadData.callsign} 
                         data={marineData} 
                         handleSetCurrentView={handleSetCurrentView}
                         />
       )}
-
+      
       <Container>
         <Flex justifyBetween>
           <Button id="addMarine" onClick={handleSetCurrentView}>
@@ -78,15 +76,15 @@ function SquadPage(props) {
         </Flex>
       </Container>
      
+     
 
       {currentView === "addMarine" && 
       <CreateMarine id={squadData._id} />}
-      {currentView === "accountability" && 
-      <SquadMorningReport marines={marineData}/>}
       {currentView === "viewAll" && (
       <SquadTable id={squadData._id} marines={marineData} />)}
       {currentView === "dragAndDrop" && 
       <SquadDND id={squadData._id} />}
+      
       
     </>
   );

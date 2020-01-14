@@ -8,7 +8,7 @@ display: inline-block;
 text-align: center;
 font-size: 12px;
 margin-left: 1rem;
-color: #000;
+color: #05668d;
 font-weight: 800;
 
 `

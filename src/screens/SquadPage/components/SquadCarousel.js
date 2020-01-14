@@ -27,8 +27,10 @@ float:left;
 background-color: red;
 padding: 10px;
 background: ${props => {
-  if (props.secondary) return '#aebd38'
-  return '#505160'}}
+    if (props.secondary) return "#aebd38";
+    return "#505160";
+  }}
+
 text-align:center
 display:block;
 height: 8rem;
@@ -46,85 +48,95 @@ border-right: none
     font-weight: 600;
   `;
 
+
   return (
     <div>
+     
       <Banner secondary>{callsign}overview</Banner>
+        <Carousel
+          centerMode
+          centerSlidePercentage={100}
+          showStatus={false}
+          showIndicators={false}
+          infiniteLoop
+          emulateTouch
+          showThumbs={false}
+        >
+          <div>
+            <StatsContainer>
+              <Stats>
+                <Header>Accountability</Header>
+                <br />
+                {data && data.length ? (
+                  <>
+                    {data.filter(d => d.accountability.accountedFor).length}/
+                    {data.length}
+                  </>
+                ) : (
+                  '-'
+                )}
+              </Stats>
 
-      <Carousel
-        centerMode
-        centerSlidePercentage={100}
-        showStatus={false}
-        showIndicators={false}
-        infiniteLoop
-        emulateTouch
-        showThumbs={false}
-      >
-        <div>
-          <StatsContainer>
-            <Stats>
-              <Header>Accountability</Header>
-              <br />
-              {data && data.length ? (
-                <>
-                  {data.filter(d => d.accountability.accountedFor).length}/
-                  {data.length}
-                  
-                  <br />
-                  <i
-                    className="material-icons"
-                    id="accountability"
-                    onClick={handleSetCurrentView}
-                  >
-                    arrow_right_alt
-                  </i>
-                </>
-              ) : (
-                <Loader white></Loader>
-              )}
-            </Stats>
+              <Stats>
+                <Header>Appointments</Header>
+                <br />
+                {data && data.appointments ? (
+                  <>
+                    {data.filter(d => d.appointments.length)}
+                    {data.appointments.length}
 
-            <Stats>
-              <Header>Appointments</Header>
-              <br />-
-            </Stats>
-            <Stats>
-              <Header>Discrepancies</Header>
-              <br />-
-            </Stats>
-          </StatsContainer>
-        </div>
-        <div>
-          <StatsContainer>
-            <Stats>
-              <Header>Something</Header>
-              <br />
-              Interesting
-            </Stats>
-            <Stats>
-              <Header>Else</Header>
-              <br />
-              Would be
-            </Stats>
-            <Stats>
-              <Header>Here</Header>
-              <br />!
-            </Stats>
-          </StatsContainer>
-        </div>
-        <div>
-          <StatsContainer>
-            <Stats secondary>
-              <Button secondary>Generate Zap #</Button>
-            </Stats>
-            <Stats secondary>
-              <Button secondary>Morning Report</Button>
-            </Stats>
-            <Stats secondary>
-              <Button secondary>Appointment List</Button>
-            </Stats>
-          </StatsContainer>
-        </div>
-      </Carousel>
+                    <br />
+                    <i
+                      className="material-icons"
+                      id="accountability"
+                      onClick={handleSetCurrentView}
+                    >
+                      arrow_right_alt
+                    </i>
+                  </>
+                ) : (
+                  '-'
+                )}
+              </Stats>
+              <Stats>
+                <Header>Discrepancies</Header>
+                <br />-
+              </Stats>
+            </StatsContainer>
+          </div>
+          <div>
+            <StatsContainer>
+              <Stats>
+                <Header>Something</Header>
+                <br />
+                Interesting
+              </Stats>
+              <Stats>
+                <Header>Else</Header>
+                <br />
+                Would be
+              </Stats>
+              <Stats>
+                <Header>Here</Header>
+                <br />!
+              </Stats>
+            </StatsContainer>
+          </div>
+          <div>
+            <StatsContainer>
+              <Stats secondary>
+                <Button secondary>Generate Zap #</Button>
+              </Stats>
+              <Stats secondary>
+                <Button secondary>Morning Report</Button>
+              </Stats>
+              <Stats secondary>
+                <Button secondary>Appointment List</Button>
+              </Stats>
+            </StatsContainer>
+          </div>
+        </Carousel>
+    
     </div>
   );
 }

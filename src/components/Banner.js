@@ -11,7 +11,6 @@ text-align: center;
 float: center;
 `
 const Header = styled.h4 `
-font-size: 32px;
 font-weight: ${props => {
   if (props.secondary) return '400'
   return '100'
@@ -24,6 +23,7 @@ border-bottom: ${props => {
 }}
 font-size: ${props => {
   if (props.secondary) return '20px'
+  if (props.small) return '14px'
   return '32px'
 }}
 `
@@ -33,7 +33,7 @@ const Banner = props => {
   return (
 
       <Wrapper>
-        <Header header={props.header} secondary={props.secondary}>{props.children}</Header>
+        <Header header={props.header} small={props.small} secondary={props.secondary}>{props.children}</Header>
       </Wrapper>
  
   )

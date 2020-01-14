@@ -18,8 +18,6 @@ import SearchResults from "./components/SearchResults";
 //Services
 import { getMarinesBySearchInput } from "./services/marineServices";
 //Media
-import GTLOGO from "./images/GT_Logo.png";
-import GTBG from "./images/GT_Bg.png";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -34,10 +32,15 @@ const Header = styled.div`
   justify-content: center;
   flex-direction: row;
   wrap: no-wrap;
-  margin-bottom: 1rem;
-  height: 5rem;
+  margin-bottom: 2rem;
+  height: 3rem;
   width: 100vw;
   background-color: #fff;
+
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg fill-opacity='0.31'%3E%3Cpolygon fill='%239da93e' points='800 100 0 200 0 800 1600 800 1600 200'/%3E%3Cpolygon fill='%238d9542' points='800 200 0 400 0 800 1600 800 1600 400'/%3E%3Cpolygon fill='%237c8244' points='800 300 0 600 0 800 1600 800 1600 600'/%3E%3Cpolygon fill='%236c6f46' points='1600 800 800 400 0 800'/%3E%3Cpolygon fill='%235b5d46' points='1280 800 800 500 320 800'/%3E%3Cpolygon fill='%234b4b46' points='533.3 800 1066.7 800 800 600'/%3E%3Cpolygon fill='%23393a45' points='684.1 800 914.3 800 800 700'/%3E%3C/g%3E%3C/svg%3E");
+background-attachment: fixed;
+background-size: cover;
+
 `;
 
 const Footer = styled.div`
@@ -73,10 +76,11 @@ const App = () => {
     <Router>
       <LayoutContainer>
         <Header>
-       
-          <Flex justifyBetween>
-          <Banner>grunt</Banner> <Logo/><Banner>tracker</Banner>
-          <SearchBar hovered onChange={handleSearch} value={marineSearch}/>
+        <Flex justifyCenter alignCenter>
+          <Banner>grunt</Banner> <Logo />
+          <Banner>tracker</Banner>
+        </Flex>
+          <SearchBar hovered onChange={handleSearch} value={marineSearch} />
           {!!marineSearch.length && (
             <SearchResults
               isOpen={dropdownOpen}
@@ -85,12 +89,10 @@ const App = () => {
               handleClick={handleClick}
             />
           )}
-          {/* <Banner intro>grunt<strong>tracker</strong></Banner> */}
-       
-          </Flex>
-          
+
         </Header>
 
+      
         <Main>
           <Route exact path="/" component={Home} />
           <Route path="/create-squad" component={CreateSquad} />

@@ -21,7 +21,10 @@ const MarineSchema = new mongoose.Schema(
     edipi: {type: String},
     blood_type: {type: String},
     religion: {type: String},
-    accountability: AccountabilitySchema,
+    accountability: {
+        accountedFor: {type: Boolean, default: false},
+        date: {type: Date}
+    },
 
     appointments: [
         {

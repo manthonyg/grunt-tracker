@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Flex from "../../components/Flex";
+
 import { Alert } from "reactstrap";
+//Global components
+import Flex from "../../components/Flex";
+import Logo from "../../components/Logo";
 import PulsingArrow from "../../components/PulsingArrow";
 import Banner from "../../components/Banner";
 import Card from "../../components/Card";
+//Services
 import { deleteSquadById } from "../../services/squadServices";
 
 function MainPage() {

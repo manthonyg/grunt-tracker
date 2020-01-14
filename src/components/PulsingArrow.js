@@ -31,7 +31,7 @@ function PulsingArrow() {
     position: absolute;
     width: 60px;
     height: 60px;
-    border: 2px solid black;
+    border: 2px solid #68829e;
     border-radius: 50%;
   `;
   const ArrowDown = styled.div`
@@ -40,8 +40,8 @@ function PulsingArrow() {
     bottom: 24px;
     width: 20px;
     height: 20px;
-    border-top: 3px solid black;
-    border-right: 3px solid black;
+    border-top: 3px solid #68829e;
+    border-right: 3px solid #68829e;
     right: 19px;
     -moz-transform: rotate(135deg);
     -webkit-transform: rotate(135deg);

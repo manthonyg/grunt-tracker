@@ -13,7 +13,7 @@ const StyledButton = styled.button`
     return "#fff";
   }};
 
-  margin: 0.25rem 0.25rem 0.25rem 0;
+  margin: 0.25rem 0.10rem;
   color: ${props => {
     if (props.secondary) return "#fff";
     return "#000";
@@ -26,6 +26,10 @@ const StyledButton = styled.button`
   }};
   border-radius: 3px;
   outline: none;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
   cursor: pointer;
   &:hover {
     background-color: #aebd38;
