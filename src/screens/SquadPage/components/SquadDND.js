@@ -109,7 +109,6 @@ function SquadDND({ id }) {
     align-items: center;
     border-radius: .10rem;
     background: #AEBD38;
-    border: #505160 2px solid;
     color: #000;
     display: flex;
     font-weight: 300;
@@ -127,7 +126,10 @@ function SquadDND({ id }) {
 
   const StyledAlert = styled(Alert)`
     z-index: 10000;
-    background-color: #AEBD38
+    border: #05668d 4px solid !important;
+    background-color: #fff !important;
+    color: #AEBD38 !important;
+
   `;
   const grid = 4;
 
@@ -313,7 +315,7 @@ function SquadDND({ id }) {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <StyledAlert color="success" isOpen={toastVisible} toggle={onDismiss}>
+      <StyledAlert isOpen={toastVisible} toggle={onDismiss}>
         Marine Successfully Deleted
       </StyledAlert>
       <Flex justifyAround>

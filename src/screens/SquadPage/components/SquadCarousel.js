@@ -6,7 +6,6 @@ import { Carousel } from "react-responsive-carousel";
 //Global components
 import Banner from "../../../components/Banner";
 import Button from "../../../components/Button";
-import Loader from "../../../components/Loader";
 
 function SquadCarousel({ data, callsign, handleSetCurrentView }) {
   const Header = styled.h4`

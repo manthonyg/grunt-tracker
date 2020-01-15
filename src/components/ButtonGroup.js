@@ -1,6 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components";
-import Loader from "./Loader";
+import styled from "styled-components";
 import Button from './Button';
 
 const ButtonGroupWrapper = styled.div`

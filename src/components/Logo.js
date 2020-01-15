@@ -46,7 +46,7 @@ function Logo() {
               alt="Grunt Tracker"
               src={GTLogo}
               style={{
-              width: "1.75rem"
+              width: "2rem"
               }}
             />
 

@@ -12,6 +12,7 @@ import Flex from "../../components/Flex";
 import CreateAppointment from "./components/CreateAppointment";
 import Banner from "../../components/Banner";
 import Card from "../../components/Card";
+import Icon from "../../components/Icon";
 
 function MarinePage(props) {
   const calendarStrings = {
@@ -57,7 +58,7 @@ function MarinePage(props) {
               <>
                 <strong>
                   {marineData.accountability.accountedFor
-                    ? <><i className="material-icons">check_circle_outline</i> accounted</>
+                    ? <><Icon success>check_circle_outline</Icon> accounted</>
                     : <><i className="material-icons">help_outline</i> unaccounted</>}
                     <br/>
                 
@@ -79,9 +80,12 @@ function MarinePage(props) {
         </Card>
         <Card primary noAnimation>
           <Banner secondary>Body</Banner>
-
           <CreatePFT />
           <CreateCFT />
+        </Card>
+        <Card primary noAnimation>
+          <Banner secondary>Appointments</Banner>
+          <CreateAppointment/>
         </Card>
       </Flex>
     </>

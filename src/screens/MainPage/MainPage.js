@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
-import { Alert } from "reactstrap";
 //Global components
 import Flex from "../../components/Flex";
-import Logo from "../../components/Logo";
+import Alert from "../../components/Alert";
 import PulsingArrow from "../../components/PulsingArrow";
 import Banner from "../../components/Banner";
 import Card from "../../components/Card";
@@ -69,7 +67,7 @@ function MainPage() {
           </>
         )}
       </Flex>
-      <Alert color="success" isOpen={visible} toggle={onDismiss}>
+      <Alert success isOpen={visible} toggle={onDismiss}>
         Squad Successfully Deleted
       </Alert>
     </>

@@ -18,12 +18,14 @@ const SearchContainer = styled.div`
     box-sizing: border-box;
   }
   :focus {
-    background: none;
+    background: #fff;
     color: #ffffff;
     outline: 0;
   }
   :hover {
     width: 200px;
+    background: #fff;
+    border-radius: .5rem 0 0 .5rem;
     border-bottom: 3px solid #aebd38;
   }
 `;
