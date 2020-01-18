@@ -5,7 +5,7 @@
 
 | DND Feature Started | Reworked UI/DND Finished |
 | ------ | ------ |
-| ![](./src/docs/1229_2.webm) | ![](.src/docs/GT_Update20200115.gif) |
+| ![](./src/docs/1229_2.webm) | ![](.src/docs/GTUpdate20200115.gif) |
 
 ## 12/13 Update
 
