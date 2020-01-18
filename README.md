@@ -1,11 +1,11 @@
 # GruntTracker
 
-## 12/29 Update
+## 12/29 - 01/15 Update
 
 
-| DND Feature | | |
-| ------ | ------ | ------ |
-| ![](./src/docs/1229_2.webm) | | |
+| DND Feature Started | Reworked UI/DND Finished |
+| ------ | ------ |
+| ![](./src/docs/1229_2.webm) | ![](./src/docs/GT_Update20200115.webm) |
 
 ## 12/13 Update
 
