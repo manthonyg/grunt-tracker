@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Container } from "reactstrap";
 //Local components
 import SquadCarousel from "./components/SquadCarousel";
@@ -14,78 +14,85 @@ import {
   getSquadById
 } from "../../services/squadServices";
 
-function SquadPage(props) {
+export const SquadPageContext = React.createContext();
 
-  
+function SquadPage(props) {
   const componentIsMounted = useRef(true);
 
-  const [squadData, setSquadData] = useState([]);
   const [marineData, setMarineData] = useState([]);
-
+  const [squadData, setSquadData] = useState([]);
   const [currentView, setCurrentView] = useState("viewAll");
+  const [stateIsUpdated, setStateIsUpdated] = useState(true)
+
+  const providerValue = React.useMemo(() => ({
+    marineData, setMarineData,
+    squadData, setSquadData,
+    currentView, setCurrentView,
+    stateIsUpdated, setStateIsUpdated
+}), [marineData, squadData, currentView, stateIsUpdated]);
+console.log(stateIsUpdated)
+  
+
   const handleSetCurrentView = evt => {
     if (!!evt.target.id) {
       setCurrentView(evt.target.id);
-    }
-  };
+      }}
 
   useEffect(() => {
+
     getSquadById(props.match.params.id).then(res => {
       if (componentIsMounted.current) {
         setSquadData(res);
       }
-    });
+    })
+    .catch(err => (console.log('Error in getSquadById: ', err)));
+
+    getAllMarinesInSquad(props.match.params.id).then(res => {
+      if (componentIsMounted.current) {
+        setMarineData(res);
+      }
+    })
+    .catch(err => (console.log('Error in getAllMarinesInSquad: ', err)));
+
     return () => {
       componentIsMounted.current = false;
+      console.log('cleaned up in squad page')
     };
-  }, [props.match.params.id, currentView]);
+  }, [props.match.params.id, currentView, stateIsUpdated]);
 
-  useEffect(() => {
-    getAllMarinesInSquad(props.match.params.id).then(res => {
-      setMarineData(res);
-    });
-  }, [props.match.params.id, squadData, currentView]);
-  console.table("marine data is now", marineData);
-
-  const [toggleRemove, setToggleRemove] = useState(false);
-  const handleSetToggleRemove = () => {
-    setToggleRemove(!toggleRemove);
-  };
 
   return (
     <>
+      <SquadPageContext.Provider value={providerValue}>
+        
+        <SquadCarousel
+          handleSetCurrentView={handleSetCurrentView}
+          squadData={squadData}
+          marineData={marineData}
+        />
 
-{!!squadData && (
-        <SquadCarousel callsign={squadData.callsign} 
-                        data={marineData} 
-                        handleSetCurrentView={handleSetCurrentView}
-                        />
-      )}
-      
-      <Container>
-        <Flex justifyBetween>
-          <Button id="addMarine" onClick={handleSetCurrentView}>
-            Add Member
-          </Button>
-          <Button id="viewAll" onClick={handleSetCurrentView}>
-            View All
-          </Button>
-          <Button id="dragAndDrop" onClick={handleSetCurrentView}>
-            Change T/O
-          </Button>
-        </Flex>
-      </Container>
-     
-     
+        <Container>
+          <Flex justifyBetween>
+            <Button id="addMarine" onClick={handleSetCurrentView}>
+              Add Member
+            </Button>
+            <Button id="viewAll" onClick={handleSetCurrentView}>
+              View All
+            </Button>
+            <Button id="dragAndDrop" onClick={handleSetCurrentView}>
+              Change T/O
+            </Button>
+          </Flex>
+        </Container>
 
-      {currentView === "addMarine" && 
-      <CreateMarine id={squadData._id} />}
-      {currentView === "viewAll" && (
-      <SquadTable id={squadData._id} marines={marineData} />)}
-      {currentView === "dragAndDrop" && 
-      <SquadDND id={squadData._id} />}
-      
-      
+        {currentView === "addMarine" && 
+        <CreateMarine id={squadData._id} />}
+        {currentView === "viewAll" &&
+        <SquadTable id={squadData._id} />}
+        {currentView === "dragAndDrop" &&
+        <SquadDND id={squadData._id}/>
+}
+      </SquadPageContext.Provider>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 //Packages
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -6,9 +6,9 @@ import { Carousel } from "react-responsive-carousel";
 //Global components
 import Banner from "../../../components/Banner";
 import Button from "../../../components/Button";
+import { SquadPageContext } from "../SquadPage";
 
-function SquadCarousel({ data, callsign, handleSetCurrentView }) {
-  const Header = styled.h4`
+const Header = styled.h4`
     text-align: center;
     color: #fff;
     font-weight: 700;
@@ -48,94 +48,101 @@ border-right: none
   `;
 
 
+function SquadCarousel({ handleSetCurrentView }) {
+
+  const dataProvider = React.useContext(SquadPageContext)
+
+  const marineData = dataProvider.marineData
+  const squadData = dataProvider.squadData
+
+
   return (
     <div>
-     
-      <Banner secondary>{callsign}overview</Banner>
-        <Carousel
-          centerMode
-          centerSlidePercentage={100}
-          showStatus={false}
-          showIndicators={false}
-          infiniteLoop
-          emulateTouch
-          showThumbs={false}
-        >
-          <div>
-            <StatsContainer>
-              <Stats>
-                <Header>Accountability</Header>
-                <br />
-                {data && data.length ? (
-                  <>
-                    {data.filter(d => d.accountability.accountedFor).length}/
-                    {data.length}
-                  </>
-                ) : (
-                  '-'
-                )}
-              </Stats>
+      <Banner secondary>{squadData.callsign}overview</Banner>
+      <Carousel
+       showStatus={false}
+       showIndicators={false}
+       showThumbs={false}
+       centerMode
+       centerSlidePercentage={100}
+       infiniteLoop
+       emulateTouch
+      >
+        <div>
+          <StatsContainer>
+            <Stats>
+              <Header>Accountability</Header>
+              <br />
+              {marineData && marineData.length ? (
+                <>
+                  <Banner white>{marineData.filter(m => m.accountability.accountedFor).length}/
+                  {marineData.length}</Banner>
+                </>
+              ) : (
+                "-"
+              )}
+            </Stats>
 
-              <Stats>
-                <Header>Appointments</Header>
-                <br />
-                {data && data.appointments ? (
-                  <>
-                    {data.filter(d => d.appointments.length)}
-                    {data.appointments.length}
+            <Stats>
+              <Header>Appointments</Header>
+              <br />
+              {marineData && marineData.appointments ? (
+                <>
+                  {marineData.filter(d => d.appointments.length)}
+                  {marineData.appointments.length}
 
-                    <br />
-                    <i
-                      className="material-icons"
-                      id="accountability"
-                      onClick={handleSetCurrentView}
-                    >
-                      arrow_right_alt
-                    </i>
-                  </>
-                ) : (
-                  '-'
-                )}
-              </Stats>
-              <Stats>
-                <Header>Discrepancies</Header>
-                <br />-
-              </Stats>
-            </StatsContainer>
-          </div>
-          <div>
-            <StatsContainer>
-              <Stats>
-                <Header>Something</Header>
-                <br />
-                Interesting
-              </Stats>
-              <Stats>
-                <Header>Else</Header>
-                <br />
-                Would be
-              </Stats>
-              <Stats>
-                <Header>Here</Header>
-                <br />!
-              </Stats>
-            </StatsContainer>
-          </div>
-          <div>
-            <StatsContainer>
-              <Stats secondary>
-                <Button secondary>Generate Zap #</Button>
-              </Stats>
-              <Stats secondary>
-                <Button secondary>Morning Report</Button>
-              </Stats>
-              <Stats secondary>
-                <Button secondary>Appointment List</Button>
-              </Stats>
-            </StatsContainer>
-          </div>
-        </Carousel>
-    
+                  <br />
+                  <i
+                    className="material-icons"
+                    id="accountability"
+                    onClick={handleSetCurrentView}
+                  >
+                    arrow_right_alt
+                  </i>
+                </>
+              ) : (
+                "-"
+              )}
+            </Stats>
+            <Stats>
+              <Header>Discrepancies</Header>
+              <br />-
+            </Stats>
+          </StatsContainer>
+        </div>
+        <div>
+          <StatsContainer>
+            <Stats>
+              <Header>Header</Header>
+              <br />
+              Body
+            </Stats>
+            <Stats>
+              <Header>Header</Header>
+              <br />
+              Body
+            </Stats>
+            <Stats>
+              <Header>Header</Header>
+              <br />
+              Body
+            </Stats>
+          </StatsContainer>
+        </div>
+        <div>
+          <StatsContainer>
+            <Stats secondary>
+              <Button secondary>Generate 1#</Button>
+            </Stats>
+            <Stats secondary>
+              <Button secondary>Generate 2#</Button>
+            </Stats>
+            <Stats secondary>
+              <Button secondary>Generate 3#</Button>
+            </Stats>
+          </StatsContainer>
+        </div>
+      </Carousel>
     </div>
   );
 }

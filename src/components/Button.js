@@ -13,7 +13,7 @@ const StyledButton = styled.button`
     return "#fff";
   }};
 
-  margin: 0.25rem 0.10rem;
+  margin: 0.25rem 0.1rem;
   color: ${props => {
     if (props.secondary) return "#fff";
     return "#000";

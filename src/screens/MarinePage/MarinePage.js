@@ -4,10 +4,10 @@ import { useLocation } from "react-router-dom";
 //Packages
 import Moment from "react-moment";
 import "moment-timezone";
-//Local
+//Local components
 import CreatePFT from "./components/CreatePFT";
 import CreateCFT from "./components/CreateCFT";
-//Global
+//Global components
 import Flex from "../../components/Flex";
 import CreateAppointment from "./components/CreateAppointment";
 import Banner from "../../components/Banner";
@@ -57,16 +57,20 @@ function MarinePage(props) {
             {marineData.accountability && (
               <>
                 <strong>
-                  {marineData.accountability.accountedFor
-                    ? <><Icon success>check_circle_outline</Icon> accounted</>
-                    : <><i className="material-icons">help_outline</i> unaccounted</>}
-                    <br/>
-                
-                <br />
-                since 
-                <Moment calendar={calendarStrings}>
-                    {marineData.accountability.date}
-                </Moment>
+                  {marineData.accountability.accountedFor ? (
+                    <>
+                      <Icon success>check_circle_outline</Icon> accounted
+                    </>
+                  ) : (
+                    <>
+                      <i className="material-icons">help_outline</i> unaccounted
+                    </>
+                  )}
+                  <br />
+                  <br />
+                  since <Moment calendar={calendarStrings}>
+                 {marineData.accountability.date}
+                  </Moment>
                 </strong>
               </>
             )}
@@ -85,7 +89,7 @@ function MarinePage(props) {
         </Card>
         <Card primary noAnimation>
           <Banner secondary>Appointments</Banner>
-          <CreateAppointment/>
+          <CreateAppointment />
         </Card>
       </Flex>
     </>

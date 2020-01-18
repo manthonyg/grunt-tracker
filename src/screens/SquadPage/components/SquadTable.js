@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useContext
+} from "react";
 import { Link } from "react-router-dom";
 //Packages
 import { Table } from "reactstrap";
@@ -7,87 +9,109 @@ import styled from "styled-components";
 import Banner from "../../../components/Banner";
 //Services
 import { updateMarineById } from "../../../services/marineServices";
+import { getAllMarinesInSquad } from "../../../services/squadServices";
+//Context
+import { SquadPageContext } from "../SquadPage";
 
 const Switch = styled.input.attrs({ type: "checkbox" })`
-	-webkit-appearance: none;
-	   -moz-appearance: none;
-	        appearance: none;
-	width: 3.5em;
-	height: 1.5em;
-	background: #ddd;
-	border-radius: 3em;
-	position: relative;
-	cursor: pointer;
-	outline: none;
-	-webkit-transition: all .2s ease-in-out;
-	transition: all .2s ease-in-out;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 3.5em;
+  height: 1.5em;
+  background: #ddd;
+  border-radius: 3em;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
-    &::after {
-      position: absolute;
-      content: "";
-      width: 1.5em;
-      height: 1.5em;
-      border-radius: 50%;
-      background: #fff;
-      box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.3);
-      transform: scale(0.7);
-      left: 0;
-      transition: all 0.2s ease-in-out;
-    }
+  &::after {
+    position: absolute;
+    content: "";
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.3);
+    transform: scale(0.7);
+    left: 0;
+    transition: all 0.2s ease-in-out;
+  }
 
-    &:checked {
-      background: #aebd38;
-    }
+  &:checked {
+    background: #aebd38;
+  }
 
-    &:checked:after {
-      left: calc(100% - 1.5em);
-    }
-  `;
+  &:checked:after {
+    left: calc(100% - 1.5em);
+  }
+`;
 
-  const StyledLink = styled(Link)`
+const StyledLink = styled(Link)`
   color: #68829e;
 `;
 
-function SquadTable({ marines }) {
+function SquadTable() {
+  const dataProvider = useContext(SquadPageContext);
 
-const [ accountability, setAccountability ] = 
-useState(marines
-  .map(marine => 
-({id: marine._id, checked: marine.accountability.accountedFor})))
+  const marineData = dataProvider.marineData;
+  const setMarineData = dataProvider.setMarineData;
+  const squadData = dataProvider.squadData;
+  const setSquadData = dataProvider.setSquadData;
+  const stateIsUpdated = dataProvider.stateIsUpdated;
+  const setStateIsUpdated = dataProvider.setStateIsUpdated;
+
+  // const _tempMarineData = marineData
+  // .filter(marine => marine._id === id)
+  // .map(marine => {
+  //   return {
+  //     ...marine,
+  //     accountability: {accountedFor: checked}
+  //   }})
+
+  // setMarineData(prevState => {
+  //   return {
+  //     ...prevState,
+  //     ..._tempMarineData
+  //   }
+  // })
+
+  // console.log('marineData', marineData)
+  // console.log('_tempData', _tempMarineData)
 
   const handleChange = evt => {
-    const id = evt.target.id
-    const checked = evt.target.checked
+    const id = evt.target.id;
+    const checked = evt.target.checked;
 
-    setAccountability(prevState => {
-      return {
-        ...prevState,
-        id: id,
-        checked: checked
-      }
-    })
-    console.log(accountability)
-  }
+    setMarineData(
+      marineData
+        .filter(marine => marine._id === id)
+        .map(marine => {
+          return {
+            ...marine,
+            accountability: { accountedFor: checked }
+          };
+        })
+    );
 
-  useEffect(() => {
-const current_datetime = new Date()
-let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds() 
-console.log(formatted_date)
-const data = {
-  id: accountability.id,
-  accountedFor: accountability.checked,
-  date: formatted_date
-}
-updateMarineById(data.id, data)
-.then(res => console.log(res))
-.catch(err => console.log(err))
+    const current_date = new Date();
 
-return () => {console.log('cleanup')}
+    const data = {
+      id: id,
+      accountedFor: checked,
+      date: current_date
+    };
 
-  }, [accountability])
+    updateMarineById(data.id, data)
+      .then(res => console.log(res))
+      .catch(err => console.log("Error while updating marine by id: ", err));
+  };
+
   return (
     <Table responsive>
-      {!!marines && marines.length ? (
+      {!!marineData && !!marineData.length ? (
         <thead>
           <tr>
             <th>#</th>
@@ -99,34 +123,34 @@ return () => {console.log('cleanup')}
       ) : (
         <Banner secondary>Add Members to Squad</Banner>
       )}
-      <tbody>
-        {marines.map((marine, i) => (
-          <tr>
-            <th scope="row">
-           
-                {i + 1}
-         
-            </th>
-            <td>{marine.rank}</td>
-            <td>{marine.last}</td>
-            <td>
-            <Switch
-              defaultChecked={marine.accountability.accountedFor}
-              id={marine._id}
-              // checked={isChecked}
-              onChange={handleChange}
-            />
-            </td>
-            <td> <StyledLink
-                key={`${marine._id}`}
-                to={`/show-marine/${marine._id}`}
-              >
-               
-                <i class="material-icons">exit_to_app</i>
-              </StyledLink></td>
-          </tr>
-        ))}
-      </tbody>
+
+      {!!marineData && !!marineData.length && (
+        <tbody>
+          {marineData.map((marine, i) => (
+            <tr key={marine._id}>
+              <th scope="row">{i + 1}</th>
+              <td>{marine.rank}</td>
+              <td>{marine.last}</td>
+              <td>
+                <Switch
+                  key={marine._id}
+                  checked={marine.accountability.accountedFor}
+                  id={marine._id}
+                  onChange={handleChange}
+                />
+              </td>
+              <td>
+                <StyledLink
+                  key={`${marine._id}`}
+                  to={`/show-marine/${marine._id}`}
+                >
+                  <i className="material-icons">exit_to_app</i>
+                </StyledLink>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      )}
     </Table>
   );
 }

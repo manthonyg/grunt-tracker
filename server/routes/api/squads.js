@@ -41,6 +41,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   Squad
     .findById(req.params.id)
+    .populate(['teams.teamHq', 'teams.teamOne', 'teams.teamTwo', 'teams.teamThree'])
     .then(squad => res.json(squad))
     .catch(err => res.status(404).json({error: 'No Squad found'}));
 });
@@ -56,19 +57,15 @@ router.get('/:id/marines', (req, res) => {
     .catch(err => res.status(400).json({error: 'Unable to find team'}));
 });
 
-// route POST api/squads/id/teams/ 
-// description update teams
+// route: PUT api/squads/id/teams/ 
+// description: update teams
+// services: squadServices/updateSquadById
 router.put('/:id/teams/', (req, res) => {
   Squad
-    .findByIdAndUpdate(req.params.id, {
-    $set: {
-      'teams': req.body
-    }
-  })
+    .findByIdAndUpdate(req.params.id, req.body)
     .then(squad => res.json({msg: 'Squad added successfully'}))
     .catch(err => res.status(400).json({error: 'Unable to add Squad'}));
 });
-
 
 
 // route PUT id/teams/add 

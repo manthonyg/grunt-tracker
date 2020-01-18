@@ -38,3 +38,14 @@ export const updateMarineById = async (id, data) => {
     console.log(err);
   }
 };
+
+export const deleteMarineById = async (marineId, squadId) => {
+  const settings = {
+    method: "DELETE"
+  };
+
+  const response = await fetch(`${marineURI}/${marineId}/${squadId}`, settings);
+  const responseSquad = await response.json();
+  return responseSquad;
+};
+

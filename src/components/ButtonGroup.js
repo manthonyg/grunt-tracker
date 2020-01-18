@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Button from './Button';
+import Button from "./Button";
 
 const ButtonGroupWrapper = styled.div`
   display: inline-flex;
@@ -9,7 +9,6 @@ const ButtonGroupWrapper = styled.div`
   display: flex;
   flex-grow: 1;
 `;
-
 
 const ButtonGroup = props => {
   return (

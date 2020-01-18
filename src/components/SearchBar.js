@@ -25,7 +25,7 @@ const SearchContainer = styled.div`
   :hover {
     width: 200px;
     background: #fff;
-    border-radius: .5rem 0 0 .5rem;
+    border-radius: 0.5rem 0 0 0.5rem;
     border-bottom: 3px solid #aebd38;
   }
 `;

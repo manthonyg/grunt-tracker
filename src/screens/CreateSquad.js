@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+//Packages
 import { FormGroup, Label, Input, Container } from "reactstrap";
 import { Alert } from "reactstrap";
+//Global components
 import Loader from "../components/Loader";
 import Banner from "../components/Banner";
 import Button from "../components/Button";
 import Flex from "../components/Flex";
+//Services
+import { createSquad } from "../services/squadServices";
+
 function CreateSquad(props) {
   const [squadData, setSquadData] = useState({
     company: "",
@@ -14,7 +18,6 @@ function CreateSquad(props) {
     platoon: "",
     callsign: ""
   });
-  console.log(squadData);
 
   const handleChange = evt => {
     const name = evt.target.name;
@@ -34,8 +37,7 @@ function CreateSquad(props) {
       callsign: squadData.company + squadData.platoon + squadData.squad
     };
 
-    axios
-      .post("http://localhost:8082/api/squads", data)
+    createSquad(data)
       .then(res => {
         setSquadData({
           company: "",

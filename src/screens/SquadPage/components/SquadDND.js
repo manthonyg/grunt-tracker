@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 //Packages
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled, { keyframes, css } from "styled-components";
@@ -8,11 +7,12 @@ import { Alert } from "reactstrap";
 import Badge from "../../../components/Badge";
 import Flex from "../../../components/Flex";
 //Services
-import { getSquadsTeamsById, updateSquadById } from "../../../services/squadServices";
+import { updateSquadById } from "../../../services/squadServices";
+import { deleteMarineById } from "../../../services/marineServices";
+//Context
+import { SquadPageContext } from "../SquadPage";
 
-
-function SquadDND({ id }) {
-  const wobble = keyframes`
+const wobble = keyframes`
   {
     0% {
               transform: translate(0);
@@ -35,11 +35,11 @@ function SquadDND({ id }) {
   }
   `;
 
-  const wobbleEffect = css`
-    animation: ${wobble} 0.5s infinite;
-  `;
+const wobbleEffect = css`
+  animation: ${wobble} 0.5s infinite;
+`;
 
-  const BadgeOuter = styled.div`
+const BadgeOuter = styled.div`
   align-items: center;
   background-color: ${props => {
     if (props.remove) return "crimson";
@@ -73,7 +73,7 @@ function SquadDND({ id }) {
   ${props => props.remove && wobbleEffect}
   
   `;
-  const BadgeInner = styled.span`
+const BadgeInner = styled.span`
   border: 0 !important;
 	clip: rect(1px, 1px, 1px, 1px) !important;
 	height: 1px !important;
@@ -90,59 +90,62 @@ function SquadDND({ id }) {
   }
   `;
 
-  const ButtonOuter = styled.div`
-    background: transparent;
-    color: inherit;
-    display: inline-block;
-    font: inherit;
-    height: 1rem;
-    line-height: 1;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    user-select: none;
-  `;
+const ButtonOuter = styled.div`
+  background: transparent;
+  color: inherit;
+  display: inline-block;
+  font: inherit;
+  height: 1rem;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+`;
 
-  const ButtonInner = styled.span`
-    align-items: center;
-    border-radius: .10rem;
-    background: #AEBD38;
-    color: #000;
-    display: flex;
-    font-weight: 300;
-    height: 1rem;
-    min-width: 2.5em;
-    padding: 1em 1em;
-    position: relative;
-    transition: 0.2s ease;
-    width: 100%;
-  `;
+const ButtonInner = styled.span`
+  align-items: center;
+  border-radius: 0.1rem;
+  background: #aebd38;
+  color: #000;
+  display: flex;
+  font-weight: 300;
+  height: 1rem;
+  min-width: 2.5em;
+  padding: 1em 1em;
+  position: relative;
+  transition: 0.2s ease;
+  width: 100%;
+`;
 
-  const StyledIcon = styled.h1`
+const StyledIcon = styled.h1`
   color: #05668d;
-  `
+`;
 
-  const StyledAlert = styled(Alert)`
-    z-index: 10000;
-    border: #05668d 4px solid !important;
-    background-color: #fff !important;
-    color: #AEBD38 !important;
+const grid = 4;
 
-  `;
-  const grid = 4;
+const billet = {
+  squadLeader: "SL",
+  assistantSquadLeader: "A/",
+  teamLeader: "TL",
+  designatedMarksman: "DM",
+  radioOperator: "R",
+  grenadier: "G",
+  autoRifleman: "AR",
+  rifleman: "R"
+};
 
-  const billet = {
-    squadLeader: "SL",
-    assistantSquadLeader: "A/",
-    teamLeader: "TL",
-    designatedMarksman: "DM",
-    radioOperator: "R",
-    grenadier: "G",
-    autoRifleman: "AR",
-    rifleman: "R"
-  };
+function SquadDND({ id  }) {
+
+  const dataProvider = React.useContext(SquadPageContext)
+
+  const marineData = dataProvider.marineData
+  const setMarineData = dataProvider.setMarineData
+
+  const squadData = dataProvider.squadData
+  const setSquadData = dataProvider.setSquadData
 
   const getUnplacedItemStyle = (isDragging, draggableStyle) => ({
     userSelect: "none",
@@ -157,55 +160,26 @@ function SquadDND({ id }) {
     background: isDraggingOver ? "#fff" : "#fff",
     display: "flex",
     padding: grid,
-    height: '4rem',
+    height: "4rem",
     overflow: "auto",
     width: "100%",
-    border: isDraggingOver ? "4px dashed #AEBD38" : "4px dashed #eee"
+    border: isDraggingOver ? "4px dashed #AEBD38" : "4px dashed #ddd"
   });
-
-  const [state, setState] = useState({
-    teamOne: [],
-    teamTwo: [],
-    teamThree: [],
-    teamHq: []
-  });
-
-  const componentIsMounted = useRef(true);
-
-  useEffect(() => {
-    getSquadsTeamsById(id)
-      .then(res => {
-        if (componentIsMounted.current) {
-          setState({
-            teamHq: res.teams.teamHq,
-            teamOne: res.teams.teamOne,
-            teamTwo: res.teams.teamTwo,
-            teamThree: res.teams.teamThree
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    return () => {
-      componentIsMounted.current = false;
-    };
-  }, [id]);
 
   const onDragEnd = useCallback(
     result => {
       const _getList = id => {
         if (id === "teamOne") {
-          return state.teamOne;
+          return squadData.teams.teamOne;
         }
         if (id === "teamTwo") {
-          return state.teamTwo;
+          return squadData.teams.teamTwo;
         }
         if (id === "teamThree") {
-          return state.teamThree;
+          return squadData.teams.teamThree;
         }
         if (id === "teamHq") {
-          return state.teamHq;
+          return squadData.teams.teamHq;
         } else {
           return null;
         }
@@ -246,7 +220,7 @@ function SquadDND({ id }) {
           destination.index
         );
 
-        setState(prevState => {
+        setSquadData(prevState => {
           return {
             ...prevState,
             [source.droppableId]: reorderedItems
@@ -261,22 +235,26 @@ function SquadDND({ id }) {
           destination
         );
 
-        setState(prevState => {
+        setSquadData(prevState => {
           return {
             ...prevState,
-            ...result
+            teams: {
+              teamOne: squadData.teams.teamOne,
+              teamTwo: squadData.teams.teamTwo,
+              teamThree: squadData.teams.teamThree,
+              teamHq: squadData.teams.teamHq,
+              ...result
+            }
           };
         });
         setRoute(true);
-        console.log(state);
       }
     },
     [
-      state.teamHq,
-      state.teamOne,
-      state.teamTwo,
-      state.teamThree,
-      state.unplaced
+      squadData.teams.teamHq,
+      squadData.teams.teamOne,
+      squadData.teams.teamTwo,
+      squadData.teams.teamThree
     ]
   );
 
@@ -284,9 +262,9 @@ function SquadDND({ id }) {
 
   useEffect(() => {
     if (route === true) {
-      updateSquadById(id, state);
+      updateSquadById(id, squadData);
     }
-  }, [onDragEnd, state, route, id]);
+  }, [onDragEnd, squadData, route, id]);
 
   const [removeStyle, setRemoveStyle] = useState(false);
   const handleRemoveStyle = () => setRemoveStyle(!removeStyle);
@@ -296,259 +274,248 @@ function SquadDND({ id }) {
   const removeMarine = evt => {
     evt.persist();
     const marineId = evt.target.id;
-    axios
-      .delete(`http://localhost:8082/api/marines/${marineId}/${id}`)
-      .then(res => {
-        console.log(res);
-        setToastVisible(true);
-        setState(prevState => {
-          return {
-            ...prevState,
-            teamHq: state.teamHq.filter(m => m._id != marineId),
-            teamOne: state.teamOne.filter(m => m._id != marineId),
-            teamTwo: state.teamTwo.filter(m => m._id != marineId),
-            teamThree: state.teamThree.filter(m => m._id != marineId)
-          };
-        });
-      });
+    deleteMarineById(marineId, id).then(res => {
+      setToastVisible(true);
+      setSquadData(prevState => {
+        return {
+          ...prevState,
+          teams: {
+            teamOne: squadData.teams.teamOne.filter(m => m._id !== marineId),
+            teamTwo: squadData.teams.teamTwo.filter(m => m._id !== marineId),
+            teamThree: squadData.teams.teamThree.filter(m => m._id !== marineId),
+            teamHq: squadData.teams.teamHq.filter(m => m._id !== marineId)
+          }
+        };
+      })
+      setMarineData(marineData.filter(m => m._id !== marineId))
+    });
   };
 
   return (
+
     <DragDropContext onDragEnd={onDragEnd}>
-      <StyledAlert isOpen={toastVisible} toggle={onDismiss}>
+      <Alert success isOpen={toastVisible} toggle={onDismiss}>
         Marine Successfully Deleted
-      </StyledAlert>
+      </Alert>
       <Flex justifyAround>
-     
-      <StyledIcon>
-        <i className="material-icons" onClick={handleRemoveStyle}>
-          {removeStyle ? 'delete_forever' : 'delete'}
-        </i>
-      </StyledIcon>
-      
-      <StyledIcon>
-        <i className="material-icons">
-          save_alt
-        </i>
-      </StyledIcon>
-      
+        <StyledIcon>
+          <i className="material-icons" onClick={handleRemoveStyle}>
+            {removeStyle ? "delete_forever" : "delete"}
+          </i>
+        </StyledIcon>
 
+        <StyledIcon>
+          <i className="material-icons">save_alt</i>
+        </StyledIcon>
       </Flex>
-    <Flex>
-            <Badge color="none">HQ ({state.teamHq.length})</Badge>
-            <Droppable droppableId="teamHq" direction="horizontal">
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  style={getUnplacedListStyle(snapshot.isDraggingOver)}
-                >
-                  {state.teamHq.map((item, index) => (
-                    <Draggable
-                      key={item.last}
-                      draggableId={item.last}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <ButtonOuter
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getUnplacedItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
+      {squadData && (
+        <Flex>
+          <Badge color="none">HQ ({squadData.teams.teamHq.length})</Badge>
+          <Droppable droppableId="teamHq" direction="horizontal">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                style={getUnplacedListStyle(snapshot.isDraggingOver)}
+              >
+                {squadData.teams.teamHq.map((item, index) => (
+                  <Draggable
+                    key={item.last}
+                    draggableId={item.last}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <ButtonOuter
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getUnplacedItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                      >
+                        <ButtonInner>{item.last}</ButtonInner>
+                        <BadgeOuter remove={removeStyle} onClick={removeMarine}>
+                          <BadgeInner></BadgeInner>
+                          {!!removeStyle ? (
+                            <i className="material-icons" id={item._id}>
+                              remove
+                            </i>
+                          ) : index === 0 ? (
+                            billet.squadLeader
+                          ) : index === 1 ? (
+                            billet.assistantSquadLeader
+                          ) : index === 2 ? (
+                            billet.designatedMarksman
+                          ) : (
+                            billet.radioOperator
                           )}
-                        >
-                          <ButtonInner>{item.last}</ButtonInner>
-                          <BadgeOuter
-                            remove={removeStyle}
-                            onClick={removeMarine}
-                          >
-                            <BadgeInner></BadgeInner>
-                            {!!removeStyle ? (
-                              <i className="material-icons" id={item._id}>
-                                remove
-                              </i>
-                            ) : index === 0 ? (
-                              billet.squadLeader
-                            ) : index === 1 ? (
-                              billet.assistantSquadLeader
-                            ) : index === 2 ? (
-                              billet.designatedMarksman
-                            ) : (
-                              billet.radioOperator
-                            )}
-                          </BadgeOuter>
-                        </ButtonOuter>
-                      )}
-                    </Draggable>
-                  ))}
+                        </BadgeOuter>
+                      </ButtonOuter>
+                    )}
+                  </Draggable>
+                ))}
 
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-      
-       
-            <Badge color="none">Team One ({state.teamOne.length})</Badge>
-            <Droppable droppableId="teamOne" direction="horizontal">
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  style={getUnplacedListStyle(snapshot.isDraggingOver)}
-                >
-                  {state.teamOne.map((item, index) => (
-                    <Draggable
-                      key={item.last}
-                      draggableId={item.last}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <ButtonOuter
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getUnplacedItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                          )}
-                        >
-                          <ButtonInner>{item.last}</ButtonInner>
-                          <BadgeOuter
-                            remove={removeStyle}
-                            onClick={removeMarine}
-                          >
-                            <BadgeInner {...index}></BadgeInner>
-                            {!!removeStyle ? (
-                              <i className="material-icons" id={item._id}>
-                                remove
-                              </i>
-                            ) : index === 0 ? (
-                              billet.teamLeader
-                            ) : index === 1 ? (
-                              billet.autoRifleman
-                            ) : index === 2 ? (
-                              billet.grenadier
-                            ) : (
-                              billet.rifleman
-                            )}
-                          </BadgeOuter>
-                        </ButtonOuter>
-                      )}
-                    </Draggable>
-                  ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
 
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-        
-      
-            <Badge color="none">Team Two ({state.teamTwo.length})</Badge>
-            <Droppable droppableId="teamTwo" direction="horizontal">
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  style={getUnplacedListStyle(snapshot.isDraggingOver)}
-                >
-                  {state.teamTwo.map((item, index) => (
-                    <Draggable
-                      key={item.last}
-                      draggableId={item.last}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <ButtonOuter
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getUnplacedItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
+          <Badge color="none">
+            Team One ({squadData.teams.teamOne.length})
+          </Badge>
+          <Droppable droppableId="teamOne" direction="horizontal">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                style={getUnplacedListStyle(snapshot.isDraggingOver)}
+              >
+                {squadData.teams.teamOne.map((item, index) => (
+                  <Draggable
+                    key={item.last}
+                    draggableId={item.last}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <ButtonOuter
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getUnplacedItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                      >
+                        <ButtonInner>{item.last}</ButtonInner>
+                        <BadgeOuter remove={removeStyle} onClick={removeMarine}>
+                          <BadgeInner {...index}></BadgeInner>
+                          {!!removeStyle ? (
+                            <i className="material-icons" id={item._id}>
+                              remove
+                            </i>
+                          ) : index === 0 ? (
+                            billet.teamLeader
+                          ) : index === 1 ? (
+                            billet.autoRifleman
+                          ) : index === 2 ? (
+                            billet.grenadier
+                          ) : (
+                            billet.rifleman
                           )}
-                        >
-                          <ButtonInner>{item.last}</ButtonInner>
-                          <BadgeOuter
-                            remove={removeStyle}
-                            onClick={removeMarine}
-                          >
-                            <BadgeInner {...index}></BadgeInner>
-                            {!!removeStyle ? (
-                              <i className="material-icons" id={item._id}>
-                                remove
-                              </i>
-                            ) : index === 0 ? (
-                              billet.teamLeader
-                            ) : index === 1 ? (
-                              billet.autoRifleman
-                            ) : index === 2 ? (
-                              billet.grenadier
-                            ) : (
-                              billet.rifleman
-                            )}
-                          </BadgeOuter>
-                        </ButtonOuter>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-      
-       
-            <Badge color="none">Team Three ({state.teamThree.length})</Badge>
-            <Droppable droppableId="teamThree" direction="horizontal">
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  style={getUnplacedListStyle(snapshot.isDraggingOver)}
-                >
-                  {state.teamThree.map((item, index) => (
-                    <Draggable
-                      key={item.last}
-                      draggableId={item.last}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <ButtonOuter
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getUnplacedItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
+                        </BadgeOuter>
+                      </ButtonOuter>
+                    )}
+                  </Draggable>
+                ))}
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+
+          <Badge color="none">
+            Team Two (
+            {squadData.teams.teamTwo && squadData.teams.teamTwo.length})
+          </Badge>
+          <Droppable droppableId="teamTwo" direction="horizontal">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                style={getUnplacedListStyle(snapshot.isDraggingOver)}
+              >
+                {squadData.teams.teamTwo.map((item, index) => (
+                  <Draggable
+                    key={item.last}
+                    draggableId={item.last}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <ButtonOuter
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getUnplacedItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                      >
+                        <ButtonInner>{item.last}</ButtonInner>
+                        <BadgeOuter remove={removeStyle} onClick={removeMarine}>
+                          <BadgeInner {...index}></BadgeInner>
+                          {!!removeStyle ? (
+                            <i className="material-icons" id={item._id}>
+                              remove
+                            </i>
+                          ) : index === 0 ? (
+                            billet.teamLeader
+                          ) : index === 1 ? (
+                            billet.autoRifleman
+                          ) : index === 2 ? (
+                            billet.grenadier
+                          ) : (
+                            billet.rifleman
                           )}
-                        >
-                          <ButtonInner>{item.last}</ButtonInner>
-                          <BadgeOuter
-                            remove={removeStyle}
-                            onClick={removeMarine}
-                          >
-                            <BadgeInner {...index}></BadgeInner>
-                            {!!removeStyle ? (
-                              <i className="material-icons" id={item._id}>
-                                remove
-                              </i>
-                            ) : index === 0 ? (
-                              billet.teamLeader
-                            ) : index === 1 ? (
-                              billet.autoRifleman
-                            ) : index === 2 ? (
-                              billet.grenadier
-                            ) : (
-                              billet.rifleman
-                            )}
-                          </BadgeOuter>
-                        </ButtonOuter>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-       
-            </Flex>
+                        </BadgeOuter>
+                      </ButtonOuter>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+
+          <Badge color="none">
+            Team Three ({squadData.teams.teamThree.length})
+          </Badge>
+          <Droppable droppableId="teamThree" direction="horizontal">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                style={getUnplacedListStyle(snapshot.isDraggingOver)}
+              >
+                {squadData.teams.teamThree.map((item, index) => (
+                  <Draggable
+                    key={item.last}
+                    draggableId={item.last}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <ButtonOuter
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getUnplacedItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                      >
+                        <ButtonInner>{item.last}</ButtonInner>
+                        <BadgeOuter remove={removeStyle} onClick={removeMarine}>
+                          <BadgeInner {...index}></BadgeInner>
+                          {!!removeStyle ? (
+                            <i className="material-icons" id={item._id}>
+                              remove
+                            </i>
+                          ) : index === 0 ? (
+                            billet.teamLeader
+                          ) : index === 1 ? (
+                            billet.autoRifleman
+                          ) : index === 2 ? (
+                            billet.grenadier
+                          ) : (
+                            billet.rifleman
+                          )}
+                        </BadgeOuter>
+                      </ButtonOuter>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </Flex>
+      )}
     </DragDropContext>
   );
 }

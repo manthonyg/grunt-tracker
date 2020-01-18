@@ -37,7 +37,6 @@ function MainPage() {
 
   return (
     <>
-    
       <Banner secondary>my squads</Banner>
 
       <Flex contentCenter justifyCenter>

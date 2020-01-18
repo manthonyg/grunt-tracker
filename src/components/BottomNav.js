@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 //Packages
 import styled from "styled-components";
 
-
 const MobileNavWrapper = styled.nav`
   position: fixed;
   bottom: 0px;

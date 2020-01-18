@@ -6,9 +6,6 @@ import { Alert, Input, Container } from "reactstrap";
 //Global components
 import Button from "../../../components/Button";
 
-
-
-
 function CreateAppointment(props) {
   const [marineData, setMarineData] = useState({
     date: "",

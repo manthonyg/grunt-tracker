@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useContext } from "react";
 //Packages
 import {
   Alert,
@@ -11,33 +11,33 @@ import {
 } from "reactstrap";
 //Global components
 import Flex from "../../../components/Flex";
+import Banner from "../../../components/Banner";
 //Services
-import { addMarineToSquad, getAllSquads } from "../../../services/squadServices";
+import {
+  addMarineToSquad
+} from "../../../services/squadServices";
+//Context
+import { SquadPageContext } from "../../SquadPage/SquadPage";
 
 function CreateMarine({ id }) {
-  const [squadData, setSquadData] = useState([]);
-  const componentIsMounted = useRef(true);
 
-  useEffect(() => {
-    getAllSquads()
-      .then(res => {
-        if (componentIsMounted.current) {
-          setSquadData(res);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    return () => {
-      componentIsMounted.current = false;
-    };
-  }, []);
+  const dataProvider = useContext(SquadPageContext)
+
+  const marineData = dataProvider.marineData
+  const setMarineData = dataProvider.setMarineData
+  const setStateIsUpdated = dataProvider.setStateIsUpdated
+  const stateIsUpdated = dataProvider.stateIsUpdated
+
+
+console.log('marineData', marineData)
+  const squadData = dataProvider.squadData
+  const setSquadData = dataProvider.setSquadData
 
   const [formVisible, setFormVisible] = useState(true);
   const [alertVisible, setAlertVisible] = useState(false);
   const onDismiss = () => setAlertVisible(false);
 
-  const [marineData, setMarineData] = useState({
+  const [inputData, setInputData] = useState({
     currentStep: 1,
     first: "",
     last: "",
@@ -50,12 +50,11 @@ function CreateMarine({ id }) {
     team: "",
     zap: ""
   });
-  console.log(marineData);
 
   const handleChange = evt => {
     const name = evt.target.name;
     const val = evt.target.value;
-    setMarineData(prevState => {
+    setInputData(prevState => {
       return {
         ...prevState,
         [name]: val
@@ -65,27 +64,34 @@ function CreateMarine({ id }) {
 
   const handleSubmit = event => {
     const data = {
-      first: marineData.first,
-      last: marineData.last,
-      birthdate: marineData.birthdate,
-      rank: marineData.rank,
-      billet: marineData.billet,
-      edipi: marineData.edipi,
-      blood_type: marineData.blood_type,
-      squad: marineData.squad,
-      team: marineData.team,
-      zap:
-        marineData.first[0] +
-        marineData.last[0] +
-        marineData.edipi.substr(marineData.edipi.length - 5) +
-        marineData.blood_type
-    };
+      first: inputData.first,
+      last: inputData.last,
+      middle: '',
+      rank: inputData.rank,
+      unit: '',
+      company: '',
+      platoon: '',
+      squad: inputData.squad,
+      team: inputData.team,
+      edipi: inputData.edipi,
+      blood_type: inputData.blood_type,
+      religion: '',
+    }
 
     event.preventDefault();
+    //Im optimistic
+    // setMarineData(prevState => {
+    //   return {
+    //     ...prevState,
+        
+    //   }
+    // })
+    setStateIsUpdated(!stateIsUpdated)
+ 
 
     addMarineToSquad(id, data)
       .then(res => {
-        setMarineData({
+        setInputData({
           first: "",
           last: "",
           birthdate: "",
@@ -104,12 +110,15 @@ function CreateMarine({ id }) {
       .catch(err => {
         console.log("Error in CreateMarine", err);
       });
-  };
+      return() => {
+      }
+    }
+
 
   const _next = () => {
-    let currentStep = marineData.currentStep;
+    let currentStep = inputData.currentStep;
     currentStep = currentStep >= 2 ? 3 : currentStep + 1;
-    setMarineData(prevState => {
+    setInputData(prevState => {
       return {
         ...prevState,
         currentStep: currentStep
@@ -118,22 +127,22 @@ function CreateMarine({ id }) {
   };
 
   const _prev = () => {
-    let currentStep = marineData.currentStep;
+    let currentStep = inputData.currentStep;
     currentStep = currentStep <= 1 ? 1 : currentStep - 1;
-    setMarineData({
+    setInputData({
       currentStep: currentStep
     });
   };
 
   function previousButton() {
-    let currentStep = marineData.currentStep;
+    let currentStep = inputData.currentStep;
     if (currentStep !== 1) {
       return <Button onClick={_prev}>Previous</Button>;
     }
   }
 
   function nextButton() {
-    let currentStep = marineData.currentStep;
+    let currentStep = inputData.currentStep;
     if (currentStep < 3) {
       return <Button onClick={_next}>Next</Button>;
     }
@@ -144,28 +153,28 @@ function CreateMarine({ id }) {
       {formVisible && (
         <Form onSubmit={handleSubmit}>
           <BasicInformation
-            currentStep={marineData.currentStep}
+            currentStep={inputData.currentStep}
             handleChange={handleChange}
-            first={marineData.first}
-            last={marineData.last}
-            middle={marineData.middle}
-            rank={marineData.rank}
-            billet={marineData.billet}
+            first={inputData.first}
+            last={inputData.last}
+            middle={inputData.middle}
+            rank={inputData.rank}
+            billet={inputData.billet}
           />
 
           <UnitInformation
-            currentStep={marineData.currentStep}
+            currentStep={inputData.currentStep}
             handleChange={handleChange}
-            squad={marineData.squad}
-            team={marineData.team}
+            squad={inputData.squad}
+            team={inputData.team}
             squadData={squadData}
           />
           <ZapInformation
-            currentStep={marineData.currentStep}
+            currentStep={inputData.currentStep}
             handleChange={handleChange}
-            edipi={marineData.edipi}
-            blood_type={marineData.blood_type}
-            zap={marineData.zap}
+            edipi={inputData.edipi}
+            blood_type={inputData.blood_type}
+            zap={inputData.zap}
           />
           <Container>
             <Flex justifyBetween>
@@ -249,26 +258,8 @@ function UnitInformation(props) {
   }
   return (
     <Container>
-      <FormGroup>
-        <Label for="squad">Squad</Label>
-        <Input
-          bsSize="sm"
-          type="select"
-          name="squad"
-          id="squad"
-          onChange={props.handleChange}
-          value={props.squad}
-        >
-          {props.squadData.map(squad => (
-            <option>
-              {squad.company}
-              {squad.platoon}
-              {squad.squad}
-            </option>
-          ))}
-        </Input>
-      </FormGroup>
-    </Container>
+     <Banner>{props.squadData.callsign}</Banner>
+     </Container>
   );
 }
 

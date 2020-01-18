@@ -6,7 +6,7 @@ import GTLogo from "../images/GT_Logo.png";
 import GTBG from "../images/GT_Bg.png";
 import { device } from "../constants/mediaQueries";
 //Global components
-import Flex from './Flex'
+import Flex from "./Flex";
 
 const jump = keyframes` {
   0%   { transform: scale(1,1)      translateY(0); }
@@ -38,19 +38,15 @@ top: 2rem;
 text-align: center;
 }`;
 
-
 function Logo() {
   return (
-
-            <img
-              alt="Grunt Tracker"
-              src={GTLogo}
-              style={{
-              width: "2rem"
-              }}
-            />
-
-    
+    <img
+      alt="Grunt Tracker"
+      src={GTLogo}
+      style={{
+        width: "2rem"
+      }}
+    />
   );
 }
 

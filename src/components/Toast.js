@@ -1,10 +1,9 @@
-import React from 'react'
-import styled, {keyframes, css} from 'styled-components'
-import Flex from '../components/Flex'
+import React from "react";
+import styled, { keyframes, css } from "styled-components";
+import Flex from "../components/Flex";
 
 function Toast(props) {
-
-  const scale = keyframes `
+  const scale = keyframes`
   {
     0% {
               transform: scaleX(0);
@@ -24,16 +23,16 @@ function Toast(props) {
               transform: scaleX(1);
       opacity: 1;
     }
-  }`
+  }`;
 
-  const scaleEffect = css `
-  animation: ${scale} 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  `
-  const ToastWrapper = styled.div `
+  const scaleEffect = css`
+    animation: ${scale} 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  `;
+  const ToastWrapper = styled.div`
   display: ${props => {
-    if (props.visible) 
-      return 'block'
-    return 'none'}}
+    if (props.visible) return "block";
+    return "none";
+  }}
   width: 90%;
   z-index: 999999;
   height: 50px;
@@ -41,19 +40,16 @@ function Toast(props) {
   bottom: 100px;
   border: 3px solid #AEBD38; 
   ${scaleEffect}
-  `
+  `;
 
-    return (
+  return (
+    <ToastWrapper visible={props.visible} message={props.message}>
+      <Flex justifyBetween>
+        {props.message}
+        <i className="material-icons">close</i>
+      </Flex>
+    </ToastWrapper>
+  );
+}
 
-      <ToastWrapper visible={props.visible} 
-                    message={props.message}>
-        <Flex justifyBetween>
-          {props.message}
-          <i className='material-icons'>close</i>
-        </Flex>
-      </ToastWrapper>
-
-    )
-  }
-
-  export default Toast
+export default Toast;
