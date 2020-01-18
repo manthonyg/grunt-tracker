@@ -10,6 +10,7 @@ const squads = require('./routes/api/squads')
 
 const app = express();
 
+
 // Connect Database
 connectDB();
 

@@ -1,59 +1,84 @@
-import React from 'react'
-import styled, { css } from 'styled-components'
+import React, { useEffect, useState } from "react";
+import styled, { css, keyframes } from "styled-components";
+import Flex from "../components/Flex";
+import { Link } from "react-router-dom";
 
 const animatedCss = css`
-    opacity: 1;
-    transform: translateY(0);
-`
+  opacity: 1;
+  transform: translateY(0);
+`;
 
 const primaryCss = css`
-    background-color: #008bf8;
-    color: #fff;
-`
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #aebd38;
+`;
+
+const toastCss = css`
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #aebd38;
+`;
+
+const CardButtonWrapper = styled.div`
+width: 100%;
+height: 20px;
+position: absolute:
+border: 1px solid black;
+`;
 
 const StyledCard = styled.div`
-    width: ${props => (props.big ? '450px' : '300px')};
+    width: ${props => (props.big ? "450px" : "300px")};
     padding: 15px;
     opacity: 0;
     transform: translateY(50px);
     transition: 500ms all ease-in-out;
-    margin: ${props => (props.noMargin ? 0 : '15px')};
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 1);
-    border-radius: 5px;
+    margin: ${props => (props.noMargin ? 0 : "15px")};
     ${props => props.animated && animatedCss}
     ${props => props.primary && primaryCss}
-`
+    ${props => props.toast && toastCss}
+`;
+function Card(props) {
+  const [animated, setAnimated] = useState(false);
+  const handleSetAnimated = () => setAnimated(!animated);
 
-class Card extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            animated: false,
-        }
-    }
+  useEffect(() => {
+    setTimeout(() => {
+      handleSetAnimated();
+    }, props.delay);
+  }, []);
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState(() => {
-                return { animated: true }
-            })
-        }, this.props.delay)
-    }
-
-    render() {
-        const { delay = 0, noAnimation, primary, noMargin, big, ...props } = this.props
-        return (
-            <StyledCard
-                animated={this.state.animated}
-                delay={delay}
-                primary={primary}
-                noAnimation={noAnimation}
-                big={big}
-                noMargin={noMargin}
-                {...props}
-            />
-        )
-    }
+  return (
+    <StyledCard
+      animated={animated}
+      big={props.big}
+      noAnimation={props.noAnimation}
+      noMargin={props.noMargin}
+      delay={props.delay}
+      primary={props.primary}
+      toast={props.toast}
+      handleClose={props.handleClose}
+      id={props.id}
+    >
+      {props.children}
+      {props.toast && (
+        <CardButtonWrapper>
+          <Flex justifyBetween>
+            <i
+              className="material-icons"
+              id={props.id}
+              onClick={props.handleClose}
+            >
+              close
+            </i>
+            <Link to={props.link}>
+              <i className="material-icons">arrow_right_alt</i>
+            </Link>
+          </Flex>
+        </CardButtonWrapper>
+      )}
+    </StyledCard>
+  );
 }
 
-export default Card
+export default Card;

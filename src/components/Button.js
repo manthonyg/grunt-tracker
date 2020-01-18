@@ -1,50 +1,61 @@
-import React from 'react'
-import styled, {css} from 'styled-components'
-import Loader from './Loader'
+import React from "react";
+import styled, { css } from "styled-components";
+import Loader from "./Loader";
 
-const StyledButton = styled.button `
-    border-radius: 3px;
-    background-color: ${props => (props.secondary
-  ? '#ccc'
-  : props.none
-    ? 'none'
-    : '#DEDEDE')};
-    color: #000;
- 
-    font-size: ${props => {
-  if (props.big) 
-    return '20px'
-  return '16px'}};
-    outline: none;
-    border: none;
-    cursor: pointer;
-    border: 1px solid ${props => (props.secondary
-    ? '#ccc'
-    : props.none
-      ? 'none'
-      : '#BBBBBB')};
-    ${props => {
-    return (props.inverse && css `
-                background-color: #fff;
-                color: #000;
-            `)}}
-`
+const StyledButton = styled.button`
+  border: ${props => {
+    if (props.secondary) return "none";
+    return "2px solid #AEBD38";
+  }};
 
-    const Button = ({
-      secondary,
-      big,
-      inverse,
-      loading,
-      children,
-      ...props
-    }) => {
-      return (
-        <StyledButton secondary={secondary} big={big} inverse={inverse} {...props}>
-          {loading
-            ? <Loader small white/>
-            : children}
-        </StyledButton>
-      )
-    }
+  background-color: ${props => {
+    if (props.secondary) return "#68829e";
+    return "#fff";
+  }};
 
-    export default Button
+  margin: 0.25rem 0.1rem;
+  color: ${props => {
+    if (props.secondary) return "#fff";
+    return "#000";
+  }};
+
+  font-size: ${props => {
+    if (props.big) return "20px";
+    if (props.small) return "12px";
+    return "16px";
+  }};
+  border-radius: 3px;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #aebd38;
+    color: #fff;
+  }
+`;
+const Button = ({
+  secondary,
+  big,
+  small,
+  inverse,
+  loading,
+  children,
+  ...props
+}) => {
+  return (
+    <StyledButton
+      secondary={secondary}
+      small={small}
+      big={big}
+      inverse={inverse}
+      {...props}
+    >
+      {loading ? <Loader small white /> : children}
+    </StyledButton>
+  );
+};
+
+export default Button;
