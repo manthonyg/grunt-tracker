@@ -13,6 +13,7 @@ const Wrapper = styled.div`
 const Header = styled.h4`
 font-weight: ${props => {
   if (props.secondary) return "400";
+  if (props.white) return "300";
   return "100";
 }}
 color: ${props => {
@@ -28,8 +29,9 @@ border-bottom: ${props => {
 font-size: ${props => {
   if (props.secondary) return "20px";
   if (props.small) return "14px";
-  return "32px";
+  return "28px";
 }}
+
 `;
 
 const Banner = props => {

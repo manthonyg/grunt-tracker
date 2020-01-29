@@ -9,14 +9,14 @@ import Button from "../../../components/Button";
 import { SquadPageContext } from "../SquadPage";
 
 const Header = styled.h4`
-    text-align: center;
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.85rem;
-    position: relative;
-    line-height: 1;
-  `;
-  const Stats = styled.div`
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  position: relative;
+  line-height: 1;
+`;
+const Stats = styled.div`
 border-right:2px solid #fff;
 &:nth-child() {
   border-right:2px solid #AEBD38;
@@ -26,9 +26,9 @@ float:left;
 background-color: red;
 padding: 10px;
 background: ${props => {
-    if (props.secondary) return "#aebd38";
-    return "#505160";
-  }}
+  if (props.secondary) return "#aebd38";
+  return "#505160";
+}}
 
 text-align:center
 display:block;
@@ -40,33 +40,30 @@ font-weight:300;
 border-right: none
 }
 `;
-  const StatsContainer = styled.div`
-    overflow: auto;
-    font-size: 16px;
-    color: #aebd38;
-    font-weight: 600;
-  `;
-
+const StatsContainer = styled.div`
+  overflow: auto;
+  font-size: 16px;
+  color: #aebd38;
+  font-weight: 600;
+`;
 
 function SquadCarousel({ handleSetCurrentView }) {
+  const dataProvider = React.useContext(SquadPageContext);
 
-  const dataProvider = React.useContext(SquadPageContext)
-
-  const marineData = dataProvider.marineData
-  const squadData = dataProvider.squadData
-
+  const marineData = dataProvider.marineData;
+  const squadData = dataProvider.squadData;
 
   return (
     <div>
       <Banner secondary>{squadData.callsign}overview</Banner>
       <Carousel
-       showStatus={false}
-       showIndicators={false}
-       showThumbs={false}
-       centerMode
-       centerSlidePercentage={100}
-       infiniteLoop
-       emulateTouch
+        showStatus={false}
+        showIndicators={false}
+        showThumbs={false}
+        centerMode
+        centerSlidePercentage={100}
+        infiniteLoop
+        emulateTouch
       >
         <div>
           <StatsContainer>
@@ -75,8 +72,14 @@ function SquadCarousel({ handleSetCurrentView }) {
               <br />
               {marineData && marineData.length ? (
                 <>
-                  <Banner white>{marineData.filter(m => m.accountability.accountedFor).length}/
-                  {marineData.length}</Banner>
+                  <Banner white>
+                    {
+                      marineData.filter(
+                        marine => marine.accountability.accountedFor
+                      ).length
+                    }
+                    /{marineData.length}
+                  </Banner>
                 </>
               ) : (
                 "-"
@@ -86,10 +89,13 @@ function SquadCarousel({ handleSetCurrentView }) {
             <Stats>
               <Header>Appointments</Header>
               <br />
-              {marineData && marineData.appointments ? (
+              {marineData && marineData.length ? (
                 <>
-                  {marineData.filter(d => d.appointments.length)}
-                  {marineData.appointments.length}
+                  {
+                    marineData.map(marine =>
+                      marine.appointments.map(appointment => appointment)
+                    ).length
+                  }
 
                   <br />
                   <i

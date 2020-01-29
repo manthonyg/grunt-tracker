@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 //Packages
 import TimeField from "react-simple-timefield";
 import { Alert, Input, Container } from "reactstrap";
 //Global components
 import Button from "../../../components/Button";
+//Services
+import { createAppointment } from "../../../services/marineServices";
+//Context
+import { MarinePageContext } from "../MarinePage";
 
-function CreateAppointment(props) {
-  const [marineData, setMarineData] = useState({
+function CreateAppointment() {
+  const dataProvider = useContext(MarinePageContext);
+
+  const marineData = dataProvider.marineData;
+  const setMarineData = dataProvider.setMarineData;
+
+  const [data, setData] = useState({
     date: "",
     appointment_type: "",
     location: "",
@@ -17,7 +26,7 @@ function CreateAppointment(props) {
   const onChange = evt => {
     const name = evt.target.name;
     const val = evt.target.value;
-    setMarineData(prevState => {
+    setData(prevState => {
       return {
         ...prevState,
         [name]: val
@@ -28,20 +37,16 @@ function CreateAppointment(props) {
   const onSubmit = evt => {
     evt.preventDefault();
 
-    const data = {
-      date: marineData.date,
-      appointment_type: marineData.appointment_type,
-      location: marineData.location,
-      time: marineData.time
-    };
+    // const data = {
+    //   date: marineData.date,
+    //   appointment_type: marineData.appointment_type,
+    //   location: marineData.location,
+    //   time: marineData.time
+    // };
 
-    axios
-      .put(
-        `http://localhost:8082/api/marines/${props.marine}/appointments`,
-        data
-      )
+    createAppointment(marineData._id, data)
       .then(res => {
-        setMarineData({
+        setData({
           date: "",
           appointment_type: "",
           location: "",
@@ -65,7 +70,7 @@ function CreateAppointment(props) {
           name="date"
           placeholder="Appointments"
           className="form-control"
-          value={marineData.date}
+          value={data.date}
           helperText='e.g "02/11/19"'
           onChange={onChange}
         />
@@ -75,7 +80,7 @@ function CreateAppointment(props) {
           name="appointment_type"
           placeholder="Type of Appointment"
           className="form-control"
-          value={marineData.appointment_type}
+          value={data.appointment_type}
           helperText='e.g "Dental"'
           onChange={onChange}
         />
@@ -85,14 +90,14 @@ function CreateAppointment(props) {
           name="location"
           placeholder="Location"
           className="form-control"
-          value={marineData.location}
+          value={data.location}
           helperText='e.g "CP Hospital"'
           onChange={onChange}
         />
 
         <TimeField
           name="time"
-          value={marineData.time} // {String}   required, format '00:00' or '00:00:00'
+          value={data.time} // {String}   required, format '00:00' or '00:00:00'
           onChange={onChange} // {Function} required
           input={
             <Input className="form-control" helperText="Time" type="input" />

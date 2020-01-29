@@ -1,5 +1,5 @@
 // models/Squad.js
-
+let Squad;
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 

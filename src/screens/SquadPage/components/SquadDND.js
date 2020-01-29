@@ -2,13 +2,20 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 //Packages
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled, { keyframes, css } from "styled-components";
+import axios from "axios";
 import { Alert } from "reactstrap";
 //Global components
 import Badge from "../../../components/Badge";
 import Flex from "../../../components/Flex";
 //Services
-import { updateSquadById } from "../../../services/squadServices";
-import { deleteMarineById } from "../../../services/marineServices";
+import {
+  updateSquadById,
+  getAllMarinesInSquad
+} from "../../../services/squadServices";
+import {
+  deleteMarineById,
+  updateBillet
+} from "../../../services/marineServices";
 //Context
 import { SquadPageContext } from "../SquadPage";
 
@@ -131,21 +138,20 @@ const billet = {
   assistantSquadLeader: "A/",
   teamLeader: "TL",
   designatedMarksman: "DM",
-  radioOperator: "R",
+  radioOperator: "RO",
   grenadier: "G",
   autoRifleman: "AR",
   rifleman: "R"
 };
 
-function SquadDND({ id  }) {
+function SquadDND({ id }) {
+  const dataProvider = React.useContext(SquadPageContext);
 
-  const dataProvider = React.useContext(SquadPageContext)
+  const marineData = dataProvider.marineData;
+  const setMarineData = dataProvider.setMarineData;
 
-  const marineData = dataProvider.marineData
-  const setMarineData = dataProvider.setMarineData
-
-  const squadData = dataProvider.squadData
-  const setSquadData = dataProvider.setSquadData
+  const squadData = dataProvider.squadData;
+  const setSquadData = dataProvider.setSquadData;
 
   const getUnplacedItemStyle = (isDragging, draggableStyle) => ({
     userSelect: "none",
@@ -184,6 +190,36 @@ function SquadDND({ id  }) {
           return null;
         }
       };
+      //TODO -  switch case
+      const _getBillet = (teamType, index) => {
+        if (teamType === "teamHq") {
+          if (index === 0) {
+            return billet.squadLeader;
+          }
+          if (index === 1) {
+            return billet.assistantSquadLeader;
+          }
+          if (index === 2) {
+            return billet.radioOperator;
+          }
+          if (index === 3) {
+            return billet.designatedMarksman;
+          }
+        } else if (teamType !== "teamHq") {
+          if (index === 0) {
+            return billet.teamLeader;
+          }
+          if (index === 1) {
+            return billet.autoRifleman;
+          }
+          if (index === 2) {
+            return billet.grenadier;
+          }
+          if (index === 3) {
+            return billet.rifleman;
+          }
+        }
+      };
 
       const _reorder = (list, startIndex, endIndex) => {
         const result = Array.from(list);
@@ -220,6 +256,10 @@ function SquadDND({ id  }) {
           destination.index
         );
 
+        updateBillet(result.draggableId, {
+          billet: _getBillet(destination.droppableId, destination.index)
+        });
+
         setSquadData(prevState => {
           return {
             ...prevState,
@@ -228,12 +268,18 @@ function SquadDND({ id  }) {
         });
         setRoute(true);
       } else {
-        const result = _move(
+        const updatedTeams = _move(
           _getList(source.droppableId),
           _getList(destination.droppableId),
           source,
           destination
         );
+        console.log(result);
+        console.log(_getBillet(destination.droppableId, destination.index));
+
+        updateBillet(result.draggableId, {
+          billet: _getBillet(destination.droppableId, destination.index)
+        });
 
         setSquadData(prevState => {
           return {
@@ -243,7 +289,7 @@ function SquadDND({ id  }) {
               teamTwo: squadData.teams.teamTwo,
               teamThree: squadData.teams.teamThree,
               teamHq: squadData.teams.teamHq,
-              ...result
+              ...updatedTeams
             }
           };
         });
@@ -282,17 +328,18 @@ function SquadDND({ id  }) {
           teams: {
             teamOne: squadData.teams.teamOne.filter(m => m._id !== marineId),
             teamTwo: squadData.teams.teamTwo.filter(m => m._id !== marineId),
-            teamThree: squadData.teams.teamThree.filter(m => m._id !== marineId),
+            teamThree: squadData.teams.teamThree.filter(
+              m => m._id !== marineId
+            ),
             teamHq: squadData.teams.teamHq.filter(m => m._id !== marineId)
           }
         };
-      })
-      setMarineData(marineData.filter(m => m._id !== marineId))
+      });
+      setMarineData(marineData.filter(m => m._id !== marineId));
     });
   };
 
   return (
-
     <DragDropContext onDragEnd={onDragEnd}>
       <Alert success isOpen={toastVisible} toggle={onDismiss}>
         Marine Successfully Deleted
@@ -320,7 +367,7 @@ function SquadDND({ id  }) {
                 {squadData.teams.teamHq.map((item, index) => (
                   <Draggable
                     key={item.last}
-                    draggableId={item.last}
+                    draggableId={item._id}
                     index={index}
                   >
                     {(provided, snapshot) => (
@@ -372,7 +419,7 @@ function SquadDND({ id  }) {
                 {squadData.teams.teamOne.map((item, index) => (
                   <Draggable
                     key={item.last}
-                    draggableId={item.last}
+                    draggableId={item._id}
                     index={index}
                   >
                     {(provided, snapshot) => (
@@ -425,7 +472,7 @@ function SquadDND({ id  }) {
                 {squadData.teams.teamTwo.map((item, index) => (
                   <Draggable
                     key={item.last}
-                    draggableId={item.last}
+                    draggableId={item._id}
                     index={index}
                   >
                     {(provided, snapshot) => (
@@ -476,7 +523,7 @@ function SquadDND({ id  }) {
                 {squadData.teams.teamThree.map((item, index) => (
                   <Draggable
                     key={item.last}
-                    draggableId={item.last}
+                    draggableId={item._id}
                     index={index}
                   >
                     {(provided, snapshot) => (

@@ -1,6 +1,6 @@
 import { squadURI } from "./uris";
 
-export const createSquad = async (data) => {
+export const createSquad = async data => {
   const settings = {
     method: "POST",
     body: JSON.stringify(data),
@@ -66,7 +66,7 @@ export const updateSquadById = async (id, data) => {
 
 export const getAllSquads = async () => {
   try {
-    const response = await fetch(`${squadURI}`);
+    const response = await fetch(`${squadURI}/`);
     const responseSquads = await response.json();
     return responseSquads;
   } catch (err) {

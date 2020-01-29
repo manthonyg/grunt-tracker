@@ -1,15 +1,14 @@
 // app.js
 
-const express = require('express');
-const connectDB = require('./config/db');
-var cors = require('cors');
+const express = require("express");
+const connectDB = require("./config/db");
+var cors = require("cors");
 
 // routes
-const marines = require('./routes/api/marines');
-const squads = require('./routes/api/squads')
+const marines = require("./routes/api/marines");
+const squads = require("./routes/api/squads");
 
 const app = express();
-
 
 // Connect Database
 connectDB();
@@ -20,11 +19,11 @@ app.use(cors({ origin: true, credentials: true }));
 // Init Middleware
 app.use(express.json({ extended: false }));
 
-app.get('/', (req, res) => res.send('Hello world!'));
+app.get("/", (req, res) => res.send("Hello world!"));
 
 // use Routes
-app.use('/api/marines', marines);
-app.use('/api/squads', squads);
+app.use("/api/marines", marines);
+app.use("/api/squads", squads);
 
 const port = process.env.PORT || 8082;
 

@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
+import { Link } from "react-router-dom";
 //Packages
 import {
   Alert,
@@ -14,26 +15,30 @@ import Flex from "../../../components/Flex";
 import Banner from "../../../components/Banner";
 //Services
 import {
-  addMarineToSquad
+  addMarineToSquad,
+  getAllMarinesInSquad
 } from "../../../services/squadServices";
 //Context
 import { SquadPageContext } from "../../SquadPage/SquadPage";
-
+/*TODO
+I need to make this able to add multiple marines at once. It needs its own page that is accessible from
+the squad page by way of hamburger dropdown. The header should shrink to size on scroll for this to have
+the best effect and allow for greater real estate on the screen for the user. Other options could include
+'mark squad accounted for', 'view upcoming schedule', 'view 7 day report', etc. The main goal should be to allo
+the rest of the UI to update before trying to view it etc. I should use router more heavily as router will
+allow for full reloads of the content rather than trying bery hard to control a state that grows more and
+more complex all the time.
+*/
 function CreateMarine({ id }) {
+  const componentIsMounted = useRef(true);
+  const dataProvider = useContext(SquadPageContext);
 
-  const dataProvider = useContext(SquadPageContext)
+  const marineData = dataProvider.marineData;
+  const setMarineData = dataProvider.setMarineData;
+  const squadData = dataProvider.squadData;
+  const setSquadData = dataProvider.setSquadData;
+  const setCurrentView = dataProvider.setCurrentView;
 
-  const marineData = dataProvider.marineData
-  const setMarineData = dataProvider.setMarineData
-  const setStateIsUpdated = dataProvider.setStateIsUpdated
-  const stateIsUpdated = dataProvider.stateIsUpdated
-
-
-console.log('marineData', marineData)
-  const squadData = dataProvider.squadData
-  const setSquadData = dataProvider.setSquadData
-
-  const [formVisible, setFormVisible] = useState(true);
   const [alertVisible, setAlertVisible] = useState(false);
   const onDismiss = () => setAlertVisible(false);
 
@@ -66,28 +71,20 @@ console.log('marineData', marineData)
     const data = {
       first: inputData.first,
       last: inputData.last,
-      middle: '',
+      middle: "",
       rank: inputData.rank,
-      unit: '',
-      company: '',
-      platoon: '',
+      unit: "",
+      company: "",
+      platoon: "",
+      billet: "",
       squad: inputData.squad,
       team: inputData.team,
       edipi: inputData.edipi,
       blood_type: inputData.blood_type,
-      religion: '',
-    }
+      religion: ""
+    };
 
     event.preventDefault();
-    //Im optimistic
-    // setMarineData(prevState => {
-    //   return {
-    //     ...prevState,
-        
-    //   }
-    // })
-    setStateIsUpdated(!stateIsUpdated)
- 
 
     addMarineToSquad(id, data)
       .then(res => {
@@ -105,15 +102,20 @@ console.log('marineData', marineData)
           zap: ""
         });
         setAlertVisible(true);
-        setFormVisible(false);
+        getAllMarinesInSquad(squadData._id)
+          .then(res => {
+            if (componentIsMounted.current) {
+              setMarineData(res);
+              setCurrentView("viewAll");
+            }
+          })
+          .catch(err => console.log("Error in getAllMarinesInSquad: ", err));
       })
       .catch(err => {
         console.log("Error in CreateMarine", err);
       });
-      return() => {
-      }
-    }
-
+    return () => console.log("cleanup in create marine");
+  };
 
   const _next = () => {
     let currentStep = inputData.currentStep;
@@ -150,43 +152,44 @@ console.log('marineData', marineData)
 
   return (
     <>
-      {formVisible && (
-        <Form onSubmit={handleSubmit}>
-          <BasicInformation
-            currentStep={inputData.currentStep}
-            handleChange={handleChange}
-            first={inputData.first}
-            last={inputData.last}
-            middle={inputData.middle}
-            rank={inputData.rank}
-            billet={inputData.billet}
-          />
+      <Form onSubmit={handleSubmit}>
+        <BasicInformation
+          currentStep={inputData.currentStep}
+          handleChange={handleChange}
+          first={inputData.first}
+          last={inputData.last}
+          middle={inputData.middle}
+          rank={inputData.rank}
+          billet={inputData.billet}
+        />
 
-          <UnitInformation
-            currentStep={inputData.currentStep}
-            handleChange={handleChange}
-            squad={inputData.squad}
-            team={inputData.team}
-            squadData={squadData}
-          />
-          <ZapInformation
-            currentStep={inputData.currentStep}
-            handleChange={handleChange}
-            edipi={inputData.edipi}
-            blood_type={inputData.blood_type}
-            zap={inputData.zap}
-          />
-          <Container>
-            <Flex justifyBetween>
-              {previousButton()}
-              {nextButton()}
-            </Flex>
-          </Container>
-        </Form>
-      )}
+        <UnitInformation
+          currentStep={inputData.currentStep}
+          handleChange={handleChange}
+          squad={inputData.squad}
+          team={inputData.team}
+          squadData={squadData}
+        />
+        <ZapInformation
+          currentStep={inputData.currentStep}
+          handleChange={handleChange}
+          edipi={inputData.edipi}
+          blood_type={inputData.blood_type}
+          zap={inputData.zap}
+        />
+        <Container>
+          <Flex justifyBetween>
+            {previousButton()}
+            {nextButton()}
+          </Flex>
+        </Container>
+      </Form>
 
       <Alert color="success" isOpen={alertVisible} toggle={onDismiss}>
         <Flex justifyAround>Marine successfully added</Flex>
+        <Link to={`/show-squad/${id}`}>
+          <Button>View</Button>
+        </Link>
       </Alert>
     </>
   );
@@ -258,8 +261,8 @@ function UnitInformation(props) {
   }
   return (
     <Container>
-     <Banner>{props.squadData.callsign}</Banner>
-     </Container>
+      <Banner>{props.squadData.callsign}</Banner>
+    </Container>
   );
 }
 

@@ -10,6 +10,16 @@ export const getMarinesBySearchInput = async searchInput => {
   }
 };
 
+export const getMarineById = async id => {
+  try {
+    const response = await fetch(`${marineURI}/${id}`);
+    const responseMarine = await response.json();
+    return responseMarine;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getAllMarines = async () => {
   try {
     const response = await fetch(`${marineURI}`);
@@ -29,13 +39,30 @@ export const updateMarineById = async (id, data) => {
       "Content-Type": "application/json"
     }
   };
-
   try {
-    const response = await fetch(`${marineURI}/${id}/update`, settings);
-    const responseMarines = await response.json();
-    return responseMarines;
+    const fetchRes = await fetch(`${marineURI}/${id}/update`, settings);
+    const fetchData = await fetchRes.json();
+    return fetchData;
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const updateBillet = async (id, data) => {
+  const settings = {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      Accept: "application/json/",
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const fetchRes = await fetch(`${marineURI}/${id}/updateBillet/`, settings);
+    const fetchData = await fetchRes.json();
+    return fetchData;
+  } catch (err) {
+    return err;
   }
 };
 
@@ -49,3 +76,20 @@ export const deleteMarineById = async (marineId, squadId) => {
   return responseSquad;
 };
 
+export const createAppointment = async (id, data) => {
+  const settings = {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      Accept: "application/json/",
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const fetchRes = await fetch(`${marineURI}/${id}/appointments`, settings);
+    const fetchData = await fetchRes.json();
+    return fetchData;
+  } catch (err) {
+    return err;
+  }
+};

@@ -1,6 +1,4 @@
-import React, {
-  useContext
-} from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 //Packages
 import { Table } from "reactstrap";
@@ -19,7 +17,7 @@ const Switch = styled.input.attrs({ type: "checkbox" })`
   appearance: none;
   width: 3.5em;
   height: 1.5em;
-  background: #ddd;
+  background: #505160;
   border-radius: 3em;
   position: relative;
   cursor: pointer;
@@ -59,42 +57,10 @@ function SquadTable() {
   const marineData = dataProvider.marineData;
   const setMarineData = dataProvider.setMarineData;
   const squadData = dataProvider.squadData;
-  const setSquadData = dataProvider.setSquadData;
-  const stateIsUpdated = dataProvider.stateIsUpdated;
-  const setStateIsUpdated = dataProvider.setStateIsUpdated;
-
-  // const _tempMarineData = marineData
-  // .filter(marine => marine._id === id)
-  // .map(marine => {
-  //   return {
-  //     ...marine,
-  //     accountability: {accountedFor: checked}
-  //   }})
-
-  // setMarineData(prevState => {
-  //   return {
-  //     ...prevState,
-  //     ..._tempMarineData
-  //   }
-  // })
-
-  // console.log('marineData', marineData)
-  // console.log('_tempData', _tempMarineData)
 
   const handleChange = evt => {
     const id = evt.target.id;
     const checked = evt.target.checked;
-
-    setMarineData(
-      marineData
-        .filter(marine => marine._id === id)
-        .map(marine => {
-          return {
-            ...marine,
-            accountability: { accountedFor: checked }
-          };
-        })
-    );
 
     const current_date = new Date();
 
@@ -106,7 +72,14 @@ function SquadTable() {
 
     updateMarineById(data.id, data)
       .then(res => console.log(res))
+      .then(console.log(marineData))
       .catch(err => console.log("Error while updating marine by id: ", err));
+
+    getAllMarinesInSquad(squadData._id)
+      .then(res => {
+        setMarineData(res);
+      })
+      .catch(err => console.log("Error in getAllMarinesInSquad: ", err));
   };
 
   return (
@@ -127,14 +100,40 @@ function SquadTable() {
       {!!marineData && !!marineData.length && (
         <tbody>
           {marineData.map((marine, i) => (
-            <tr key={marine._id}>
-              <th scope="row">{i + 1}</th>
-              <td>{marine.rank}</td>
-              <td>{marine.last}</td>
+            <tr
+              key={marine._id}
+              style={{
+                backgroundColor: marine.accountability.accountedFor
+                  ? "#505160"
+                  : "#68829e60"
+              }}
+            >
+              <th
+                scope="row"
+                style={{
+                  color: marine.accountability.accountedFor ? "white" : "black"
+                }}
+              >
+                {i + 1}
+              </th>
+              <td
+                style={{
+                  color: marine.accountability.accountedFor ? "white" : "black"
+                }}
+              >
+                {marine.rank}
+              </td>
+              <td
+                style={{
+                  color: marine.accountability.accountedFor ? "white" : "black"
+                }}
+              >
+                {marine.last}
+              </td>
               <td>
                 <Switch
                   key={marine._id}
-                  checked={marine.accountability.accountedFor}
+                  defaultChecked={marine.accountability.accountedFor}
                   id={marine._id}
                   onChange={handleChange}
                 />

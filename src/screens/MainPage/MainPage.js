@@ -7,15 +7,13 @@ import PulsingArrow from "../../components/PulsingArrow";
 import Banner from "../../components/Banner";
 import Card from "../../components/Card";
 //Services
-import { deleteSquadById } from "../../services/squadServices";
+import { deleteSquadById, getAllSquads } from "../../services/squadServices";
 
 function MainPage() {
   const [squadList, setSquadList] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8082/api/squads")
-      .then(res => setSquadList(res.data));
+    getAllSquads().then(res => setSquadList(res));
   }, []);
 
   const deleteSquad = evt => {
