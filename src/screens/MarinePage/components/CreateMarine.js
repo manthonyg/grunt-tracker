@@ -102,14 +102,9 @@ function CreateMarine({ id }) {
           zap: ""
         });
         setAlertVisible(true);
-        getAllMarinesInSquad(squadData._id)
-          .then(res => {
-            if (componentIsMounted.current) {
-              setMarineData(res);
-              setCurrentView("viewAll");
-            }
-          })
-          .catch(err => console.log("Error in getAllMarinesInSquad: ", err));
+        setCurrentView("viewAll").catch(err =>
+          console.log("Error in getAllMarinesInSquad: ", err)
+        );
       })
       .catch(err => {
         console.log("Error in CreateMarine", err);

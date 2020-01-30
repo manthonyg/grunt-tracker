@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 //Packages
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled, { keyframes, css } from "styled-components";
-import axios from "axios";
 import { Alert } from "reactstrap";
 //Global components
 import Badge from "../../../components/Badge";
@@ -152,7 +151,9 @@ function SquadDND({ id }) {
 
   const squadData = dataProvider.squadData;
   const setSquadData = dataProvider.setSquadData;
+  console.log(squadData);
 
+  console.log(marineData);
   const getUnplacedItemStyle = (isDragging, draggableStyle) => ({
     userSelect: "none",
     padding: "2px 8px",
@@ -274,8 +275,6 @@ function SquadDND({ id }) {
           source,
           destination
         );
-        console.log(result);
-        console.log(_getBillet(destination.droppableId, destination.index));
 
         updateBillet(result.draggableId, {
           billet: _getBillet(destination.droppableId, destination.index)
@@ -319,23 +318,29 @@ function SquadDND({ id }) {
 
   const removeMarine = evt => {
     evt.persist();
-    const marineId = evt.target.id;
-    deleteMarineById(marineId, id).then(res => {
+    const idToDelete = evt.target.id;
+    deleteMarineById(idToDelete, id).then(res => {
       setToastVisible(true);
       setSquadData(prevState => {
         return {
           ...prevState,
           teams: {
-            teamOne: squadData.teams.teamOne.filter(m => m._id !== marineId),
-            teamTwo: squadData.teams.teamTwo.filter(m => m._id !== marineId),
-            teamThree: squadData.teams.teamThree.filter(
-              m => m._id !== marineId
+            teamOne: squadData.teams.teamOne.filter(
+              marine => marine._id !== idToDelete
             ),
-            teamHq: squadData.teams.teamHq.filter(m => m._id !== marineId)
+            teamTwo: squadData.teams.teamTwo.filter(
+              marine => marine._id !== idToDelete
+            ),
+            teamThree: squadData.teams.teamThree.filter(
+              marine => marine._id !== idToDelete
+            ),
+            teamHq: squadData.teams.teamHq.filter(
+              marine => marine._id !== idToDelete
+            )
           }
         };
       });
-      setMarineData(marineData.filter(m => m._id !== marineId));
+      setMarineData(marineData.filter(marine => marine._id !== idToDelete));
     });
   };
 

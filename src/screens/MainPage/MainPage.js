@@ -1,13 +1,36 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+//Packages
+import styled from "styled-components";
 //Global components
 import Flex from "../../components/Flex";
 import Alert from "../../components/Alert";
 import PulsingArrow from "../../components/PulsingArrow";
 import Banner from "../../components/Banner";
 import Card from "../../components/Card";
+import Logo from "../../components/Logo";
 //Services
 import { deleteSquadById, getAllSquads } from "../../services/squadServices";
+//Media
+import BG from "../../images/GT_Bg.png";
+
+const Header = styled.div`
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  wrap: no-wrap;
+  height: 12rem;
+  margin-top: 2rem;
+  width: 100vw;
+  background-color: #fff;
+  background-image: url(${BG});
+  background-size: 150%, 25%, 25%;
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 0.04em;
+`;
 
 function MainPage() {
   const [squadList, setSquadList] = useState([]);
@@ -35,6 +58,12 @@ function MainPage() {
 
   return (
     <>
+      <Banner>Grunttracker</Banner>
+      <Header id="header">
+        <Flex justifyCenter alignEnd>
+          <Logo />
+        </Flex>
+      </Header>
       <Banner secondary>my squads</Banner>
 
       <Flex contentCenter justifyCenter>

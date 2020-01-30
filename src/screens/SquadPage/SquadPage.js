@@ -51,26 +51,21 @@ function SquadPage(props) {
   useEffect(() => {
     getSquadById(props.match.params.id)
       .then(res => {
-        if (componentIsMounted.current) {
-          setSquadData(res);
-        }
+        setSquadData(res);
       })
       .catch(err => console.log("Error in getSquadById: ", err));
 
     getAllMarinesInSquad(props.match.params.id)
       .then(res => {
-        if (componentIsMounted.current) {
-          setMarineData(res);
-        }
+        setMarineData(res);
       })
       .catch(err => console.log("Error in getAllMarinesInSquad: ", err));
-
+    console.log("squadPage has updated data");
     return () => {
       componentIsMounted.current = false;
       console.log("cleaned up in squad page");
     };
   }, [props.match.params.id, currentView]);
-  console.log("squadPage has updated");
   return (
     <>
       <SquadPageContext.Provider value={providerValue}>

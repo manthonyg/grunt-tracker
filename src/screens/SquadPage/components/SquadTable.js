@@ -58,6 +58,12 @@ function SquadTable() {
   const setMarineData = dataProvider.setMarineData;
   const squadData = dataProvider.squadData;
 
+  marineData.map(marine => {
+    const zapFormat = `${marine.first[0]}${marine.last[0]}${marine.edipi.slice(
+      -5
+    )}${marine.blood_type}`;
+    console.log(zapFormat);
+  });
   const handleChange = evt => {
     const id = evt.target.id;
     const checked = evt.target.checked;
@@ -91,6 +97,7 @@ function SquadTable() {
             <th>Rank</th>
             <th>Last</th>
             <th>Accountability</th>
+            <th>Billet</th>
           </tr>
         </thead>
       ) : (
@@ -137,6 +144,13 @@ function SquadTable() {
                   id={marine._id}
                   onChange={handleChange}
                 />
+              </td>
+              <td
+                style={{
+                  color: marine.accountability.accountedFor ? "white" : "black"
+                }}
+              >
+                {marine.billet}
               </td>
               <td>
                 <StyledLink

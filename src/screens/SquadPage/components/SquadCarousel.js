@@ -29,7 +29,9 @@ background: ${props => {
   if (props.secondary) return "#aebd38";
   return "#505160";
 }}
-
+&:nth-child(1n) {
+  background-color: #505160
+}
 text-align:center
 display:block;
 height: 8rem;

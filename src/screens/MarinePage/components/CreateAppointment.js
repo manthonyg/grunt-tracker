@@ -37,13 +37,6 @@ function CreateAppointment() {
   const onSubmit = evt => {
     evt.preventDefault();
 
-    // const data = {
-    //   date: marineData.date,
-    //   appointment_type: marineData.appointment_type,
-    //   location: marineData.location,
-    //   time: marineData.time
-    // };
-
     createAppointment(marineData._id, data)
       .then(res => {
         setData({

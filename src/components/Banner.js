@@ -2,12 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  border-radius: 5px;
   font-size: 16px;
-
   font-weight: 600;
+  display: flex;
+  justify-content: center;
   overflow: auto;
-  text-align: center;
   float: center;
 `;
 const Header = styled.h4`
@@ -24,10 +23,10 @@ text-transform: uppercase;
 border-bottom: ${props => {
   if (props.secondary) return "none";
   if (props.header) return "none";
-  return "2px solid #505160";
+  return "none";
 }}
 font-size: ${props => {
-  if (props.secondary) return "20px";
+  if (props.secondary) return "28px";
   if (props.small) return "14px";
   return "28px";
 }}

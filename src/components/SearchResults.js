@@ -9,8 +9,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledDropdownToggle = styled(DropdownToggle)`
-  background-color: #eee !important;
-  color: #000 !important;
+  background-color: #505160 !important;
+  border: 2px solid #aebd38 !important;
+  color: #fff !important;
 `;
 const ResultsWrapper = styled.div`
   position: absolute;

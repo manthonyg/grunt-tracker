@@ -10,10 +10,7 @@ import SquadPage from "./screens/SquadPage/SquadPage";
 import MarinePage from "./screens/MarinePage/MarinePage";
 //Local Components
 import BottomNav from "./components/BottomNav";
-import Logo from "./components/Logo";
 import SearchBar from "./components/SearchBar";
-import Flex from "./components/Flex";
-import Banner from "./components/Banner";
 import SearchResults from "./components/SearchResults";
 //Services
 import { getMarinesBySearchInput } from "./services/marineServices";
@@ -69,7 +66,8 @@ const App = () => {
   const handleClick = () => setMarineSearch("");
 
   let windowPos = document.scrollTop;
-  window.addEventListener("onscroll", function() {
+
+  window.addEventListener("scroll", function() {
     console.log(windowPos);
     if (document.scrollTop > windowPos) {
       console.log("something happens");
@@ -87,20 +85,15 @@ const App = () => {
   return (
     <Router>
       <LayoutContainer>
-        <Header id="header">
-          <Flex justifyCenter alignEnd>
-            <Logo />
-          </Flex>
-          <SearchBar hovered onChange={handleSearch} value={marineSearch} />
-          {!!marineSearch.length && (
-            <SearchResults
-              isOpen={dropdownOpen}
-              toggle={toggle}
-              filteredMarines={marineData}
-              handleClick={handleClick}
-            />
-          )}
-        </Header>
+        <SearchBar hovered onChange={handleSearch} value={marineSearch} />
+        {!!marineSearch.length && (
+          <SearchResults
+            isOpen={dropdownOpen}
+            toggle={toggle}
+            filteredMarines={marineData}
+            handleClick={handleClick}
+          />
+        )}
 
         <Main>
           <Route exact path="/" component={Home} />

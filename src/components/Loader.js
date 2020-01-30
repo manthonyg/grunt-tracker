@@ -16,7 +16,7 @@ const StyledDotsLoader = styled.div`
 const Dot = styled.span`
   width: ${props => (props.big ? "20px" : "12px")};
   height: ${props => (props.big ? "20px" : "12px")};
-  background-color: ${props => (props.white ? "#FFF" : "#000")};
+  background-color: ${props => (props.white ? "#FFF" : "#aebd38")};
   border-radius: 100%;
   display: inline-block;
   animation: ${Bounce} 1s infinite ease-in-out both;
@@ -25,6 +25,7 @@ const Dot = styled.span`
   }
   &:nth-child(2) {
     animation-delay: -0.16s;
+    background-color: #68829e;
   }
 `;
 
