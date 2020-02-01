@@ -48,7 +48,6 @@ const Footer = styled.div`
 const Main = styled.div`
   background-color: #fff;
   flex: 1 1 auto;
-  padding-top: 1rem;
   //flex: 1 0 auto; // use this to implement sticky footer
   overflow-y: scroll;
   margin-bottom: 2rem;

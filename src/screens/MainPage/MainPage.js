@@ -61,7 +61,7 @@ function MainPage() {
       <Banner>Grunttracker</Banner>
       <Header id="header">
         <Flex justifyCenter alignEnd>
-          <Logo />
+          <Logo size="3" />
         </Flex>
       </Header>
       <Banner secondary>my squads</Banner>

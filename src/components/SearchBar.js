@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+//Media
+import Search from "../images/search-yellow.svg";
 
 const SearchContainer = styled.div`
   box-sizing: border-box;
@@ -25,7 +27,6 @@ const SearchContainer = styled.div`
   :hover {
     width: 200px;
     background: #fff;
-    border-radius: 0.5rem 0 0 0.5rem;
     border-bottom: 3px solid #aebd38;
   }
 `;
@@ -34,7 +35,6 @@ const SearchIcon = styled.div`
   background-color: none;
   display: table-cell;
   height: 44px;
-  border-radius: 4px;
   position: relative;
   text-align: center;
   color: #aebd38;
@@ -93,7 +93,8 @@ function SearchBar(props) {
 
       <SearchContainer>
         <SearchIcon>
-          <i className="fa fa-search"></i>
+          {/* <i className="fa fa-search"></i> */}
+          <img src={Search} style={{ width: "1rem" }}></img>
         </SearchIcon>
         <SearchInputWrapper>
           <SearchInput

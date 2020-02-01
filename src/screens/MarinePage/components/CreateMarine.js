@@ -14,10 +14,7 @@ import {
 import Flex from "../../../components/Flex";
 import Banner from "../../../components/Banner";
 //Services
-import {
-  addMarineToSquad,
-  getAllMarinesInSquad
-} from "../../../services/squadServices";
+import { addMarineToSquad } from "../../../services/squadServices";
 //Context
 import { SquadPageContext } from "../../SquadPage/SquadPage";
 /*TODO

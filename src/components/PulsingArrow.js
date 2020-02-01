@@ -19,7 +19,7 @@ function PulsingArrow() {
   const ArrowWrapper = styled.div`
     position: absolute;
     bottom: 80px;
-    right: 40px;
+    right: 34px;
     width: 60px;
     height: 60px;
     display: block;
@@ -31,43 +31,29 @@ function PulsingArrow() {
     position: absolute;
     width: 60px;
     height: 60px;
-    border: 2px solid #68829e;
+    animation: ${Pulsate} 750ms ease-out infinite;
     border-radius: 50%;
   `;
   const ArrowDown = styled.div`
     position: absolute;
     box-sizing: border-box;
-    bottom: 24px;
+    bottom: 26px;
     width: 20px;
     height: 20px;
-    border-top: 3px solid #68829e;
-    border-right: 3px solid #68829e;
-    right: 19px;
+    border-top: 5px solid #68829e;
+    border-right: 5px solid #68829e;
+    right: 14px;
     -moz-transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
     -o-transform: rotate(135deg);
     -ms-transform: rotate(135deg);
     transform: rotate(135deg);
   `;
-  const Pulse = styled.div`
-    border-radius: 50%;
-    height: 56px;
-    width: 56px;
-    position: absolute;
-    margin: 0;
-    animation: ${Pulsate} 750ms ease-out;
-    animation-iteration-count: infinite;
-    opacity: 0;
-    box-sizing: border-box;
-    box-shadow: 0 0 3px 1px #aebd38;
-    animation-delay: 2s;
-  `;
 
   return (
     <ArrowWrapper>
       <ArrowBorder>
         <ArrowDown></ArrowDown>
-        <Pulse></Pulse>
       </ArrowBorder>
     </ArrowWrapper>
   );

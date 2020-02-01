@@ -7,10 +7,7 @@ import { Alert } from "reactstrap";
 import Badge from "../../../components/Badge";
 import Flex from "../../../components/Flex";
 //Services
-import {
-  updateSquadById,
-  getAllMarinesInSquad
-} from "../../../services/squadServices";
+import { updateSquadById } from "../../../services/squadServices";
 import {
   deleteMarineById,
   updateBillet
@@ -101,7 +98,7 @@ const ButtonOuter = styled.div`
   color: inherit;
   display: inline-block;
   font: inherit;
-  height: 1rem;
+  height: 2.8rem;
   line-height: 1;
   margin: 0;
   padding: 0;
@@ -118,7 +115,8 @@ const ButtonInner = styled.span`
   color: #000;
   display: flex;
   font-weight: 300;
-  height: 1rem;
+  height: 2.8rem;
+  border-radius: 5px;
   min-width: 2.5em;
   padding: 1em 1em;
   position: relative;

@@ -1,15 +1,44 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 //Packages
 import { FormGroup, Label, Input, Container } from "reactstrap";
 import { Alert } from "reactstrap";
+import styled from "styled-components";
 //Global components
 import Loader from "../components/Loader";
 import Banner from "../components/Banner";
 import Button from "../components/Button";
 import Flex from "../components/Flex";
+import Logo from "../components/Logo";
 //Services
 import { createSquad } from "../services/squadServices";
+//Media
+import BG from "../images/GT_Bg.png";
+
+const StyledAlert = styled(Alert)`
+  background-color: ${props => {
+    if (props.success) return "#AED33880 !important";
+    return "#505160 !important";
+  }};
+`;
+
+const Header = styled.div`
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  wrap: no-wrap;
+  height: 12rem;
+  margin-top: 2rem;
+  width: 100vw;
+  background-color: #fff;
+  background-image: url(${BG});
+  background-size: 150%, 25%, 25%;
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 0.04em;
+`;
 
 function CreateSquad(props) {
   const [squadData, setSquadData] = useState({
@@ -61,6 +90,15 @@ function CreateSquad(props) {
 
   return (
     <>
+      <Banner>Grunttracker</Banner>
+      <Header id="header">
+        <Flex justifyCenter alignEnd>
+          <Logo size="3" />
+          <Logo inverted size="1" />
+          <Logo inverted size="1" />
+          <Logo inverted size="1" />
+        </Flex>
+      </Header>
       <Banner>
         <strong>Create Squad</strong>
       </Banner>
@@ -124,17 +162,16 @@ function CreateSquad(props) {
             <Button onClick={handleSubmit}>Submit</Button>
           </FormGroup>
 
-          <Alert color="success" isOpen={successVisible} toggle={onSucDismiss}>
-            <Flex justifyAround>
-              Squad added
-              <Button>
-                <Link to={"/"}>View</Link>
-              </Button>
-            </Flex>
-          </Alert>
-          <Alert color="danger" isOpen={errorVisible} toggle={onErrDismiss}>
+          <StyledAlert success isOpen={successVisible} toggle={onSucDismiss}>
+            <Flex justifyAround>Squad added!</Flex>
+          </StyledAlert>
+          <StyledAlert
+            color="danger"
+            isOpen={errorVisible}
+            toggle={onErrDismiss}
+          >
             Failed to add squad
-          </Alert>
+          </StyledAlert>
         </Container>
       ) : (
         <Loader></Loader>

@@ -17,6 +17,7 @@ const ResultsWrapper = styled.div`
   position: absolute;
   top: 0px;
   left: 0px;
+  z-index: 1000002;
 `;
 function SearchResults({ isOpen, toggle, filteredMarines, handleClick }) {
   return (

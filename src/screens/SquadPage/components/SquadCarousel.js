@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 //Packages
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -11,6 +11,7 @@ import { SquadPageContext } from "../SquadPage";
 const Header = styled.h4`
   text-align: center;
   color: #fff;
+  margin-top: 2rem;
   font-weight: 700;
   font-size: 0.85rem;
   position: relative;
@@ -18,6 +19,7 @@ const Header = styled.h4`
 `;
 const Stats = styled.div`
 border-right:2px solid #fff;
+border-top:20px solid #AEBD38;
 &:nth-child() {
   border-right:2px solid #AEBD38;
 }
@@ -30,11 +32,11 @@ background: ${props => {
   return "#505160";
 }}
 &:nth-child(1n) {
-  background-color: #505160
+  background-color: #505160;
 }
 text-align:center
 display:block;
-height: 8rem;
+height: 10rem;
 color:#fff;
 font-size:13px;
 font-weight:300;
@@ -55,8 +57,17 @@ function SquadCarousel({ handleSetCurrentView }) {
   const marineData = dataProvider.marineData;
   const squadData = dataProvider.squadData;
 
+  const totalAppointments = marineData.map(marine =>
+    marine.appointments
+      .map(appointment => appointment.date)
+      .reduce((acc, cur) => acc + cur, 0)
+  );
+  console.log(totalAppointments);
+
   return (
     <div>
+      <br />
+      <br />
       <Banner secondary>{squadData.callsign}overview</Banner>
       <Carousel
         showStatus={false}
@@ -91,26 +102,7 @@ function SquadCarousel({ handleSetCurrentView }) {
             <Stats>
               <Header>Appointments</Header>
               <br />
-              {marineData && marineData.length ? (
-                <>
-                  {
-                    marineData.map(marine =>
-                      marine.appointments.map(appointment => appointment)
-                    ).length
-                  }
-
-                  <br />
-                  <i
-                    className="material-icons"
-                    id="accountability"
-                    onClick={handleSetCurrentView}
-                  >
-                    arrow_right_alt
-                  </i>
-                </>
-              ) : (
-                "-"
-              )}
+              <Banner white>{totalAppointments[0]}</Banner>
             </Stats>
             <Stats>
               <Header>Discrepancies</Header>

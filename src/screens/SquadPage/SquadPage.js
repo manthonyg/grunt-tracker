@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Container } from "reactstrap";
 //Local components
 import SquadCarousel from "./components/SquadCarousel";
 import SquadDND from "./components/SquadDND";
 import CreateMarine from "../MarinePage/components/CreateMarine";
 import SquadTable from "./components/SquadTable";
-//Global components
-import Button from "../../components/Button";
-import Flex from "../../components/Flex";
+import SideNav from "../../components/SideNav";
 //Services
 import {
   getAllMarinesInSquad,
@@ -22,6 +19,34 @@ function SquadPage(props) {
   const [marineData, setMarineData] = useState([]);
   const [squadData, setSquadData] = useState([]);
   const [currentView, setCurrentView] = useState("viewAll");
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleSetMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const navLinks = [
+    {
+      title: "Generate Zaps",
+      view: "generateZaps"
+    },
+    {
+      title: "Do this",
+      view: "doThis"
+    },
+    {
+      title: "Task Organization",
+      view: "dragAndDrop"
+    },
+    {
+      title: "Add",
+      view: "addMarine"
+    },
+    {
+      title: "Accountability",
+      view: "viewAll"
+    }
+  ];
 
   const providerValue = React.useMemo(
     () => ({
@@ -45,6 +70,7 @@ function SquadPage(props) {
   const handleSetCurrentView = evt => {
     if (!!evt.target.id) {
       setCurrentView(evt.target.id);
+      setMenuOpen(!menuOpen);
     }
   };
 
@@ -60,34 +86,36 @@ function SquadPage(props) {
         setMarineData(res);
       })
       .catch(err => console.log("Error in getAllMarinesInSquad: ", err));
-    console.log("squadPage has updated data");
     return () => {
       componentIsMounted.current = false;
-      console.log("cleaned up in squad page");
     };
   }, [props.match.params.id, currentView]);
   return (
     <>
+      <SideNav
+        onClick={handleSetMenu}
+        navLinks={navLinks}
+        open={menuOpen}
+        handleView={handleSetCurrentView}
+      ></SideNav>
       <SquadPageContext.Provider value={providerValue}>
         <SquadCarousel
           handleSetCurrentView={handleSetCurrentView}
           squadData={squadData}
           marineData={marineData}
         />
-
-        <Container>
-          <Flex justifyBetween>
-            <Button id="addMarine" onClick={handleSetCurrentView}>
-              Add Member
-            </Button>
-            <Button id="viewAll" onClick={handleSetCurrentView}>
-              View All
-            </Button>
-            <Button id="dragAndDrop" onClick={handleSetCurrentView}>
-              Change T/O
-            </Button>
-          </Flex>
-        </Container>
+        {/* 
+        <Flex justifyBetween>
+          <Button id="addMarine" onClick={handleSetCurrentView}>
+            Add Member
+          </Button>
+          <Button id="viewAll" onClick={handleSetCurrentView}>
+            View All
+          </Button>
+          <Button id="dragAndDrop" onClick={handleSetCurrentView}>
+            Change T/O
+          </Button>
+        </Flex> */}
 
         {currentView === "addMarine" && <CreateMarine id={squadData._id} />}
         {currentView === "viewAll" && <SquadTable id={squadData._id} />}

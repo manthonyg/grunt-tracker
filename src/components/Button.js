@@ -5,17 +5,20 @@ import Loader from "./Loader";
 const StyledButton = styled.button`
   border: ${props => {
     if (props.secondary) return "none";
+    if (props.inverted) return "none";
     return "2px solid #AEBD38";
   }};
 
   background-color: ${props => {
     if (props.secondary) return "#68829e";
+    if (props.inverted) return "#68829e";
     return "#fff";
   }};
 
-  margin: 0.25rem 0.1rem;
+  margin: 0.35rem 0.3rem;
   color: ${props => {
     if (props.secondary) return "#fff";
+    if (props.inverted) return "#fff";
     return "#000";
   }};
 
@@ -26,6 +29,10 @@ const StyledButton = styled.button`
   }};
   border-radius: 3px;
   outline: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: 200;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -43,6 +50,7 @@ const Button = ({
   inverse,
   loading,
   children,
+  inverted,
   ...props
 }) => {
   return (
@@ -50,7 +58,7 @@ const Button = ({
       secondary={secondary}
       small={small}
       big={big}
-      inverse={inverse}
+      inverted={inverted}
       {...props}
     >
       {loading ? <Loader small white /> : children}

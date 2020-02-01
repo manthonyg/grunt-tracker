@@ -14,6 +14,8 @@ import Banner from "../../components/Banner";
 import Card from "../../components/Card";
 import Icon from "../../components/Icon";
 import Loader from "../../components/Loader";
+import Button from "../../components/Button";
+import SideNav from "../../components/SideNav";
 //Services
 import { getMarineById } from "../../services/marineServices";
 
@@ -31,19 +33,24 @@ const FlexBox = styled.div`
 `;
 
 const FlexItem = styled.div`
-  transition: all 300ms;
+  transition: all 150ms;
   padding: 1rem;
   justify-content: center;
-  background-color: #68829e60;
+  overflow: auto;
+  background-color: #505160;
   color: #000;
   border-bottom: 4px solid #fff;
+  filter: ${props => {
+    if (props.selected) return ``;
+    return `opacity(40%);`;
+  }}
   box-sizing: border-box;
   flex-grow: ${props => {
-    if (props.selected) return "5";
+    if (props.selected) return "200";
     return "1";
   }};
   &:nth-child(2n) {
-    background-color: #505160;
+    background-color: #aebd38;
   }
 `;
 
@@ -56,8 +63,34 @@ function MarinePage(props) {
   const [selectedCategory, setSelectedCategory] = useState({
     weapons: false,
     gear: false,
-    body: false
+    body: false,
+    appointments: false,
+    accountability: true
   });
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [currentView, setCurrentView] = useState("viewAll");
+
+  const navLinks = [
+    {
+      title: "Create Counseling",
+      view: "createCounseling"
+    },
+    {
+      title: "TAD/Leave",
+      view: "tadLeave"
+    }
+  ];
+
+  const handleSetCurrentView = evt => {
+    if (!!evt.target.id) {
+      setCurrentView(evt.target.id);
+      setMenuOpen(!menuOpen);
+    }
+  };
+
+  const handleSetMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   const handleSelectedCategory = evt => {
     const id = evt.currentTarget.id;
@@ -69,8 +102,6 @@ function MarinePage(props) {
       accountability: false,
       [id]: !selectedCategory.id
     });
-    console.log(id);
-    console.log(selectedCategory);
   };
 
   useEffect(() => {
@@ -103,9 +134,15 @@ function MarinePage(props) {
 
   return (
     <>
+      <SideNav
+        onClick={handleSetMenu}
+        navLinks={navLinks}
+        open={menuOpen}
+        handleView={handleSetCurrentView}
+      ></SideNav>
       <MarinePageContext.Provider value={providerValue}>
         <Banner secondary>
-          {marineData.rank && marineData.last ? (
+          {marineData && marineData.last ? (
             `${marineData.rank} ${marineData.last}`
           ) : (
             <Loader />
@@ -117,7 +154,7 @@ function MarinePage(props) {
             selected={selectedCategory.accountability}
             onClick={handleSelectedCategory}
           >
-            <Banner secondary>
+            <Banner white>
               Accountability
               {marineData.accountability && (
                 <>
@@ -223,7 +260,7 @@ function MarinePage(props) {
             selected={selectedCategory.gear}
             onClick={handleSelectedCategory}
           >
-            <Banner secondary>Gear</Banner>
+            <Banner white>Gear</Banner>
           </FlexItem>
           <FlexItem
             id={"body"}
@@ -237,7 +274,18 @@ function MarinePage(props) {
             selected={selectedCategory.appointments}
             onClick={handleSelectedCategory}
           >
-            <Banner secondary>Appointments</Banner>
+            <Banner white>Appointments</Banner>
+            {selectedCategory.appointments && (
+              <Flex justifyBetween>
+                <Button inverted id="add-appointment">
+                  Create Appointment
+                </Button>
+                <Button inverted id="view-all">
+                  View All
+                </Button>
+                <CreateAppointment />
+              </Flex>
+            )}
           </FlexItem>
         </FlexBox>
       </MarinePageContext.Provider>

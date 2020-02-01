@@ -3,6 +3,14 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 //Packages
 import styled from "styled-components";
+//Media
+import Home from "../images/home-solid.svg";
+import AngleL from "../images/angle-left-solid.svg";
+import Plus from "../images/plus.svg";
+import Tent from "../images/tent-yellow.svg";
+import LArrow from "../images/larrow.svg";
+import AddSquad from "../images/add-squad-yellow.svg";
+import BG from "../images/GT_Bg.png";
 
 const MobileNavWrapper = styled.nav`
   position: fixed;
@@ -11,8 +19,14 @@ const MobileNavWrapper = styled.nav`
   right: 0;
   padding: 10px 0px;
   display: flex;
+  justify-content: between;
   height: 70px;
   background-color: #505160;
+  background-image: contain;
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 0.04em;
 `;
 
 const MobileNavItem = styled.div`
@@ -25,7 +39,8 @@ font-size: ${props => {
 }}
 display: flex;
 flex-direction: column;
-justify-content: center;
+ justify-content:between
+ align-items: center;
 :active {
     color: #fff;
 }
@@ -43,36 +58,38 @@ const StyledLink = styled(Link)`
 
 const MobileNavItemContent = styled.div`
   display: flex;
-  flex-direction: column;
   padding: 10px 0px;
+  justify-content:between
   z-index: 50000;
   color: #fff;
 `;
 
-function BottomNav(props) {
-  const [dropdownOpen, setOpen] = useState(false);
-  const toggle = () => setOpen(!dropdownOpen);
+function BottomNav() {
   const history = useHistory();
   return (
     <MobileNavWrapper>
       <MobileNavItem>
         <MobileNavItemContent>
-          <i className="material-icons" onClick={history.goBack}>
-            arrow_back
-          </i>
+          <img
+            src={LArrow}
+            onClick={history.goBack}
+            style={{ width: "2rem" }}
+          ></img>
         </MobileNavItemContent>
       </MobileNavItem>
-      <MobileNavItem center>
+      <MobileNavItem>
         <MobileNavItemContent>
           <StyledLink to="/">
-            <i className="material-icons">home</i>
+            <img src={Tent} style={{ width: "4rem" }}></img>
+            {/* <i className="material-icons">home</i> */}
           </StyledLink>
         </MobileNavItemContent>
       </MobileNavItem>
       <MobileNavItem>
         <MobileNavItemContent>
           <StyledLink to="/create-squad">
-            <i className="material-icons">add</i>
+            <img src={AddSquad} style={{ width: "2rem" }}></img>
+            {/* <i className="material-icons">add</i> */}
           </StyledLink>
         </MobileNavItemContent>
       </MobileNavItem>

@@ -2,7 +2,7 @@ import React from "react";
 //Packages
 import styled, { keyframes, css } from "styled-components";
 // Media
-import GTLogo from "../images/GT_logo.png";
+import GTLogo from "../images/GT_Logo.png";
 import GTBG from "../images/GT_Bg.png";
 import { device } from "../constants/mediaQueries";
 //Global components
@@ -38,14 +38,19 @@ top: 2rem;
 text-align: center;
 }`;
 
-function Logo() {
+function Logo({ size, inverted }) {
   return (
     <img
       alt="Grunt Tracker"
       src={GTLogo}
-      style={{
-        width: "2rem"
-      }}
+      style={
+        inverted
+          ? {
+              width: `${size}em`,
+              transform: `rotateY(180deg)`
+            }
+          : { width: `${size}em` }
+      }
     />
   );
 }

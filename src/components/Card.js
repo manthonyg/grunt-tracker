@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 import Flex from "../components/Flex";
 import { Link } from "react-router-dom";
+//Media
+import AngleR from "../images/angle-right-solid.svg";
+import Plus from "../images/plus.svg";
 
 const animatedCss = css`
   opacity: 1;
@@ -80,16 +83,22 @@ function Card(props) {
       {props.selected || props.toast ? props.children : null}
       {props.toast && (
         <CardButtonWrapper>
-          <Flex justifyBetween>
-            <i
+          <Flex justifyBetween alignCenter>
+            <img
+              src={Plus}
+              id={props.id}
+              onClick={props.handleClose}
+              style={{ width: "1rem", transform: "rotate(45deg)" }}
+            />
+            {/* <i
               className="material-icons"
               id={props.id}
               onClick={props.handleClose}
             >
               close
-            </i>
+            </i> */}
             <Link to={props.link}>
-              <i className="material-icons">arrow_right_alt</i>
+              <img src={AngleR} style={{ width: "1.75rem" }} />
             </Link>
           </Flex>
         </CardButtonWrapper>

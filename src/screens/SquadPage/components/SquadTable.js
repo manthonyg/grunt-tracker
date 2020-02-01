@@ -1,15 +1,19 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 //Packages
 import { Table } from "reactstrap";
 import styled from "styled-components";
 //Global components
 import Banner from "../../../components/Banner";
+import Flex from "../../../components/Flex";
+import Button from "../../../components/Button";
 //Services
 import { updateMarineById } from "../../../services/marineServices";
 import { getAllMarinesInSquad } from "../../../services/squadServices";
 //Context
 import { SquadPageContext } from "../SquadPage";
+//Media
+import View from "../../../images/external-link-blue.svg";
 
 const Switch = styled.input.attrs({ type: "checkbox" })`
   -webkit-appearance: none;
@@ -58,16 +62,55 @@ function SquadTable() {
   const setMarineData = dataProvider.setMarineData;
   const squadData = dataProvider.squadData;
 
+  const accountabilitySwitches = Array.from(
+    document.querySelectorAll(".switch")
+  );
+  const accountabilityButtons = Array.from(
+    document.querySelectorAll(".accountability-button")
+  );
+
+  document.querySelectorAll(".accountability-button");
+
   marineData.map(marine => {
     const zapFormat = `${marine.first[0]}${marine.last[0]}${marine.edipi.slice(
       -5
     )}${marine.blood_type}`;
     console.log(zapFormat);
   });
+
+  const handleMarkAll = evt => {
+    accountabilityButtons.map(
+      accountabilityButton => (accountabilityButton.disabled = true)
+    );
+    const data = {
+      accountedFor: evt.currentTarget.id === "accounted" ? true : false
+    };
+
+    accountabilitySwitches.map(
+      accountabilitySwitch =>
+        (accountabilitySwitch.checked =
+          evt.currentTarget.id === "accounted" ? true : false)
+    );
+
+    getAllMarinesInSquad(squadData._id)
+      .then(res => {
+        setMarineData(res);
+        accountabilityButtons.map(
+          accountabilityButton => (accountabilityButton.disabled = false)
+        );
+      })
+      .catch(err => console.log("Error in getAllMarinesInSquad: ", err));
+
+    marineData.map(marine => {
+      updateMarineById(marine._id, data)
+        .then(res => console.log(res))
+        .catch(err => console.log("Error while updating marine by id: ", err));
+    });
+  };
+
   const handleChange = evt => {
     const id = evt.target.id;
     const checked = evt.target.checked;
-
     const current_date = new Date();
 
     const data = {
@@ -78,7 +121,6 @@ function SquadTable() {
 
     updateMarineById(data.id, data)
       .then(res => console.log(res))
-      .then(console.log(marineData))
       .catch(err => console.log("Error while updating marine by id: ", err));
 
     getAllMarinesInSquad(squadData._id)
@@ -89,82 +131,108 @@ function SquadTable() {
   };
 
   return (
-    <Table responsive>
-      {!!marineData && !!marineData.length ? (
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Rank</th>
-            <th>Last</th>
-            <th>Accountability</th>
-            <th>Billet</th>
-          </tr>
-        </thead>
-      ) : (
-        <Banner secondary>Add Members to Squad</Banner>
-      )}
-
-      {!!marineData && !!marineData.length && (
-        <tbody>
-          {marineData.map((marine, i) => (
-            <tr
-              key={marine._id}
-              style={{
-                backgroundColor: marine.accountability.accountedFor
-                  ? "#505160"
-                  : "#68829e60"
-              }}
-            >
-              <th
-                scope="row"
-                style={{
-                  color: marine.accountability.accountedFor ? "white" : "black"
-                }}
-              >
-                {i + 1}
-              </th>
-              <td
-                style={{
-                  color: marine.accountability.accountedFor ? "white" : "black"
-                }}
-              >
-                {marine.rank}
-              </td>
-              <td
-                style={{
-                  color: marine.accountability.accountedFor ? "white" : "black"
-                }}
-              >
-                {marine.last}
-              </td>
-              <td>
-                <Switch
-                  key={marine._id}
-                  defaultChecked={marine.accountability.accountedFor}
-                  id={marine._id}
-                  onChange={handleChange}
-                />
-              </td>
-              <td
-                style={{
-                  color: marine.accountability.accountedFor ? "white" : "black"
-                }}
-              >
-                {marine.billet}
-              </td>
-              <td>
-                <StyledLink
-                  key={`${marine._id}`}
-                  to={`/show-marine/${marine._id}`}
-                >
-                  <i className="material-icons">exit_to_app</i>
-                </StyledLink>
-              </td>
+    <>
+      <Flex justifyBetween>
+        <Button
+          className="accountability-button"
+          onClick={handleMarkAll}
+          inverted
+          id="accounted"
+        >
+          Mark All Accounted
+        </Button>
+        <Button
+          className="accountability-button"
+          onClick={handleMarkAll}
+          inverted
+          id="unaccounted"
+        >
+          Mark All Unaccounted
+        </Button>
+      </Flex>
+      <Table responsive>
+        {!!marineData && !!marineData.length ? (
+          <thead>
+            <tr>
+              <th>View</th>
+              <th>Rank</th>
+              <th>Last</th>
+              <th>Accountability</th>
+              <th>Billet</th>
             </tr>
-          ))}
-        </tbody>
-      )}
-    </Table>
+          </thead>
+        ) : (
+          <Banner secondary>Add Members to Squad</Banner>
+        )}
+
+        {!!marineData && !!marineData.length && (
+          <tbody>
+            {marineData.map((marine, i) => (
+              <tr
+                key={marine._id}
+                // style={{
+                //   backgroundColor: marine.accountability.accountedFor
+                //     ? "#505160"
+                //     : "#68829e60"
+                // }}
+              >
+                <th
+                  scope="row"
+                  style={{
+                    color: marine.accountability.accountedFor
+                      ? "white"
+                      : "black"
+                  }}
+                >
+                  <StyledLink
+                    key={`${marine._id}`}
+                    to={`/show-marine/${marine._id}`}
+                  >
+                    <img src={View} style={{ width: "1.5rem" }} />
+                  </StyledLink>
+                </th>
+                <td
+                // style={{
+                //   color: marine.accountability.accountedFor
+                //     ? "white"
+                //     : "black"
+                // }}
+                >
+                  {marine.rank}
+                </td>
+                <td
+                // style={{
+                //   color: marine.accountability.accountedFor
+                //     ? "white"
+                //     : "black"
+                // }}
+                >
+                  {marine.last}
+                </td>
+                <td>
+                  <Switch
+                    key={marine._id}
+                    className={"switch"}
+                    defaultChecked={marine.accountability.accountedFor}
+                    id={marine._id}
+                    onChange={handleChange}
+                  />
+                </td>
+                <td
+                // style={{
+                //   color: marine.accountability.accountedFor
+                //     ? "white"
+                //     : "black"
+                // }}
+                >
+                  {marine.billet}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        )}
+      </Table>
+    </>
   );
 }
 
