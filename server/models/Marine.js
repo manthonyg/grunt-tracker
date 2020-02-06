@@ -11,6 +11,7 @@ const MarineSchema = new mongoose.Schema({
   company: { type: String },
   platoon: { type: String },
   squad: { type: String },
+  zap: { type: String },
   team: { type: String, default: "teamHq" },
   edipi: { type: String },
   blood_type: { type: String },

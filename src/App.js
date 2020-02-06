@@ -23,23 +23,23 @@ const LayoutContainer = styled.div`
   height: 100vh;
 `;
 
-const Header = styled.div`
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  wrap: no-wrap;
-  height: 8rem;
-  width: 100vw;
-  background-color: #fff;
-  background-image: url(${BG});
-  background-size: 150%, 25%, 25%;
-  background-origin: border-box;
-  background-repeat: no-repeat;
-  background-position-x: 50%;
-  background-position-y: 0.04em;
-`;
+// const Header = styled.div`
+//   padding: 1rem;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   flex-direction: row;
+//   wrap: no-wrap;
+//   height: 8rem;
+//   width: 100vw;
+//   background-color: #fff;
+//   background-image: url(${BG});
+//   background-size: 150%, 25%, 25%;
+//   background-origin: border-box;
+//   background-repeat: no-repeat;
+//   background-position-x: 50%;
+//   background-position-y: 0.04em;
+// `;
 
 const Footer = styled.div`
   padding: 1rem;
@@ -47,7 +47,7 @@ const Footer = styled.div`
 
 const Main = styled.div`
   background-color: #fff;
-  flex: 1 1 auto;
+
   //flex: 1 0 auto; // use this to implement sticky footer
   overflow-y: scroll;
   margin-bottom: 2rem;

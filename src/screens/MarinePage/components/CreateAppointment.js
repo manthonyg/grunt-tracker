@@ -13,7 +13,6 @@ function CreateAppointment() {
   const dataProvider = useContext(MarinePageContext);
 
   const marineData = dataProvider.marineData;
-  const setMarineData = dataProvider.setMarineData;
 
   const [data, setData] = useState({
     date: "",

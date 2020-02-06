@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 //Packages
 import styled from "styled-components";
 //Media
-import Home from "../images/home-solid.svg";
-import AngleL from "../images/angle-left-solid.svg";
-import Plus from "../images/plus.svg";
 import Tent from "../images/tent-yellow.svg";
 import LArrow from "../images/larrow.svg";
 import AddSquad from "../images/add-squad-yellow.svg";
-import BG from "../images/GT_Bg.png";
 
 const MobileNavWrapper = styled.nav`
   position: fixed;
@@ -80,7 +76,7 @@ function BottomNav() {
       <MobileNavItem>
         <MobileNavItemContent>
           <StyledLink to="/">
-            <img src={Tent} style={{ width: "4rem" }}></img>
+            <img src={Tent} style={{ width: "3rem" }}></img>
             {/* <i className="material-icons">home</i> */}
           </StyledLink>
         </MobileNavItemContent>

@@ -87,7 +87,7 @@ function SideNav({ open, onClick, navLinks, handleView }) {
       {open && (
         <NavItemWrapper>
           {navLinks.map(link => (
-            <NavItem id={link.view} onClick={handleView}>
+            <NavItem key={link.view} id={link.view} onClick={handleView}>
               {link.title}
             </NavItem>
           ))}

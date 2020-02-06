@@ -6,6 +6,7 @@ import { Alert } from "reactstrap";
 //Global components
 import Badge from "../../../components/Badge";
 import Flex from "../../../components/Flex";
+import Button from "../../../components/Button";
 //Services
 import { updateSquadById } from "../../../services/squadServices";
 import {
@@ -348,15 +349,17 @@ function SquadDND({ id }) {
         Marine Successfully Deleted
       </Alert>
       <Flex justifyAround>
-        <StyledIcon>
+        {/* <StyledIcon>
           <i className="material-icons" onClick={handleRemoveStyle}>
             {removeStyle ? "delete_forever" : "delete"}
           </i>
-        </StyledIcon>
+        </StyledIcon> */}
 
-        <StyledIcon>
+        {/* <StyledIcon>
           <i className="material-icons">save_alt</i>
-        </StyledIcon>
+        </StyledIcon> */}
+        <Button onClick={handleRemoveStyle}>Remove</Button>
+        <Button>Save</Button>
       </Flex>
       {squadData && (
         <Flex>

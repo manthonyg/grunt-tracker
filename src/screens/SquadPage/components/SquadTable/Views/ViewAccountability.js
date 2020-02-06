@@ -1,19 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 //Packages
 import { Table } from "reactstrap";
 import styled from "styled-components";
 //Global components
-import Banner from "../../../components/Banner";
-import Flex from "../../../components/Flex";
-import Button from "../../../components/Button";
+import Banner from "../../../../../components/Banner";
+import Flex from "../../../../../components/Flex";
+import Button from "../../../../../components/Button";
 //Services
-import { updateMarineById } from "../../../services/marineServices";
-import { getAllMarinesInSquad } from "../../../services/squadServices";
+import { updateMarineById } from "../../../../../services/marineServices";
+import { getAllMarinesInSquad } from "../../../../../services/squadServices";
 //Context
-import { SquadPageContext } from "../SquadPage";
+import { SquadPageContext } from "../../../SquadPage";
 //Media
-import View from "../../../images/external-link-blue.svg";
+import View from "../../../../../images/external-link-blue.svg";
+import AddUser from "../../../../../images/add-user.svg";
 
 const Switch = styled.input.attrs({ type: "checkbox" })`
   -webkit-appearance: none;
@@ -55,12 +56,17 @@ const StyledLink = styled(Link)`
   color: #68829e;
 `;
 
-function SquadTable() {
+function ViewAccountability() {
   const dataProvider = useContext(SquadPageContext);
 
   const marineData = dataProvider.marineData;
   const setMarineData = dataProvider.setMarineData;
   const squadData = dataProvider.squadData;
+  const setCurrentView = dataProvider.setCurrentView;
+
+  const handleSetCurrentView = () => {
+    setCurrentView("addMarine");
+  };
 
   const accountabilitySwitches = Array.from(
     document.querySelectorAll(".switch")
@@ -70,13 +76,6 @@ function SquadTable() {
   );
 
   document.querySelectorAll(".accountability-button");
-
-  marineData.map(marine => {
-    const zapFormat = `${marine.first[0]}${marine.last[0]}${marine.edipi.slice(
-      -5
-    )}${marine.blood_type}`;
-    console.log(zapFormat);
-  });
 
   const handleMarkAll = evt => {
     accountabilityButtons.map(
@@ -134,20 +133,22 @@ function SquadTable() {
     <>
       <Flex justifyBetween>
         <Button
+          inverted
+          small
           className="accountability-button"
           onClick={handleMarkAll}
-          inverted
           id="accounted"
         >
-          Mark All Accounted
+          All Accounted
         </Button>
         <Button
+          inverted
+          small
           className="accountability-button"
           onClick={handleMarkAll}
-          inverted
           id="unaccounted"
         >
-          Mark All Unaccounted
+          All Unaccounted
         </Button>
       </Flex>
       <Table responsive>
@@ -162,28 +163,21 @@ function SquadTable() {
             </tr>
           </thead>
         ) : (
-          <Banner secondary>Add Members to Squad</Banner>
+          <Flex justifyAround>
+            <Banner secondary>Add Members to Squad</Banner>
+            <img
+              onClick={handleSetCurrentView}
+              src={AddUser}
+              style={{ width: "3rem" }}
+            />
+          </Flex>
         )}
 
         {!!marineData && !!marineData.length && (
           <tbody>
             {marineData.map((marine, i) => (
-              <tr
-                key={marine._id}
-                // style={{
-                //   backgroundColor: marine.accountability.accountedFor
-                //     ? "#505160"
-                //     : "#68829e60"
-                // }}
-              >
-                <th
-                  scope="row"
-                  style={{
-                    color: marine.accountability.accountedFor
-                      ? "white"
-                      : "black"
-                  }}
-                >
+              <tr key={marine._id}>
+                <th scope="row">
                   <StyledLink
                     key={`${marine._id}`}
                     to={`/show-marine/${marine._id}`}
@@ -191,24 +185,8 @@ function SquadTable() {
                     <img src={View} style={{ width: "1.5rem" }} />
                   </StyledLink>
                 </th>
-                <td
-                // style={{
-                //   color: marine.accountability.accountedFor
-                //     ? "white"
-                //     : "black"
-                // }}
-                >
-                  {marine.rank}
-                </td>
-                <td
-                // style={{
-                //   color: marine.accountability.accountedFor
-                //     ? "white"
-                //     : "black"
-                // }}
-                >
-                  {marine.last}
-                </td>
+                <td>{marine.rank}</td>
+                <td>{marine.last}</td>
                 <td>
                   <Switch
                     key={marine._id}
@@ -218,15 +196,7 @@ function SquadTable() {
                     onChange={handleChange}
                   />
                 </td>
-                <td
-                // style={{
-                //   color: marine.accountability.accountedFor
-                //     ? "white"
-                //     : "black"
-                // }}
-                >
-                  {marine.billet}
-                </td>
+                <td>{marine.billet}</td>
               </tr>
             ))}
           </tbody>
@@ -236,4 +206,4 @@ function SquadTable() {
   );
 }
 
-export default SquadTable;
+export default ViewAccountability;

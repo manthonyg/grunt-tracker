@@ -13,6 +13,13 @@ import { deleteSquadById, getAllSquads } from "../../services/squadServices";
 //Media
 import BG from "../../images/GT_Bg.png";
 
+const StyledAlert = styled(Alert)`
+  background-color: ${props => {
+    if (props.success) return "#AED33880 !important";
+    return "#505160 !important";
+  }};
+`;
+
 const Header = styled.div`
   padding: 1rem;
   display: flex;
@@ -44,7 +51,7 @@ function MainPage() {
     const id = evt.target.id;
     deleteSquadById(id)
       .then(res => {
-        setVisible(true);
+        setAlertVisible(true);
         setSquadList(squadList.filter(squad => squad._id !== id));
       })
       .catch(err => {
@@ -52,9 +59,9 @@ function MainPage() {
       });
   };
 
-  const [visible, setVisible] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
 
-  const onDismiss = () => setVisible(false);
+  const handleDismiss = () => setAlertVisible(false);
 
   return (
     <>
@@ -93,9 +100,9 @@ function MainPage() {
           </>
         )}
       </Flex>
-      <Alert success isOpen={visible} toggle={onDismiss}>
-        Squad Successfully Deleted
-      </Alert>
+      <StyledAlert success isOpen={alertVisible} toggle={handleDismiss}>
+        <Flex justifyAround>Squad Deleted</Flex>
+      </StyledAlert>
     </>
   );
 }

@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Load model
 const Marine = require("../../models/Marine");
+const Squad = require("../../models/Squad");
 
 // Get all Marine documents
 router.get("/", (req, res) => {

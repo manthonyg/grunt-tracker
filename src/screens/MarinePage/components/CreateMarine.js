@@ -1,39 +1,20 @@
 import React, { useState, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 //Packages
-import {
-  Alert,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Container
-} from "reactstrap";
+import { Alert, Form, FormGroup, Label, Input, Container } from "reactstrap";
 //Global components
 import Flex from "../../../components/Flex";
 import Banner from "../../../components/Banner";
+import Button from "../../../components/Button";
 //Services
 import { addMarineToSquad } from "../../../services/squadServices";
 //Context
 import { SquadPageContext } from "../../SquadPage/SquadPage";
-/*TODO
-I need to make this able to add multiple marines at once. It needs its own page that is accessible from
-the squad page by way of hamburger dropdown. The header should shrink to size on scroll for this to have
-the best effect and allow for greater real estate on the screen for the user. Other options could include
-'mark squad accounted for', 'view upcoming schedule', 'view 7 day report', etc. The main goal should be to allo
-the rest of the UI to update before trying to view it etc. I should use router more heavily as router will
-allow for full reloads of the content rather than trying bery hard to control a state that grows more and
-more complex all the time.
-*/
+
 function CreateMarine({ id }) {
-  const componentIsMounted = useRef(true);
   const dataProvider = useContext(SquadPageContext);
 
-  const marineData = dataProvider.marineData;
-  const setMarineData = dataProvider.setMarineData;
   const squadData = dataProvider.squadData;
-  const setSquadData = dataProvider.setSquadData;
   const setCurrentView = dataProvider.setCurrentView;
 
   const [alertVisible, setAlertVisible] = useState(false);
@@ -59,6 +40,9 @@ function CreateMarine({ id }) {
     setInputData(prevState => {
       return {
         ...prevState,
+        zap: `${inputData.first[0]}${inputData.last[0]}${inputData.edipi.slice(
+          -5
+        )}${inputData.blood_type}`,
         [name]: val
       };
     });
@@ -78,7 +62,7 @@ function CreateMarine({ id }) {
       team: inputData.team,
       edipi: inputData.edipi,
       blood_type: inputData.blood_type,
-      religion: ""
+      zap: inputData.zap
     };
 
     event.preventDefault();
@@ -144,6 +128,10 @@ function CreateMarine({ id }) {
 
   return (
     <>
+      <Banner>
+        <strong>Create Marine</strong>
+      </Banner>
+
       <Form onSubmit={handleSubmit}>
         <BasicInformation
           currentStep={inputData.currentStep}
@@ -168,6 +156,13 @@ function CreateMarine({ id }) {
           edipi={inputData.edipi}
           blood_type={inputData.blood_type}
           zap={inputData.zap}
+        />
+
+        <ScheduleInformation
+          currentStep={inputData.currentStep}
+          handleChange={handleChange}
+          morning_formation={inputData.morning_formation}
+          afternoon_formation={inputData.afternoon_formation}
         />
         <Container>
           <Flex justifyBetween>
@@ -260,6 +255,55 @@ function UnitInformation(props) {
 
 function ZapInformation(props) {
   if (props.currentStep !== 3) {
+    return null;
+  }
+  return (
+    <>
+      <Container>
+        <FormGroup>
+          <Label for="edipi">EDIPI</Label>
+          <Input
+            bsSize="sm"
+            name="edipi"
+            id="edipi"
+            onChange={props.handleChange}
+            value={props.edipi}
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Label for="blood_type">Blood Type</Label>
+          <Input
+            bsSize="sm"
+            type="select"
+            name="blood_type"
+            id="blood_type"
+            onChange={props.handleChange}
+            value={props.blood_type}
+          >
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+            <option>O+</option>
+            <option>O-</option>
+          </Input>
+        </FormGroup>
+      </Container>
+
+      <Container>
+        <Flex justifyAround>
+          <Button type="submit">Add Marine</Button>
+        </Flex>
+      </Container>
+    </>
+  );
+}
+
+function ScheduleInformation(props) {
+  if (props.currentStep !== 4) {
     return null;
   }
   return (

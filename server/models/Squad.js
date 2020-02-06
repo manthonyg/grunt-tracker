@@ -6,8 +6,10 @@ const Schema = mongoose.Schema;
 const SquadSchema = new mongoose.Schema({
   company: { type: String, required: true },
   platoon: { type: String, required: true },
-  squad: { type: String, required: true },
+  squad: { type: String },
   callsign: { type: String },
+  morningFormation: { type: String },
+  afternoonFormation: { type: String },
 
   teams: {
     teamHq: [{ type: Schema.Types.ObjectId, ref: "marine" }],

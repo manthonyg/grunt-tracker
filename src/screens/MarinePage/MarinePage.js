@@ -18,12 +18,15 @@ import Button from "../../components/Button";
 import SideNav from "../../components/SideNav";
 //Services
 import { getMarineById } from "../../services/marineServices";
+//Media
+import Unaccounted from "../../images/warning.svg";
+import Accounted from "../../images/check.svg";
 
 export const MarinePageContext = React.createContext();
 
 const FlexBox = styled.div`
   display: flex;
-  height: 85vh;
+  height: 86.5vh;
   justify-content: space-around;
   flex-flow: column nowrap;
   align-items: stretch;
@@ -50,7 +53,7 @@ const FlexItem = styled.div`
     return "1";
   }};
   &:nth-child(2n) {
-    background-color: #aebd38;
+    background-color: #68829e;
   }
 `;
 
@@ -158,23 +161,26 @@ function MarinePage(props) {
               Accountability
               {marineData.accountability && (
                 <>
-                  <strong>
-                    {marineData.accountability.accountedFor ? (
-                      <>
-                        <Icon success>yes</Icon>
-                      </>
-                    ) : (
-                      <>
-                        <Icon danger>no</Icon>
-                      </>
-                    )}
-                  </strong>
+                  {marineData.accountability.accountedFor ? (
+                    <>
+                      <img
+                        style={{ margin: "10px", width: "2rem" }}
+                        src={Accounted}
+                      ></img>
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        style={{ margin: "10px", width: "2rem" }}
+                        src={Unaccounted}
+                      ></img>
+                    </>
+                  )}
                 </>
               )}
             </Banner>
 
             <Card noMargin selected={selectedCategory.accountability}>
-              <Banner secondary>Accountability</Banner>
               <Banner small header>
                 <br />
 
@@ -182,17 +188,11 @@ function MarinePage(props) {
                   <>
                     <strong>
                       {marineData.accountability.accountedFor ? (
-                        <>
-                          <Icon success>check_circle_outline</Icon> accounted
-                        </>
+                        <>Accounted for</>
                       ) : (
-                        <>
-                          <Icon danger>help_outline</Icon> unaccounted
-                        </>
+                        <>Unaccounted for </>
                       )}
-                      <br />
-                      <br />
-                      since
+                      -
                       <Moment calendar={calendarStrings}>
                         {marineData.accountability.date}
                       </Moment>
@@ -215,11 +215,11 @@ function MarinePage(props) {
                   <strong>
                     {marineData.weapons.length ? (
                       <>
-                        <Icon success>yes</Icon>
+                        <img style={{ width: "2rem" }} src={Accounted}></img>
                       </>
                     ) : (
                       <>
-                        <Icon danger>no</Icon>
+                        <img style={{ width: "2rem" }} src={Unaccounted}></img>
                       </>
                     )}
                   </strong>
@@ -236,11 +236,14 @@ function MarinePage(props) {
                     <strong>
                       {marineData.accountability.accountedFor ? (
                         <>
-                          <Icon success>check_circle_outline</Icon> accounted
+                          <img style={{ width: "2rem" }} src={Accounted}></img>
                         </>
                       ) : (
                         <>
-                          <Icon danger>help_outline</Icon> unaccounted
+                          <img
+                            style={{ width: "2rem" }}
+                            src={Unaccounted}
+                          ></img>
                         </>
                       )}
                       <br />

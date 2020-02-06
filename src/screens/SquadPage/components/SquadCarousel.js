@@ -62,7 +62,6 @@ function SquadCarousel({ handleSetCurrentView }) {
       .map(appointment => appointment.date)
       .reduce((acc, cur) => acc + cur, 0)
   );
-  console.log(totalAppointments);
 
   return (
     <div>

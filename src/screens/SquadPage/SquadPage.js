@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 //Local components
 import SquadCarousel from "./components/SquadCarousel";
 import SquadDND from "./components/SquadDND";
+import SquadGenerateZaps from "./components/SquadGenerateZaps";
+import SquadTable from "./components/SquadTable/SquadTable";
 import CreateMarine from "../MarinePage/components/CreateMarine";
-import SquadTable from "./components/SquadTable";
 import SideNav from "../../components/SideNav";
 //Services
 import {
@@ -29,10 +30,6 @@ function SquadPage(props) {
     {
       title: "Generate Zaps",
       view: "generateZaps"
-    },
-    {
-      title: "Do this",
-      view: "doThis"
     },
     {
       title: "Task Organization",
@@ -104,22 +101,13 @@ function SquadPage(props) {
           squadData={squadData}
           marineData={marineData}
         />
-        {/* 
-        <Flex justifyBetween>
-          <Button id="addMarine" onClick={handleSetCurrentView}>
-            Add Member
-          </Button>
-          <Button id="viewAll" onClick={handleSetCurrentView}>
-            View All
-          </Button>
-          <Button id="dragAndDrop" onClick={handleSetCurrentView}>
-            Change T/O
-          </Button>
-        </Flex> */}
 
         {currentView === "addMarine" && <CreateMarine id={squadData._id} />}
         {currentView === "viewAll" && <SquadTable id={squadData._id} />}
         {currentView === "dragAndDrop" && <SquadDND id={squadData._id} />}
+        {currentView === "generateZaps" && (
+          <SquadGenerateZaps id={squadData._id} />
+        )}
       </SquadPageContext.Provider>
     </>
   );
