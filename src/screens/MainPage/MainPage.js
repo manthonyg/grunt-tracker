@@ -41,6 +41,12 @@ const Header = styled.div`
 
 function MainPage() {
   const [squadList, setSquadList] = useState([]);
+  const [alert, setAlert] = useState({
+    success: false,
+    error: false
+  });
+
+  const handleAlert = () => setAlert({ success: false, error: false });
 
   useEffect(() => {
     getAllSquads().then(res => setSquadList(res));
@@ -51,17 +57,14 @@ function MainPage() {
     const id = evt.target.id;
     deleteSquadById(id)
       .then(res => {
-        setAlertVisible(true);
+        setAlert({ success: true });
         setSquadList(squadList.filter(squad => squad._id !== id));
       })
       .catch(err => {
+        setAlert({ error: true });
         console.log("Error from Home_deleteClick");
       });
   };
-
-  const [alertVisible, setAlertVisible] = useState(false);
-
-  const handleDismiss = () => setAlertVisible(false);
 
   return (
     <>
@@ -86,9 +89,7 @@ function MainPage() {
                 id={squad._id}
               >
                 <Banner secondary>
-                  <h3>
-                    {squad.company}/{squad.platoon}-{squad.squad}
-                  </h3>
+                  {squad.company}/{squad.platoon}-{squad.squad}
                 </Banner>
               </Card>
             </>
@@ -100,8 +101,18 @@ function MainPage() {
           </>
         )}
       </Flex>
-      <StyledAlert success isOpen={alertVisible} toggle={handleDismiss}>
-        <Flex justifyAround>Squad Deleted</Flex>
+      <StyledAlert
+        success
+        isOpen={!!alert.success || !!alert.error}
+        toggle={handleAlert}
+      >
+        <Flex justifyAround>
+          {alert.success
+            ? "Squad Deleted"
+            : alert.error
+            ? "Error in Deleting Squad"
+            : null}
+        </Flex>
       </StyledAlert>
     </>
   );

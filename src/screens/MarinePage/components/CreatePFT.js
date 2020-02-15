@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Alert, Input, Button, Container } from "reactstrap";
+import { Alert, Input, Container } from "reactstrap";
+import Button from "../../../components/Button";
 
 function CreatePFT(props) {
   const [marineData, setMarineData] = useState({ pft_score: "", pft_date: "" });
@@ -60,12 +61,12 @@ function CreatePFT(props) {
           helperText='e.g "2019/01/01"'
           onChange={onChange}
         />
-
-        <br />
         <Alert color="success" isOpen={visible} toggle={onDismiss}>
           PFT Added
         </Alert>
-        <Button type="submit">Add Appointment</Button>
+        <Button small type="submit">
+          Add Score
+        </Button>
       </form>
     </Container>
   );

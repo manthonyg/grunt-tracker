@@ -11,10 +11,11 @@ import Plus from "../images/plus.svg";
 function SideNav({ open, onClick, navLinks, handleView }) {
   const NavWrapper = styled.div`
     position: absolute;
+    transition: all 0.5s ease-out;
     z-index: 10000;
     width: ${props => {
-      if (props.open) return "75vw";
-      return "0vw";
+      if (props.open) return "15rem";
+      return "0rem";
     }}
     height: 100vh;
     border-right: ${props => {

@@ -3,9 +3,12 @@ import React, { useState, useEffect, useRef } from "react";
 import SquadCarousel from "./components/SquadCarousel";
 import SquadDND from "./components/SquadDND";
 import SquadGenerateZaps from "./components/SquadGenerateZaps";
-import SquadTable from "./components/SquadTable/SquadTable";
+import SquadTable from "./components/SquadTable";
+import SquadAccountability from "./components/SquadAccountability";
+import SquadAppointments from "./components/SquadAppointments";
 import CreateMarine from "../MarinePage/components/CreateMarine";
 import SideNav from "../../components/SideNav";
+
 //Services
 import {
   getAllMarinesInSquad,
@@ -19,7 +22,7 @@ function SquadPage(props) {
 
   const [marineData, setMarineData] = useState([]);
   const [squadData, setSquadData] = useState([]);
-  const [currentView, setCurrentView] = useState("viewAll");
+  const [currentView, setCurrentView] = useState("accountability");
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleSetMenu = () => {
@@ -28,20 +31,20 @@ function SquadPage(props) {
 
   const navLinks = [
     {
-      title: "Generate Zaps",
+      title: "Morning Report",
       view: "generateZaps"
     },
     {
-      title: "Task Organization",
+      title: "Kill Cards",
+      view: "generateZaps"
+    },
+    {
+      title: "Edit Squad",
       view: "dragAndDrop"
     },
     {
       title: "Add",
       view: "addMarine"
-    },
-    {
-      title: "Accountability",
-      view: "viewAll"
     }
   ];
 
@@ -96,13 +99,20 @@ function SquadPage(props) {
         handleView={handleSetCurrentView}
       ></SideNav>
       <SquadPageContext.Provider value={providerValue}>
-        <SquadCarousel
-          handleSetCurrentView={handleSetCurrentView}
-          squadData={squadData}
-          marineData={marineData}
-        />
+        <SquadCarousel />
 
+        {/* local components */}
         {currentView === "addMarine" && <CreateMarine id={squadData._id} />}
+        {currentView === "accountability" && (
+          <SquadAccountability id={squadData._id} />
+        )}
+        {currentView === "appointments" && <SquadAppointments />}
+        {/* table components */}
+        {currentView === "weapons" && <SquadTable id={squadData._id} />}
+        {currentView === "gear" && <SquadTable id={squadData._id} />}
+        {currentView === "body" && <SquadTable id={squadData._id} />}
+        {currentView === "discrepancies" && <SquadTable id={squadData._id} />}
+        {/* menu features/generators */}
         {currentView === "viewAll" && <SquadTable id={squadData._id} />}
         {currentView === "dragAndDrop" && <SquadDND id={squadData._id} />}
         {currentView === "generateZaps" && (

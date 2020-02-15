@@ -42,9 +42,10 @@ const Header = styled.div`
   background-position-y: 0.04em;
 `;
 
-function CreateSquad({ id }) {
+function CreateSquad() {
   const [alertVisible, setAlertVisible] = useState(false);
-  const onDismiss = () => setAlertVisible(false);
+
+  const handleAlert = () => setAlertVisible(!alertVisible);
 
   const [inputData, setInputData] = useState({
     currentStep: 1,
@@ -83,11 +84,10 @@ function CreateSquad({ id }) {
           afternoonFormation: ""
         });
         console.log("Squad created successfully");
-        // setSuccessVisible(true);
+        setAlertVisible(true);
       })
       .catch(err => {
         console.log("Error in CreateSquad");
-        // setErrorVisible(true);
       });
   };
 
@@ -168,12 +168,13 @@ function CreateSquad({ id }) {
         </Container>
       </Form>
 
-      <Alert color="success" isOpen={alertVisible} toggle={onDismiss}>
-        <Flex justifyAround>Squad Successfully Added</Flex>
-        <Link to={`/show-squad/${id}`}>
-          <Button>View</Button>
-        </Link>
-      </Alert>
+      <StyledAlert success isOpen={alertVisible} toggle={handleAlert}>
+        <Flex justifyAround>
+          <Link to="/">
+            <Button>View Squad</Button>
+          </Link>
+        </Flex>
+      </StyledAlert>
     </>
   );
 }
@@ -265,13 +266,6 @@ function ScheduleInformation({
     <Container>
       <FormGroup>
         <Label for="morningFormation">What time is morning formation?</Label>
-        {/* <Input
-          bsSize="sm"
-          name="morningFormation"
-          id="morningFormation"
-          onChange={handleChange}
-          value={morningFormation}
-        /> */}
 
         <TimeField
           name="morningFormation"
@@ -285,13 +279,7 @@ function ScheduleInformation({
         <Label for="afternoonFormation">
           What time is afternoon formation?
         </Label>
-        {/* <Input
-          bsSize="sm"
-          name="afternoonFormation"
-          id="afternoonFormation"
-          onChange={handleChange}
-          value={afternoonFormation}
-        /> */}
+
         <TimeField
           name="afternoonFormation"
           id="afternoonFormation"

@@ -15,6 +15,8 @@ import {
 } from "../../../services/marineServices";
 //Context
 import { SquadPageContext } from "../SquadPage";
+//Media
+import Plus from "../../../images/plus.svg";
 
 const wobble = keyframes`
   {
@@ -390,9 +392,15 @@ function SquadDND({ id }) {
                         <BadgeOuter remove={removeStyle} onClick={removeMarine}>
                           <BadgeInner></BadgeInner>
                           {!!removeStyle ? (
-                            <i className="material-icons" id={item._id}>
-                              remove
-                            </i>
+                            <img
+                              src={Plus}
+                              style={{
+                                width: "1rem",
+                                transform: "rotate(45deg)",
+                                fill: "#fff"
+                              }}
+                              id={item._id}
+                            ></img>
                           ) : index === 0 ? (
                             billet.squadLeader
                           ) : index === 1 ? (
@@ -442,9 +450,15 @@ function SquadDND({ id }) {
                         <BadgeOuter remove={removeStyle} onClick={removeMarine}>
                           <BadgeInner {...index}></BadgeInner>
                           {!!removeStyle ? (
-                            <i className="material-icons" id={item._id}>
-                              remove
-                            </i>
+                            <img
+                              src={Plus}
+                              style={{
+                                width: "1rem",
+                                transform: "rotate(45deg)",
+                                fill: "#fff"
+                              }}
+                              id={item._id}
+                            ></img>
                           ) : index === 0 ? (
                             billet.teamLeader
                           ) : index === 1 ? (
@@ -495,9 +509,15 @@ function SquadDND({ id }) {
                         <BadgeOuter remove={removeStyle} onClick={removeMarine}>
                           <BadgeInner {...index}></BadgeInner>
                           {!!removeStyle ? (
-                            <i className="material-icons" id={item._id}>
-                              remove
-                            </i>
+                            <img
+                              src={Plus}
+                              style={{
+                                width: "1rem",
+                                transform: "rotate(45deg)",
+                                fill: "#fff"
+                              }}
+                              id={item._id}
+                            ></img>
                           ) : index === 0 ? (
                             billet.teamLeader
                           ) : index === 1 ? (
@@ -546,9 +566,15 @@ function SquadDND({ id }) {
                         <BadgeOuter remove={removeStyle} onClick={removeMarine}>
                           <BadgeInner {...index}></BadgeInner>
                           {!!removeStyle ? (
-                            <i className="material-icons" id={item._id}>
-                              remove
-                            </i>
+                            <img
+                              src={Plus}
+                              style={{
+                                width: "1rem",
+                                transform: "rotate(45deg)",
+                                fill: "#fff"
+                              }}
+                              id={item._id}
+                            ></img>
                           ) : index === 0 ? (
                             billet.teamLeader
                           ) : index === 1 ? (

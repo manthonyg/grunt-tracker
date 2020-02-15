@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 //Packages
-import { Alert, Input, Button, Container } from "reactstrap";
+import { Alert, Input, Container } from "reactstrap";
+//Global Components
+import Button from "../../../components/Button";
 
 function CreateCFT(props) {
   const [marineData, setMarineData] = useState({
@@ -65,12 +67,11 @@ function CreateCFT(props) {
           onChange={onChange}
         />
 
-        <br />
         <Alert color="success" isOpen={visible} toggle={onDismiss}>
           CFT Added
         </Alert>
-        <Button type="submit" onClick={props.onClick}>
-          Add Appointment
+        <Button small type="submit" onClick={props.onClick}>
+          Add Score
         </Button>
       </form>
     </Container>

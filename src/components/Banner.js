@@ -12,11 +12,14 @@ const Wrapper = styled.div`
 const Header = styled.h4`
 font-weight: ${props => {
   if (props.secondary) return "400";
+  if (props.small) return "400";
   if (props.white) return "300";
   return "100";
 }}
 color: ${props => {
   if (props.white) return "#fff";
+  if (props.green) return "#aebd38";
+  if (props.dark) return "#505160";
   return "#05668D";
 }};
 text-transform: uppercase;
@@ -39,6 +42,8 @@ const Banner = props => {
       <Header
         header={props.header}
         white={props.white}
+        green={props.green}
+        dark={props.dark}
         small={props.small}
         secondary={props.secondary}
       >

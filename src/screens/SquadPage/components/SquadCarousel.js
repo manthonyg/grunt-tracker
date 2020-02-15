@@ -7,6 +7,8 @@ import { Carousel } from "react-responsive-carousel";
 import Banner from "../../../components/Banner";
 import Button from "../../../components/Button";
 import { SquadPageContext } from "../SquadPage";
+//Media
+import View from "../../../images/external-link-blue.svg";
 
 const Header = styled.h4`
   text-align: center;
@@ -19,10 +21,6 @@ const Header = styled.h4`
 `;
 const Stats = styled.div`
 border-right:2px solid #fff;
-border-top:20px solid #AEBD38;
-&:nth-child() {
-  border-right:2px solid #AEBD38;
-}
 width: 33.33333%;
 float:left;
 background-color: red;
@@ -31,17 +29,21 @@ background: ${props => {
   if (props.secondary) return "#aebd38";
   return "#505160";
 }}
-&:nth-child(1n) {
+&:nth-child(even) {
   background-color: #505160;
 }
+border-top: 4px solid #505160;
 text-align:center
 display:block;
 height: 10rem;
-color:#fff;
+color:#505160;
 font-size:13px;
 font-weight:300;
 &:nth-child(3) {
 border-right: none
+}
+&:hover {
+  border-top: 8px solid #aebd38;
 }
 `;
 const StatsContainer = styled.div`
@@ -51,17 +53,22 @@ const StatsContainer = styled.div`
   font-weight: 600;
 `;
 
-function SquadCarousel({ handleSetCurrentView }) {
+function SquadCarousel() {
   const dataProvider = React.useContext(SquadPageContext);
 
   const marineData = dataProvider.marineData;
   const squadData = dataProvider.squadData;
+  const setCurrentView = dataProvider.setCurrentView;
 
-  const totalAppointments = marineData.map(marine =>
-    marine.appointments
-      .map(appointment => appointment.date)
-      .reduce((acc, cur) => acc + cur, 0)
-  );
+  const handleSetCurrentView = evt => {
+    setCurrentView(evt.currentTarget.id);
+  };
+
+  const totalAppointments = marineData
+    .map(
+      marine => marine.appointments.map(appointment => appointment.type).length
+    )
+    .reduce((acc, curr) => acc + curr, 0);
 
   return (
     <div>
@@ -69,20 +76,21 @@ function SquadCarousel({ handleSetCurrentView }) {
       <br />
       <Banner secondary>{squadData.callsign}overview</Banner>
       <Carousel
-        showStatus={false}
+        showStatus={true}
         showIndicators={false}
         showThumbs={false}
-        centerMode
-        centerSlidePercentage={100}
         infiniteLoop
         emulateTouch
       >
         <div>
           <StatsContainer>
-            <Stats>
+            <Stats id="accountability" onClick={handleSetCurrentView}>
+              {/* <img src={View} style={{ width: "2rem" }} /> */}
               <Header>Accountability</Header>
+
               <br />
-              {marineData && marineData.length ? (
+
+              {marineData && !!marineData.length ? (
                 <>
                   <Banner white>
                     {
@@ -94,50 +102,42 @@ function SquadCarousel({ handleSetCurrentView }) {
                   </Banner>
                 </>
               ) : (
-                "-"
+                <Banner white>-</Banner>
               )}
             </Stats>
 
-            <Stats>
+            <Stats id="appointments" onClick={handleSetCurrentView}>
+              {/* <img src={View} style={{ width: "2rem" }} /> */}
               <Header>Appointments</Header>
               <br />
-              <Banner white>{totalAppointments[0]}</Banner>
+              <Banner white>
+                {!!totalAppointments ? totalAppointments : "-"}
+              </Banner>
             </Stats>
-            <Stats>
+            <Stats id="discrepancies" onClick={handleSetCurrentView}>
+              {/* <img src={View} style={{ width: "2rem" }} /> */}
               <Header>Discrepancies</Header>
-              <br />-
+              <br />
+              <Banner white>-</Banner>
             </Stats>
           </StatsContainer>
         </div>
         <div>
           <StatsContainer>
-            <Stats>
-              <Header>Header</Header>
+            <Stats id="weapons" onClick={handleSetCurrentView}>
+              {/* <img src={View} style={{ width: "2rem" }} /> */}
+              <Header>EDL</Header>
               <br />
-              Body
             </Stats>
-            <Stats>
-              <Header>Header</Header>
+            <Stats id="gear" onClick={handleSetCurrentView}>
+              {/* <img src={View} style={{ width: "2rem" }} /> */}
+              <Header>Gear</Header>
               <br />
-              Body
             </Stats>
-            <Stats>
-              <Header>Header</Header>
+            <Stats id="body" onClick={handleSetCurrentView}>
+              {/* <img src={View} style={{ width: "2rem" }} /> */}
+              <Header>Body</Header>
               <br />
-              Body
-            </Stats>
-          </StatsContainer>
-        </div>
-        <div>
-          <StatsContainer>
-            <Stats secondary>
-              <Button secondary>Generate 1#</Button>
-            </Stats>
-            <Stats secondary>
-              <Button secondary>Generate 2#</Button>
-            </Stats>
-            <Stats secondary>
-              <Button secondary>Generate 3#</Button>
             </Stats>
           </StatsContainer>
         </div>
