@@ -31,7 +31,7 @@ const MarineSchema = new mongoose.Schema({
   //appointments//
   appointments: [
     {
-      date: String,
+      date: Date,
       appointment_type: String,
       location: String,
       time: String

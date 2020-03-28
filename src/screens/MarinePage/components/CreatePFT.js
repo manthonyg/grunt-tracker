@@ -1,15 +1,24 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
+//Packages
 import { Alert, Input, Container } from "reactstrap";
+//Global components
 import Button from "../../../components/Button";
+//Services
+import { createPFT } from "../../../services/marineServices";
+//Context
+import { MarinePageContext } from "../MarinePage";
 
-function CreatePFT(props) {
-  const [marineData, setMarineData] = useState({ pft_score: "", pft_date: "" });
+function CreatePFT() {
+  const dataProvider = useContext(MarinePageContext);
+
+  const marineData = dataProvider.marineData;
+
+  const [scoreData, setScoreData] = useState({ pft_score: "", pft_date: "" });
 
   const onChange = evt => {
     const name = evt.target.name;
     const val = evt.target.value;
-    setMarineData(prevState => {
+    setScoreData(prevState => {
       return {
         ...prevState,
         [name]: val
@@ -21,14 +30,13 @@ function CreatePFT(props) {
     evt.preventDefault();
 
     const data = {
-      score: marineData.pft_score,
-      last_updated: marineData.pft_date
+      score: scoreData.pft_score,
+      last_updated: scoreData.pft_date
     };
 
-    axios
-      .put(`http://localhost:8082/api/marines/${props.marine}/body/pft`, data)
+    createPFT(marineData._id, data)
       .then(res => {
-        setMarineData({ pft_score: "", pft_date: "" });
+        setScoreData({ pft_score: "", pft_date: "" });
         setVisible(true);
       })
       .catch(err => {

@@ -5,14 +5,29 @@ const router = express.Router();
 const Marine = require("../../models/Marine");
 const Squad = require("../../models/Squad");
 
-// Get all Marine documents
+//handle data response and check for bad data returned
+function validate(data, res) {
+  if (data === null || data === undefined) {
+    res.status(500).json({ error: "null or undefined data returned" });
+  } else if (data.length === 0) {
+    res.status(500).json({ error: "no data found" });
+  } else {
+    res.json(
+      data.filter(
+        pieceOfData => pieceOfData !== null && pieceOfData !== undefined
+      )
+    );
+  }
+}
+
+// get all marine documents in marines collection
 router.get("/", (req, res) => {
   Marine.find()
-    .then(marines => res.json(marines))
-    .catch(err => res.status(404).json({ nomarinesfound: "No Marines found" }));
+    .then(marines => validate(marines, res))
+    .catch(err => console.log(err));
 });
 
-// search marines by last name
+// search all marines in marines collection by last name
 router.get(`/search/:marineSearch`, (req, res) => {
   console.log(req.params.marineSearch);
   Marine.find(
@@ -21,66 +36,31 @@ router.get(`/search/:marineSearch`, (req, res) => {
     },
     ["last", "rank"]
   )
-    .then(marines => {
-      if (marines === null || marines === undefined) {
-        res.status(500).json({ error: "bad data returned" });
-      } else if (marines.length === 0) {
-        res.status(404).json({ error: "no marines found" });
-      } else {
-        res.json(marines.filter(x => x !== null && x !== undefined));
-      }
-    })
+    .then(marines => validate(marines, res))
     .catch(err => console.log(err));
 });
 
-// find by id
+// find marine by id
 router.get("/:id", (req, res) => {
   Marine.findById(req.params.id)
     .then(marine => res.json(marine))
-    .catch(err => res.status(404).json({ nomarinefound: "No Marine found" }));
+    .catch(err => res.status(404).json({ error: "no marine found" }));
 });
 
-//************** */
-// find by id and update
+// find marine by id and update accountability
 router.put("/:id/update", (req, res) => {
   Marine.findByIdAndUpdate(req.params.id, {
     $set: { accountability: req.body }
   })
     .then(marine => res.json(marine))
-    .catch(err => res.status(404).json({ nomarinefound: "No Marine found" }));
+    .catch(err => res.status(404).json({ error: "failed to update" }));
 });
-//************** */
 
-//************** */
-// find by id and update
+// find marine by id and update billet
 router.put("/:id/updateBillet", (req, res) => {
   Marine.findByIdAndUpdate(req.params.id, req.body, { options: { new: true } })
     .then(marine => res.json(marine))
     .catch(err => res.status(404).json({ nomarinefound: "No Marine found" }));
-});
-//************** */
-
-// create a new marine
-router.route("/").post((req, res) => {
-  const first = req.body.first;
-  const last = req.body.last;
-  const birthdate = Date.parse(req.body.birth_date);
-  const rank = req.body.rank;
-  const squad = req.body.squad;
-  const edipi = req.body.edipi;
-
-  const newMarine = new Marine({
-    first,
-    last,
-    birthdate,
-    rank,
-    squad,
-    edipi
-  });
-  newMarine
-    .save()
-    .then(marine => res.json({ msg: "Marine added successfully" }))
-    .catch(err => res.status(400).json({ error: "Unable to add Marine" }));
 });
 
 // update marine appointments

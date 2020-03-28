@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 //Media
-import Search from "../images/search-yellow.svg";
+import Search from "../../images/search-yellow.svg";
 
 const SearchContainer = styled.div`
   box-sizing: border-box;
@@ -94,7 +94,7 @@ function SearchBar(props) {
       <SearchContainer>
         <SearchIcon>
           {/* <i className="fa fa-search"></i> */}
-          <img src={Search} style={{ width: "1rem" }}></img>
+          <img src={Search} style={{ width: "1.45rem" }}></img>
         </SearchIcon>
         <SearchInputWrapper>
           <SearchInput

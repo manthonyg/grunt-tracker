@@ -2,12 +2,14 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 //Packages
 import { Table } from "reactstrap";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 //Global components
 import Banner from "../../../components/Banner";
 import Flex from "../../../components/Flex";
 import Button from "../../../components/Button";
-import Loader from "../../../components/Loader";
+//Local components
+import AddExistingMarine from "./AddExistingMarine";
+import AddNewMarine from "./AddNewMarine";
 //Services
 import { updateMarineById } from "../../../services/marineServices";
 import { getAllMarinesInSquad } from "../../../services/squadServices";
@@ -16,6 +18,7 @@ import { SquadPageContext } from "../SquadPage";
 //Media
 import View from "../../../images/external-link-blue.svg";
 import AddUser from "../../../images/add-user.svg";
+import AddExistingUser from "../../../images/add-existing-user.svg";
 
 const Switch = styled.input.attrs({ type: "checkbox" })`
   -webkit-appearance: none;
@@ -53,6 +56,37 @@ const Switch = styled.input.attrs({ type: "checkbox" })`
   }
 `;
 
+const FlexBox = styled.div`
+  display: flex;
+  height: 73.5vh;
+  justify-content: space-around;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  box-sizing: border-box;
+  overflow: scroll;
+`;
+
+const FlexItem = styled.div`
+  justify-content: center;
+  padding: .25rem;
+  overflow: auto;
+  background-color: #68829e;
+  color: #000;
+  border-bottom: 4px solid #fff;
+  filter: ${props => {
+    if (props.selected) return ``;
+    return `opacity(40%);`;
+  }}
+  box-sizing: border-box;
+  flex-grow: ${props => {
+    if (props.selected) return "10";
+    return "1";
+  }};
+  &:nth-child(2n) {
+    background-color: #68829e;
+  }
+`;
+
 const StyledLink = styled(Link)`
   color: #68829e;
 `;
@@ -65,10 +99,24 @@ function ViewAccountability() {
   const squadData = dataProvider.squadData;
   const setCurrentView = dataProvider.setCurrentView;
 
-  const handleSetCurrentView = view => {
-    setCurrentView("addMarine");
+  const handleSetCurrentView = evt => {
+    setCurrentView(evt.currentTarget.id);
   };
 
+  const [isSelected, setIsSelected] = useState({
+    addNew: true,
+    addExisting: false
+  });
+  const handleSelectedFlexItem = evt => {
+    const id = evt.currentTarget.id;
+    setIsSelected(prevState => {
+      return {
+        addNew: false,
+        addExisting: false,
+        [id]: !isSelected.id
+      };
+    });
+  };
   const accountabilitySwitches = Array.from(
     document.querySelectorAll(".switch")
   );
@@ -108,6 +156,10 @@ function ViewAccountability() {
     });
   };
 
+  const wait = (ms = 0) => {
+    return new Promise((res, rej) => setTimeout(res, ms));
+  };
+
   const handleChange = evt => {
     const id = evt.target.id;
     const checked = evt.target.checked;
@@ -132,9 +184,9 @@ function ViewAccountability() {
 
   return (
     <>
-      <Banner secondary>Accountability</Banner>
       {marineData && marineData.length ? (
         <>
+          <Banner secondary>Accountability</Banner>
           <Flex justifyAround>
             <Button
               className="accountability-button"
@@ -159,20 +211,38 @@ function ViewAccountability() {
                   <img
                     onClick={handleSetCurrentView}
                     src={AddUser}
+                    id={"addMarine"}
                     style={{ width: "1.75rem" }}
                   />
                 </th>
-                <th>Rank</th>
-                <th>Last</th>
-                <th>Accounted</th>
-                <th>Billet</th>
+                <th>RANK</th>
+                <th>LAST</th>
+                <th>ACCOUNTED</th>
               </tr>
             </thead>
 
-            <tbody>
+            <tbody
+              style={{
+                justifyContent: "center",
+                textAlign: "center"
+              }}
+            >
               {marineData.map((marine, i) => (
-                <tr key={marine._id}>
-                  <th scope="row">
+                <tr
+                  style={{
+                    justifyContent: "center",
+                    textAlign: "center"
+                  }}
+                  key={marine._id}
+                >
+                  <th
+                    scope="row"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      textAlign: "center"
+                    }}
+                  >
                     <StyledLink
                       key={`${marine._id}`}
                       to={`/show-marine/${marine._id}`}
@@ -191,97 +261,73 @@ function ViewAccountability() {
                       onChange={handleChange}
                     />
                   </td>
-
-                  <td>{marine.billet}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
         </>
       ) : (
-        <Flex justifyCenter alignCenter>
-          <img
-            onClick={handleSetCurrentView}
-            src={AddUser}
-            style={{ width: "3rem" }}
-          />
-        </Flex>
+        <>
+          <Flex alignCenter justifyCenter>
+            <Banner header>{squadData.callsign} overview</Banner>
+          </Flex>
+
+          <Flex alignCenter justifyCenter>
+            <Banner secondary>Add members to start!</Banner>
+          </Flex>
+
+          <FlexBox>
+            <FlexItem
+              selected={isSelected.addNew}
+              onClick={handleSelectedFlexItem}
+              id="addNew"
+            >
+              <Banner white>
+                add <strong>new</strong>
+              </Banner>
+              {isSelected.addNew && (
+                <Flex justifyCenter>
+                  <img
+                    onClick={handleSetCurrentView}
+                    src={AddUser}
+                    id={"addMarine"}
+                    style={{ width: "5rem" }}
+                  />
+                  <Banner small white>
+                    Create a new Marine to add to the Squad
+                  </Banner>
+                </Flex>
+              )}
+            </FlexItem>
+
+            <FlexItem
+              selected={isSelected.addExisting}
+              onClick={handleSelectedFlexItem}
+              id="addExisting"
+            >
+              <Banner white>
+                <strong>existing</strong>
+              </Banner>
+
+              {isSelected.addExisting && (
+                <Flex justifyCenter>
+                  <img
+                    onClick={handleSetCurrentView}
+                    src={AddExistingUser}
+                    id={"addExistingMarine"}
+                    style={{ width: "5rem" }}
+                  />
+                  <Banner small white>
+                    View existing Marines and add to the squad
+                  </Banner>
+                </Flex>
+              )}
+            </FlexItem>
+          </FlexBox>
+        </>
       )}
     </>
   );
-}
-
-{
-  /* <StatsContainer>
-        <Flex justifyAround>
-          <Stats>
-            Team 1
-            <Switch />
-          </Stats>
-          <Stats>
-            Team 2
-            <Switch />
-          </Stats>
-          <Stats>
-            Team 3
-            <Switch />
-          </Stats>
-          <Stats>
-            Team HQ
-            <Switch />
-          </Stats>
-        </Flex>
-        {squadData &&
-          squadData.teams &&
-          squadData.teams.teamHq.map(marine => (
-            <Stats>
-              <Flex justifyBetween alignCenter>
-                {marine.rank} {marine.last}
-                <Switch
-                  key={marine._id}
-                  className={"switch"}
-                  defaultChecked={marine.accountability.accountedFor}
-                  id={marine._id}
-                  onChange={handleChange}
-                />
-                <StyledLink
-                  key={`${marine._id}`}
-                  to={`/show-marine/${marine._id}`}
-                >
-                  <img src={View} style={{ width: "1.5rem" }} />
-                </StyledLink>
-              </Flex>
-            </Stats>
-          ))}
-        {squadData &&
-          squadData.teams &&
-          squadData.teams.teamOne.map(marine => (
-            <Stats>
-              {marine.rank} {marine.last}
-              <Switch
-                key={marine._id}
-                className={"switch"}
-                defaultChecked={marine.accountability.accountedFor}
-                id={marine._id}
-                onChange={handleChange}
-              />
-            </Stats>
-          ))}
-        {squadData &&
-          squadData.teams &&
-          squadData.teams.teamTwo.map(marine => (
-            <Stats>
-              {marine.rank} {marine.last}
-              <Switch
-                key={marine._id}
-                className={"switch"}
-                defaultChecked={marine.accountability.accountedFor}
-                id={marine._id}
-                onChange={handleChange}
-              />
-            </Stats>
-          ))}
-      </StatsContainer> */
 }
 
 export default ViewAccountability;

@@ -7,38 +7,40 @@ import styled from "styled-components";
 //Local components
 import CreatePFT from "./components/CreatePFT";
 import CreateCFT from "./components/CreateCFT";
+import EditMarineEDL from "./components/EditMarineEDL";
+import ViewMarineEDL from "./components/ViewMarineEDL";
+import ViewMarineBody from "./components/ViewMarineBody";
+import ViewMarineAppointments from "./components/ViewMarineAppointments";
 //Global components
 import Flex from "../../components/Flex";
 import CreateAppointment from "./components/CreateAppointment";
 import Banner from "../../components/Banner";
-import Card from "../../components/Card";
-import Pill from "../../components/Pill";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
-import SideNav from "../../components/SideNav";
+import SideNav from "../../components/Nav/SideNav";
 //Services
 import { getMarineById } from "../../services/marineServices";
 //Media
-import Unaccounted from "../../images/warning.svg";
-import Accounted from "../../images/check.svg";
+import Unaccounted from "../../images/plus.svg";
+import Accounted from "../../images/check-solid.svg";
+//Constants
+import { calendarStrings } from "../../constants/calendarStrings";
 
 export const MarinePageContext = React.createContext();
 
 const FlexBox = styled.div`
   display: flex;
-  height: 86.5vh;
+  height: 84.5vh;
   justify-content: space-around;
   flex-flow: column nowrap;
   align-items: stretch;
   box-sizing: border-box;
-  transition: 3000ms;
   overflow: scroll;
 `;
 
 const FlexItem = styled.div`
-  transition: all 150ms;
-  padding: 1rem;
   justify-content: center;
+  padding: .25rem;
   overflow: auto;
   background-color: #68829e;
   color: #000;
@@ -49,7 +51,7 @@ const FlexItem = styled.div`
   }}
   box-sizing: border-box;
   flex-grow: ${props => {
-    if (props.selected) return "200";
+    if (props.selected) return "300";
     return "1";
   }};
   &:nth-child(2n) {
@@ -67,33 +69,6 @@ function MarinePage(props) {
   /*TODO
   make a function that returns the array from the obj (DRY) */
 
-  // const testEdl =
-  //   marineData &&
-  //   !!marineData.primary &&
-  //   Object.getOwnPropertyNames(marineData.primary);
-
-  const primaryEdl =
-    marineData &&
-    !!marineData.primary &&
-    Object.entries(marineData.primary)
-      .filter(object => !!object[1])
-      .map(object => object[0]);
-
-  console.log(primaryEdl);
-  const opticsEdl =
-    marineData &&
-    !!marineData.optics &&
-    Object.entries(marineData.optics)
-      .filter(object => !!object[1])
-      .map(object => object[0]);
-
-  const supplementaryEdl =
-    marineData &&
-    !!marineData.supplementary &&
-    Object.entries(marineData.supplementary)
-      .filter(object => !!object[1])
-      .map(object => object[0]);
-
   const [selectedCategory, setSelectedCategory] = useState({
     weapons: false,
     gear: false,
@@ -101,23 +76,24 @@ function MarinePage(props) {
     appointments: false,
     accountability: true
   });
+
+  const [categoryAction, setCategoryAction] = useState({
+    weapons: {
+      view: true,
+      edit: false
+    },
+    body: {
+      view: true,
+      add: false
+    },
+    appointments: {
+      view: true,
+      add: false
+    }
+  });
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentView, setCurrentView] = useState("viewAll");
-
-  const navLinks = [
-    {
-      title: "Create Counseling",
-      view: "createCounseling"
-    },
-    {
-      title: "Do Good List",
-      view: "doGoodList"
-    },
-    {
-      title: "TAD/Leave",
-      view: "tadLeave"
-    }
-  ];
 
   const handleSetCurrentView = evt => {
     if (!!evt.target.id) {
@@ -142,6 +118,28 @@ function MarinePage(props) {
     });
   };
 
+  const handleCategoryAction = evt => {
+    const id = evt.currentTarget.id;
+    const category = evt.currentTarget.name;
+    setCategoryAction({
+      weapons: {
+        view: true,
+        edit: false
+      },
+      body: {
+        view: true,
+        edit: false
+      },
+      appointments: {
+        view: true,
+        add: false
+      },
+      [category]: {
+        [id]: !selectedCategory[category].id
+      }
+    });
+  };
+
   useEffect(() => {
     if (componentIsMounted.current) {
       getMarineById(props.match.params.id)
@@ -161,20 +159,24 @@ function MarinePage(props) {
     [marineData, setMarineData]
   );
 
-  const calendarStrings = {
-    lastDay: "[Yesterday at] HHmm",
-    sameDay: "[Today at] HHmm",
-    nextDay: "[Tomorrow at] HHmm",
-    lastWeek: "[last] dddd [at] HHmm",
-    nextWeek: "dddd [at] HHmm",
-    sameElse: "HHmm"
-  };
-
   return (
     <>
       <SideNav
         onClick={handleSetMenu}
-        navLinks={navLinks}
+        navLinks={[
+          {
+            title: "Create Counseling",
+            view: "createCounseling"
+          },
+          {
+            title: "Do Good List",
+            view: "doGoodList"
+          },
+          {
+            title: "TAD/Leave",
+            view: "tadLeave"
+          }
+        ]}
         open={menuOpen}
         handleView={handleSetCurrentView}
       ></SideNav>
@@ -192,47 +194,42 @@ function MarinePage(props) {
             selected={selectedCategory.accountability}
             onClick={handleSelectedCategory}
           >
-            <Banner white>
-              Accountability
-              {marineData.accountability && (
-                <>
-                  {marineData.accountability.accountedFor ? (
-                    <>
-                      {/* <img style={{ width: "2rem" }} src={Accounted}></img> */}
-                    </>
-                  ) : (
-                    <>
-                      {/* <img style={{ width: "2rem" }} src={Unaccounted}></img> */}
-                    </>
-                  )}
-                </>
-              )}
-            </Banner>
-
-            <Card selected={selectedCategory.accountability}>
-              <Banner small header>
+            <Banner white>Accountability</Banner>
+            {selectedCategory.accountability && (
+              <Banner small white>
                 <br />
 
-                {marineData.accountability && (
+                {marineData.accountability && selectedCategory.accountability && (
                   <>
                     <strong>
                       {marineData.accountability.accountedFor ? (
                         <>
-                          Accounted for
-                          <img
-                            style={{ width: "1.5rem" }}
-                            src={Accounted}
-                          ></img>
-                          <br />
+                          <Flex justifyCenter alignCenter>
+                            Accounted for
+                          </Flex>
+                          <Flex justifyCenter alignCenter>
+                            <img
+                              style={{
+                                width: "5rem"
+                              }}
+                              src={Accounted}
+                            ></img>
+                          </Flex>
                         </>
                       ) : (
                         <>
-                          Unaccounted for <br />
-                          <img
-                            style={{ width: "1rem" }}
-                            src={Unaccounted}
-                          ></img>
-                          <br />
+                          <Flex justifyCenter alignCenter>
+                            Unaccounted for
+                          </Flex>
+                          <Flex justifyCenter alignCenter>
+                            <img
+                              style={{
+                                width: "5rem",
+                                transform: "rotate(45deg)"
+                              }}
+                              src={Unaccounted}
+                            ></img>
+                          </Flex>
                         </>
                       )}
 
@@ -243,7 +240,7 @@ function MarinePage(props) {
                   </>
                 )}
               </Banner>
-            </Card>
+            )}
           </FlexItem>
 
           <FlexItem
@@ -255,35 +252,26 @@ function MarinePage(props) {
             {selectedCategory.weapons && (
               <>
                 <Flex justifyAround alignCenter>
-                  <Button id="add-appointment">Add</Button>
+                  <Button
+                    small
+                    name="weapons"
+                    id="edit"
+                    onClick={handleCategoryAction}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    small
+                    name="weapons"
+                    id="view"
+                    onClick={handleCategoryAction}
+                  >
+                    View
+                  </Button>
                 </Flex>
 
-                <Banner small white>
-                  Primary
-                </Banner>
-                <Flex justifyAround alignCenter>
-                  {primaryEdl.map(item => (
-                    <Pill key={item}>{item}</Pill>
-                  ))}
-                </Flex>
-                <hr />
-                <Banner small white>
-                  Optics
-                </Banner>
-                <Flex justifyAround alignCenter>
-                  {opticsEdl.map(item => (
-                    <Pill key={item}>{item}</Pill>
-                  ))}
-                </Flex>
-                <hr />
-                <Banner small white>
-                  Supplementary
-                </Banner>
-                <Flex justifyAround alignCenter>
-                  {supplementaryEdl.map(item => (
-                    <Pill key={item}>{item}</Pill>
-                  ))}
-                </Flex>
+                {!!categoryAction.weapons.edit && <EditMarineEDL />}
+                {!!categoryAction.weapons.view && <ViewMarineEDL />}
               </>
             )}
           </FlexItem>
@@ -293,6 +281,21 @@ function MarinePage(props) {
             onClick={handleSelectedCategory}
           >
             <Banner white>Gear</Banner>
+            {selectedCategory.gear && (
+              <>
+                <Flex justifyAround alignCenter>
+                  <Button small id="edit" onClick={handleCategoryAction}>
+                    Edit
+                  </Button>
+                  <Button small id="view" onClick={handleCategoryAction}>
+                    View
+                  </Button>
+                </Flex>
+
+                {!!categoryAction.weapons.edit && <EditMarineEDL />}
+                {!!categoryAction.weapons.view && <ViewMarineEDL />}
+              </>
+            )}
           </FlexItem>
           <FlexItem
             id={"body"}
@@ -301,16 +304,34 @@ function MarinePage(props) {
           >
             <Banner white>Body</Banner>
             {selectedCategory.body && (
-              <Flex justifyBetween>
-                <Button inverted id="add-appointment">
-                  Create
-                </Button>
-                <Button inverted id="view-all">
-                  View All
-                </Button>
-                <CreatePFT />
-                <CreateCFT />
-              </Flex>
+              <>
+                <Flex justifyAround>
+                  <Button
+                    small
+                    name="body"
+                    id="view"
+                    onClick={handleCategoryAction}
+                  >
+                    View
+                  </Button>
+                  <Button
+                    small
+                    name="body"
+                    id="add"
+                    onClick={handleCategoryAction}
+                  >
+                    Add
+                  </Button>
+                </Flex>
+
+                {!!categoryAction.body.add && (
+                  <>
+                    <CreatePFT />
+                    <CreateCFT />
+                  </>
+                )}
+                {!!categoryAction.body.view && <ViewMarineBody />}
+              </>
             )}
           </FlexItem>
           <FlexItem
@@ -320,69 +341,36 @@ function MarinePage(props) {
           >
             <Banner white>Appointments</Banner>
             {selectedCategory.appointments && (
-              <Flex justifyBetween>
-                <Button inverted id="add-appointment">
-                  Create
-                </Button>
-                <Button inverted id="view-all">
-                  View All
-                </Button>
-                <CreateAppointment />
-              </Flex>
+              <>
+                <Flex justifyBetween>
+                  <Button
+                    small
+                    name="appointments"
+                    id="add"
+                    onClick={handleCategoryAction}
+                  >
+                    Add
+                  </Button>
+                  <Button
+                    small
+                    name="appointments"
+                    id="view"
+                    onClick={handleCategoryAction}
+                  >
+                    View All
+                  </Button>
+                </Flex>
+
+                {!!categoryAction.appointments.view && (
+                  <ViewMarineAppointments />
+                )}
+
+                {!!categoryAction.appointments.add && <CreateAppointment />}
+              </>
             )}
           </FlexItem>
         </FlexBox>
       </MarinePageContext.Provider>
-      {/* <MarinePageContext.Provider value={providerValue}>
-        <Banner secondary>
-          {marineData.rank} {marineData.last}
-        </Banner>
-        <Flex justifyAround>
-          <Card primary noAnimation>
-            <Banner secondary>Accountability</Banner>
-            <Banner small header>
-              <br />
-
-              {marineData.accountability && (
-                <>
-                  <strong>
-                    {marineData.accountability.accountedFor ? (
-                      <>
-                        <Icon success>check_circle_outline</Icon> accounted
-                      </>
-                    ) : (
-                      <>
-                        <Icon danger>help_outline</Icon> unaccounted
-                      </>
-                    )}
-                    <br />
-                    <br />
-                    since{" "}
-                    <Moment calendar={calendarStrings}>
-                      {marineData.accountability.date}
-                    </Moment>
-                  </strong>
-                </>
-              )}
-            </Banner>
-          </Card>
-          <Card primary noAnimation>
-            <Banner secondary>Weapons</Banner>
-          </Card>
-          <Card primary noAnimation>
-            <Banner secondary>Gear</Banner>
-          </Card>
-          <Card primary noAnimation>
-            <Banner secondary>Body</Banner>
-            <CreatePFT />
-            <CreateCFT />
-          </Card>
-          <Card primary noAnimation>
-            <Banner secondary>Appointments</Banner>
-            <CreateAppointment />
-          </Card>
-        </Flex>
-      </MarinePageContext.Provider> */}
     </>
   );
 }

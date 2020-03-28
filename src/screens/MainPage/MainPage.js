@@ -82,6 +82,7 @@ function MainPage() {
             <>
               <Card
                 toast
+                shadow
                 noAnimation
                 handleClose={deleteSquad}
                 link={`/show-squad/${squad._id}`}

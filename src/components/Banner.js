@@ -8,6 +8,10 @@ const Wrapper = styled.div`
   justify-content: center;
   overflow: auto;
   float: center;
+  margin-top: ${props => {
+    if (props.header) return "3rem";
+    return "1rem";
+  }};
 `;
 const Header = styled.h4`
 font-weight: ${props => {
@@ -38,7 +42,7 @@ font-size: ${props => {
 
 const Banner = props => {
   return (
-    <Wrapper>
+    <Wrapper header={props.header}>
       <Header
         header={props.header}
         white={props.white}

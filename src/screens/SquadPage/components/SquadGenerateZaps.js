@@ -15,12 +15,12 @@ function SquadGenerateZaps() {
     <Table responsive>
       {!!marineData && !!marineData.length ? (
         <thead>
-          <tr>
-            <th>Zap#</th>
-            <th>Last</th>
-            <th>First</th>
-            <th>Blood Type</th>
-            <th>Religion</th>
+          <tr style={{ border: "2px solid black" }}>
+            <th style={{ border: "2px solid black" }}>Zap#</th>
+            <th style={{ border: "2px solid black" }}>Last</th>
+            <th style={{ border: "2px solid black" }}>First</th>
+            <th style={{ border: "2px solid black" }}>Blood Type</th>
+            <th style={{ border: "2px solid black" }}>Religion</th>
           </tr>
         </thead>
       ) : (
@@ -31,8 +31,10 @@ function SquadGenerateZaps() {
         <tbody>
           {marineData.map((marine, i) => (
             <tr key={marine._id}>
-              <th scope="row">{i}</th>
-              <td>{marine.zap}</td>
+              <td>
+                {marine.zap}
+                {marine.blood_type}
+              </td>
               <td>{marine.last}</td>
               <td>{marine.first}</td>
               <td>{marine.blood_type}</td>

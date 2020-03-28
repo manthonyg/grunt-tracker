@@ -6,9 +6,9 @@ import SquadGenerateZaps from "./components/SquadGenerateZaps";
 import SquadTable from "./components/SquadTable";
 import SquadAccountability from "./components/SquadAccountability";
 import SquadAppointments from "./components/SquadAppointments";
-import CreateMarine from "../MarinePage/components/CreateMarine";
-import SideNav from "../../components/SideNav";
-
+import AddNewMarine from "./components/AddNewMarine";
+import AddExistingMarine from "./components/AddExistingMarine";
+import SideNav from "../../components/Nav/SideNav";
 //Services
 import {
   getAllMarinesInSquad,
@@ -28,25 +28,6 @@ function SquadPage(props) {
   const handleSetMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
-  const navLinks = [
-    {
-      title: "Morning Report",
-      view: "generateZaps"
-    },
-    {
-      title: "Kill Cards",
-      view: "generateZaps"
-    },
-    {
-      title: "Edit Squad",
-      view: "dragAndDrop"
-    },
-    {
-      title: "Add",
-      view: "addMarine"
-    }
-  ];
 
   const providerValue = React.useMemo(
     () => ({
@@ -92,28 +73,49 @@ function SquadPage(props) {
   }, [props.match.params.id, currentView]);
   return (
     <>
-      <SideNav
-        onClick={handleSetMenu}
-        navLinks={navLinks}
-        open={menuOpen}
-        handleView={handleSetCurrentView}
-      ></SideNav>
       <SquadPageContext.Provider value={providerValue}>
-        <SquadCarousel />
+        <SideNav
+          onClick={handleSetMenu}
+          navLinks={[
+            {
+              title: "Morning Report",
+              view: "generateZaps"
+            },
+            {
+              title: "Kill Cards",
+              view: "generateZaps"
+            },
+            {
+              title: "Edit Squad",
+              view: "dragAndDrop"
+            },
+            {
+              title: "Add",
+              view: "addMarine"
+            }
+          ]}
+          open={menuOpen}
+          handleView={handleSetCurrentView}
+        />
+
+        {marineData && !!marineData.length && <SquadCarousel />}
 
         {/* local components */}
-        {currentView === "addMarine" && <CreateMarine id={squadData._id} />}
+        {currentView === "addMarine" && <AddNewMarine id={squadData._id} />}
+        {currentView === "addExistingMarine" && (
+          <AddExistingMarine id={squadData._id} />
+        )}
         {currentView === "accountability" && (
           <SquadAccountability id={squadData._id} />
         )}
         {currentView === "appointments" && <SquadAppointments />}
         {/* table components */}
+        {currentView === "viewAll" && <SquadTable id={squadData._id} />}
         {currentView === "weapons" && <SquadTable id={squadData._id} />}
         {currentView === "gear" && <SquadTable id={squadData._id} />}
         {currentView === "body" && <SquadTable id={squadData._id} />}
         {currentView === "discrepancies" && <SquadTable id={squadData._id} />}
         {/* menu features/generators */}
-        {currentView === "viewAll" && <SquadTable id={squadData._id} />}
         {currentView === "dragAndDrop" && <SquadDND id={squadData._id} />}
         {currentView === "generateZaps" && (
           <SquadGenerateZaps id={squadData._id} />

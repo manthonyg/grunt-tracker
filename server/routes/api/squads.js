@@ -76,6 +76,7 @@ router.route("/:id/teams/add").post((req, res) => {
     id: id,
     ...req.body
   });
+
   newMarine.save(function(err) {
     if (err) {
       console.log("error in newMarine.save", err);
@@ -86,6 +87,23 @@ router.route("/:id/teams/add").post((req, res) => {
   Squad.findByIdAndUpdate(
     req.params.id,
     { $push: { "teams.teamHq": newMarine.id, marines: newMarine.id } },
+    { new: true }
+  )
+    .then(function(team) {
+      res.json(team);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
+// route PUT id/addExisiting
+// description add exisiting marine ids to a new squad
+// services:
+router.route("/:id/addExistingMarine").post((req, res) => {
+  Squad.findByIdAndUpdate(
+    req.params.id,
+    { $push: { "teams.teamHq": req.body, marines: req.body } },
     { new: true }
   )
     .then(function(team) {
@@ -119,11 +137,9 @@ router.delete("/:id", (req, res) => {
   })
     .then(squad => res.json({ mgs: "Squad deleted successfully" }))
     .catch(err =>
-      res
-        .status(404)
-        .json({
-          error: `Squad with req.params ${req.params} could not be deleted`
-        })
+      res.status(404).json({
+        error: `Squad with req.params ${req.params} could not be deleted`
+      })
     );
 });
 

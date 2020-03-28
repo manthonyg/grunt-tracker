@@ -1,19 +1,29 @@
 import React, { useContext, useState } from "react";
 //Packages
+import Moment from "react-moment";
+import "moment-timezone";
 import styled from "styled-components";
 //Global Components
 import Banner from "../../../components/Banner";
+import Card from "../../../components/Card";
 //Context
 import { SquadPageContext } from "../SquadPage";
+//Constants
+import { appointmentStrings } from "../../../constants/calendarStrings";
 
 function SquadAppointments() {
   const dataProvider = useContext(SquadPageContext);
   const marineData = dataProvider.marineData;
 
+  const currentDate = marineData.map(marine =>
+    marine.appointments.map(appointment => <Moment>{appointment.date}</Moment>)
+  );
+
+  console.log(currentDate);
+
   const [selectedCategory, setSelectedCategory] = useState({
     today: true,
-    week: false,
-    month: false
+    week: false
   });
 
   const handleSelectedCategory = evt => {
@@ -21,14 +31,13 @@ function SquadAppointments() {
     setSelectedCategory({
       today: false,
       week: false,
-      month: false,
       [id]: !selectedCategory.id
     });
   };
 
   const FlexBox = styled.div`
     display: flex;
-    height: 61vh;
+    height: 67vh;
     margin: 3px 0px;
     justify-content: center;
     flex-flow: column nowrap;
@@ -41,8 +50,8 @@ function SquadAppointments() {
   const FlexItem = styled.div`
   transition: all 150ms;
   padding: 1rem;
+  text-transform: uppercase;
   border-bottom: 4px solid #aebd38;
-  
   justify-content: center;
   align-items: center;
   align-content: center;
@@ -72,12 +81,26 @@ function SquadAppointments() {
         onClick={handleSelectedCategory}
       >
         <Banner white>Today</Banner>
+
         {selectedCategory.today &&
           marineData.map(marine =>
             marine.appointments.map(appointment => (
-              <div key={appointment}>
-                {appointment.date} {appointment.location} {appointment.type}
-              </div>
+              <Card noAnimation inverted key={appointment}>
+                <strong style={{ color: "#aebd38" }}>Who: </strong>
+                {marine.rank} {marine.last}
+                <br />
+                <strong style={{ color: "#aebd38" }}>When: </strong>
+                <Moment calendar={appointmentStrings}>
+                  {appointment.date}
+                </Moment>
+                {appointment.time}
+                <br />
+                <strong style={{ color: "#aebd38" }}>Where: </strong>{" "}
+                {appointment.location}
+                <br />
+                <strong style={{ color: "#aebd38" }}>Why: </strong>{" "}
+                {appointment.appointment_type}
+              </Card>
             ))
           )}
       </FlexItem>
@@ -87,13 +110,27 @@ function SquadAppointments() {
         onClick={handleSelectedCategory}
       >
         <Banner white>This Week</Banner>
-      </FlexItem>
-      <FlexItem
-        id={"month"}
-        selected={selectedCategory.month}
-        onClick={handleSelectedCategory}
-      >
-        <Banner white>This Month</Banner>
+        {selectedCategory.week &&
+          marineData.map(marine =>
+            marine.appointments.map(appointment => (
+              <Card inverted key={appointment}>
+                <strong style={{ color: "#aebd38" }}>Who: </strong>
+                {marine.rank} {marine.last}
+                <br />
+                <strong style={{ color: "#aebd38" }}>When: </strong>
+                <Moment calendar={appointmentStrings}>
+                  {appointment.date}
+                </Moment>
+                {appointment.time}
+                <br />
+                <strong style={{ color: "#aebd38" }}>Where: </strong>{" "}
+                {appointment.location}
+                <br />
+                <strong style={{ color: "#aebd38" }}>Why: </strong>{" "}
+                {appointment.appointment_type}
+              </Card>
+            ))
+          )}
       </FlexItem>
     </FlexBox>
   );

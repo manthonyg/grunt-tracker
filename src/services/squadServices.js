@@ -1,5 +1,17 @@
 import { squadURI } from "./uris";
 
+//------------------
+// Helper function
+//------------------
+const handleErr = err => {
+  console.log(err);
+  return err;
+};
+
+//-------------------
+//
+//-------------------
+
 export const createSquad = async data => {
   const settings = {
     method: "POST",
@@ -14,7 +26,7 @@ export const createSquad = async data => {
     const fetchData = await fetchRes.json();
     return fetchData;
   } catch (err) {
-    return err;
+    handleErr(err);
   }
 };
 
@@ -32,7 +44,28 @@ export const addMarineToSquad = async (id, data) => {
     const fetchData = await fetchRes.json();
     return fetchData;
   } catch (err) {
-    return err;
+    handleErr(err);
+  }
+};
+
+export const addExistingMarine = async (id, data) => {
+  const settings = {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      Accept: "application/json/",
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const fetchRes = await fetch(
+      `${squadURI}/${id}/addExistingMarine`,
+      settings
+    );
+    const fetchData = await fetchRes.json();
+    return fetchData;
+  } catch (err) {
+    handleErr(err);
   }
 };
 
@@ -42,7 +75,7 @@ export const getAllMarinesInSquad = async id => {
     const responseMarines = await response.json();
     return responseMarines;
   } catch (err) {
-    console.log(err);
+    handleErr(err);
   }
 };
 
@@ -60,7 +93,7 @@ export const updateSquadById = async (id, data) => {
     const fetchData = await fetchRes.json();
     return fetchData;
   } catch (err) {
-    return err;
+    handleErr(err);
   }
 };
 
@@ -70,7 +103,7 @@ export const getAllSquads = async () => {
     const responseSquads = await response.json();
     return responseSquads;
   } catch (err) {
-    console.log(err);
+    handleErr(err);
   }
 };
 
@@ -80,7 +113,7 @@ export const getSquadById = async id => {
     const responseSquad = await response.json();
     return responseSquad;
   } catch (err) {
-    console.log(err);
+    handleErr(err);
   }
 };
 
@@ -90,7 +123,7 @@ export const getSquadsTeamsById = async id => {
     const responseTeams = await response.json();
     return responseTeams;
   } catch (err) {
-    console.log(err);
+    handleErr(err);
   }
 };
 
@@ -100,7 +133,7 @@ export const getMarineById = async id => {
     const responseMarine = await response.json();
     return responseMarine;
   } catch (err) {
-    console.log(err);
+    handleErr(err);
   }
 };
 
@@ -109,7 +142,11 @@ export const deleteSquadById = async id => {
     method: "DELETE"
   };
 
-  const response = await fetch(`${squadURI}/${id}`, settings);
-  const responseSquad = await response.json();
-  return responseSquad;
+  try {
+    const response = await fetch(`${squadURI}/${id}`, settings);
+    const responseSquad = await response.json();
+    return responseSquad;
+  } catch (err) {
+    handleErr(err);
+  }
 };

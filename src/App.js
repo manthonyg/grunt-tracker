@@ -2,20 +2,17 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 //Packages
 import styled from "styled-components";
-//Pages
+//Screens
 import Home from "./screens/MainPage/MainPage";
 import CreateSquad from "./screens/CreateSquad";
-import CreateMarine from "./screens/MarinePage/components/CreateMarine";
 import SquadPage from "./screens/SquadPage/SquadPage";
 import MarinePage from "./screens/MarinePage/MarinePage";
 //Local Components
-import BottomNav from "./components/BottomNav";
-import SearchBar from "./components/SearchBar";
-import SearchResults from "./components/SearchResults";
+import BottomNav from "./components/Nav/BottomNav";
+import SearchBar from "./components/Search/SearchBar";
+import SearchResults from "./components/Search/SearchResults";
 //Services
 import { getMarinesBySearchInput } from "./services/marineServices";
-//Media
-import BG from "./images/GT_Bg.png";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -97,7 +94,6 @@ const App = () => {
         <Main>
           <Route exact path="/" component={Home} />
           <Route path="/create-squad" component={CreateSquad} />
-          <Route path="/create-marine" component={CreateMarine} />
           <Route path="/show-squad/:id" component={SquadPage} />
           <Route path="/show-marine/:id" component={MarinePage} />
         </Main>

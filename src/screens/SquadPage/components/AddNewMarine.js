@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 //Packages
 import { Alert, Form, FormGroup, Label, Input, Container } from "reactstrap";
+import styled from "styled-components";
 //Global components
 import Flex, { Column } from "../../../components/Flex";
 import Banner from "../../../components/Banner";
@@ -9,9 +10,28 @@ import Button from "../../../components/Button";
 //Services
 import { addMarineToSquad } from "../../../services/squadServices";
 //Context
-import { SquadPageContext } from "../../SquadPage/SquadPage";
+import { SquadPageContext } from "../SquadPage";
 
-function CreateMarine({ id }) {
+const Switch = styled.input.attrs({ type: "checkbox" })`
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 1.5em;
+  height: 1.5em;
+  background: #505160;
+  border-radius: 3em;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+
+  &:checked {
+    background: #aebd38;
+  }
+`;
+
+function AddNewMarine({ id }) {
   const dataProvider = useContext(SquadPageContext);
 
   const squadData = dataProvider.squadData;
@@ -171,7 +191,7 @@ I need it to be, but I need to address this*/
         setCurrentView("accountability");
       })
       .catch(err => {
-        console.log("Error in CreateMarine", err);
+        console.log("Error in AddNewMarine", err);
       });
   };
 
@@ -213,8 +233,8 @@ I need it to be, but I need to address this*/
 
   return (
     <>
-      <Banner>
-        <strong>Create Marine</strong>
+      <Banner header>
+        <strong>Add New Marine</strong>
       </Banner>
 
       <Form onSubmit={handleSubmit}>
@@ -334,35 +354,40 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
       </Banner>
       <Flex justifyAround>
         <Column four>
-          <input type="checkbox" id="m4" name="m4" onChange={handleCheck} />
+          <Switch type="checkbox" id="m4" name="m4" onChange={handleCheck} />
           <label for="m4">M4</label>
         </Column>
         <Column four>
-          <input type="checkbox" id="m27" name="m27" onChange={handleCheck} />
+          <Switch type="checkbox" id="m27" name="m27" onChange={handleCheck} />
           <label for="m27">M27</label>
         </Column>
         <Column four>
-          <input type="checkbox" id="m38" name="m38" onChange={handleCheck} />
+          <Switch type="checkbox" id="m38" name="m38" onChange={handleCheck} />
           <label for="m38">M38</label>
         </Column>
         <Column four>
-          <input type="checkbox" id="m32" name="m32" onChange={handleCheck} />
+          <Switch type="checkbox" id="m32" name="m32" onChange={handleCheck} />
           <label for="m38">M32</label>
         </Column>
         <Column four>
-          <input type="checkbox" id="m203" name="m203" onChange={handleCheck} />
+          <Switch
+            type="checkbox"
+            id="m203"
+            name="m203"
+            onChange={handleCheck}
+          />
           <label for="m203">M203</label>
         </Column>
         <Column four>
-          <input type="checkbox" id="rco" name="rco" onChange={handleCheck} />
+          <Switch type="checkbox" id="rco" name="rco" onChange={handleCheck} />
           <label for="sdo">RCO</label>
         </Column>
         <Column four>
-          <input type="checkbox" id="sdo" name="sdo" onChange={handleCheck} />
+          <Switch type="checkbox" id="sdo" name="sdo" onChange={handleCheck} />
           <label for="sdo">SDO</label>
         </Column>
         <Column four>
-          <input
+          <Switch
             type="checkbox"
             id="peq15"
             name="peq15"
@@ -371,7 +396,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
           <label for="peq15">PEQ15</label>
         </Column>
         <Column four>
-          <input
+          <Switch
             type="checkbox"
             id="peq16"
             name="peq16"
@@ -386,7 +411,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
       </Banner>
       <Flex justifyAround>
         <Column four>
-          <input
+          <Switch
             type="checkbox"
             id="pas28"
             name="pas28"
@@ -395,7 +420,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
           <label for="pas28">PAS28</label>
         </Column>
         <Column four>
-          <input
+          <switch
             type="checkbox"
             id="pvs24"
             name="pvs24"
@@ -404,7 +429,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
           <label for="pv24">PVS24</label>
         </Column>
         <Column four>
-          <input
+          <Switch
             type="checkbox"
             id="pvs14"
             name="pvs14"
@@ -413,7 +438,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
           <label for="pvs14">PVS14</label>
         </Column>
         <Column four>
-          <input
+          <Switch
             type="checkbox"
             id="leupold"
             name="leupold"
@@ -428,7 +453,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
       </Banner>
       <Flex justifyAround>
         <Column four>
-          <input
+          <Switch
             type="checkbox"
             id="suppressor"
             name="suppressor"
@@ -437,7 +462,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
           <label for="suppressor">SUPP</label>
         </Column>
         <Column four>
-          <input
+          <Switch
             type="checkbox"
             id="compass"
             name="compass"
@@ -446,7 +471,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
           <label for="compass">CMPS</label>
         </Column>
         <Column four>
-          <input
+          <Switch
             type="checkbox"
             id="fortrex"
             name="fortrex"
@@ -455,7 +480,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
           <label for="fortrex">FTRX</label>
         </Column>
         <Column four>
-          <input
+          <Switch
             type="checkbox"
             id="binos"
             name="binos"
@@ -515,4 +540,4 @@ function ZapInformation({ currentStep, handleChange, edipi, blood_type }) {
   );
 }
 
-export default CreateMarine;
+export default AddNewMarine;

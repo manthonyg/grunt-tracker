@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 //Packages
 import styled from "styled-components";
 //Media
-import Tent from "../images/tent-yellow.svg";
-import LArrow from "../images/larrow.svg";
-import AddSquad from "../images/add-squad-yellow.svg";
+import Home from "../../images/home-solid.svg";
+import LArrow from "../../images/larrow.svg";
+import AddSquad from "../../images/add-squad-yellow.svg";
 
 const MobileNavWrapper = styled.nav`
   position: fixed;
@@ -76,7 +76,7 @@ function BottomNav() {
       <MobileNavItem>
         <MobileNavItemContent>
           <StyledLink to="/">
-            <img src={Tent} style={{ width: "3rem" }}></img>
+            <img src={Home} style={{ width: "2rem" }}></img>
             {/* <i className="material-icons">home</i> */}
           </StyledLink>
         </MobileNavItemContent>

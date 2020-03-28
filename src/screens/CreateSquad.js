@@ -6,7 +6,6 @@ import { Alert, Form } from "reactstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 //Global components
-import Loader from "../components/Loader";
 import Banner from "../components/Banner";
 import Button from "../components/Button";
 import Flex from "../components/Flex";
@@ -168,7 +167,7 @@ function CreateSquad() {
         </Container>
       </Form>
 
-      <StyledAlert success isOpen={alertVisible} toggle={handleAlert}>
+      <StyledAlert success isOpen={alertVisible}>
         <Flex justifyAround>
           <Link to="/">
             <Button>View Squad</Button>
@@ -200,7 +199,7 @@ function SquadInformation({
           onChange={handleChange}
           value={company}
         >
-          <option>A</option>
+          <option selected>A</option>
           <option>B</option>
           <option>C</option>
           <option>D</option>
@@ -225,7 +224,7 @@ function SquadInformation({
           onChange={handleChange}
           value={platoon}
         >
-          <option>1</option>
+          <option selected>1</option>
           <option>2</option>
           <option>3</option>
           <option>4</option>
@@ -242,7 +241,7 @@ function SquadInformation({
           onChange={handleChange}
           value={squad}
         >
-          <option>1</option>
+          <option selected>1</option>
           <option>2</option>
           <option>3</option>
           <option>WPNS</option>

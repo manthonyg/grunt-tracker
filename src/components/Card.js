@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styled, { css, keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 import Flex from "../components/Flex";
 import { Link } from "react-router-dom";
 //Media
 import AngleR from "../images/angle-right-solid.svg";
 import Plus from "../images/plus.svg";
+//Global components
+import Button from "./Button";
 
 const animatedCss = css`
   opacity: 1;
@@ -16,7 +18,15 @@ const primaryCss = css`
   background-color: #fff;
   color: #000;
   padding: 15px;
-  border: 2px solid #aebd38;
+  border: 7px solid #aebd38;
+  display: block;
+`;
+
+const invertedCss = css`
+  background-color: #505160;
+  color: #fff;
+  padding: 15px;
+  border: 2px solid #505160;
   display: block;
 `;
 
@@ -50,12 +60,13 @@ const StyledCard = styled.div`
     display: none;
     opacity: 0;
     transform: translateY(50px);
-    transition: 150ms all ease-in-out;
+    transition: 200ms all ease-in-out;
     margin: ${props => (props.noMargin ? 0 : "15px")};
     ${props => props.animated && animatedCss}
     ${props => props.primary && primaryCss}
     ${props => props.toast && toastCss}
     ${props => props.selected && selectedCss}
+    ${props => props.inverted && invertedCss}
 `;
 function Card(props) {
   const [animated, setAnimated] = useState(false);
@@ -76,30 +87,40 @@ function Card(props) {
       delay={props.delay}
       selected={props.selected}
       primary={props.primary}
+      inverted={props.inverted}
       toast={props.toast}
+      shadow={props.shadow}
       handleClose={props.handleClose}
       id={props.id}
     >
-      {props.selected || props.toast ? props.children : null}
+      {props.children}
+
       {props.toast && (
         <CardButtonWrapper>
-          <Flex justifyBetween alignCenter>
-            <img
+          <Flex justifyAround>
+            <Button
+              circular
+              src={Plus}
+              id={props.id}
+              onClick={props.handleClose}
+              style={{ left: "0", width: "2rem" }}
+            >
+              <img
+                src={Plus}
+                style={{ transform: "rotate(45deg)", width: "1.5rem" }}
+              />
+            </Button>
+            {/* <img
               src={Plus}
               id={props.id}
               onClick={props.handleClose}
               style={{ width: "1rem", transform: "rotate(45deg)" }}
-            />
-            {/* <i
-              className="material-icons"
-              id={props.id}
-              onClick={props.handleClose}
-            >
-              close
-            </i> */}
-            <Link to={props.link}>
-              <img src={AngleR} style={{ width: "1.75rem" }} />
-            </Link>
+            /> */}
+
+            {/* <img src={AngleR} style={{ width: "1.75rem" }} /> */}
+            <Button>
+              <Link to={props.link}>View</Link>
+            </Button>
           </Flex>
         </CardButtonWrapper>
       )}

@@ -1,11 +1,15 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import Loader from "./Loader";
+//Media
+import Plus from "../images/plus.svg";
 
 const StyledButton = styled.button`
   border: ${props => {
-    if (props.secondary) return "none";
-    if (props.inverted) return "none";
+    if (props.secondary) return "2px solid white";
+    if (props.inverted) return "2px solid #AEBD38";
+    if (props.danger) return "2px solid red";
+    if (props.noBorder) return "none";
     return "2px solid #AEBD38";
   }};
 
@@ -15,7 +19,15 @@ const StyledButton = styled.button`
     return "#fff";
   }};
 
-  margin: 0.35rem 0.3rem;
+  border-radius: ${props => {
+    if (props.circular) return "100%";
+    return "0";
+  }}
+
+  margin: ${props => {
+    if (props.noMargin) return "0";
+    return "0.35rem 0.3rem";
+  }}
   color: ${props => {
     if (props.secondary) return "#fff";
     if (props.inverted) return "#fff";
@@ -48,9 +60,13 @@ const Button = ({
   big,
   small,
   inverse,
+  circular,
   loading,
   children,
   inverted,
+  noMargin,
+  noBorder,
+  danger,
   ...props
 }) => {
   return (
@@ -58,6 +74,10 @@ const Button = ({
       secondary={secondary}
       small={small}
       big={big}
+      circular={circular}
+      danger={danger}
+      noMargin={noMargin}
+      noBorder={noBorder}
       inverted={inverted}
       {...props}
     >

@@ -23,14 +23,15 @@ function SearchResults({ isOpen, toggle, filteredMarines, handleClick }) {
   return (
     <ResultsWrapper>
       <Dropdown isOpen={isOpen} toggle={toggle}>
-        {!!filteredMarines && (
+        {filteredMarines && !!filteredMarines.length && (
           <StyledDropdownToggle caret>
             {filteredMarines.length}{" "}
             {filteredMarines.length === 1 ? "Result" : "Results"}
           </StyledDropdownToggle>
         )}
         <DropdownMenu>
-          {filteredMarines.length &&
+          {filteredMarines &&
+            !!filteredMarines.length &&
             filteredMarines.map(marine => (
               <DropdownItem>
                 <Link onClick={handleClick} to={`/show-marine/${marine._id}`}>

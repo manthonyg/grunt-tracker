@@ -1,12 +1,18 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 //Packages
 import { Alert, Input, Container } from "reactstrap";
 //Global Components
 import Button from "../../../components/Button";
+//Services
+import { createCFT } from "../../../services/marineServices";
+//Context
+import { MarinePageContext } from "../MarinePage";
 
 function CreateCFT(props) {
-  const [marineData, setMarineData] = useState({
+  const dataProvider = useContext(MarinePageContext);
+  const marineData = dataProvider.marineData;
+
+  const [scoreData, setScoreData] = useState({
     cft_score: "",
     cft_date: ""
   });
@@ -14,7 +20,7 @@ function CreateCFT(props) {
   const onChange = evt => {
     const name = evt.target.name;
     const val = evt.target.value;
-    setMarineData(prevState => {
+    setScoreData(prevState => {
       return {
         ...prevState,
         [name]: val
@@ -30,10 +36,9 @@ function CreateCFT(props) {
       last_updated: marineData.cft_date
     };
 
-    axios
-      .put(`http://localhost:8082/api/marines/${props.marine}/body/cft`, data)
+    createCFT(marineData._id, data)
       .then(res => {
-        setMarineData({ cft_score: "", cft_date: "" });
+        setScoreData({ cft_score: "", cft_date: "" });
         setVisible(true);
       })
       .catch(err => {

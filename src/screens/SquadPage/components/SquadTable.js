@@ -58,17 +58,15 @@ function SquadTable() {
     return tempArr;
   });
 
-  const totalSupplementaryCounts = totalSupplementary.reduce(
-    (acc, curr, ind, arr) => {
-      let tempVal;
-      let tempArr = [];
-      for (let i = 0; i < acc.length; i++) {
-        tempVal = acc[i] + curr[i];
-        tempArr.push(tempVal);
-      }
-      return tempArr;
+  const totalSupplementaryCounts = totalSupplementary.reduce((acc, curr) => {
+    let tempVal;
+    let tempArr = [];
+    for (let i = 0; i < acc.length; i++) {
+      tempVal = acc[i] + curr[i];
+      tempArr.push(tempVal);
     }
-  );
+    return tempArr;
+  });
 
   const weapons = {
     headers: allWeapons[0],
@@ -87,7 +85,6 @@ function SquadTable() {
 
   const gearHeaders = ["Test", "testOne", "testTwo", "testThree"];
   const bodyHeaders = ["Test", "testOne", "testTwo", "testThree"];
-  const appointmentHeaders = ["Test", "testOne", "testTwo", "testThree"];
 
   return (
     <>

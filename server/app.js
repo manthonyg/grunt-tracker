@@ -16,7 +16,7 @@ connectDB();
 // cors
 app.use(cors({ origin: true, credentials: true }));
 
-// Init Middleware
+// init middleware
 app.use(express.json({ extended: false }));
 
 app.get("/", (req, res) => res.send("Hello world!"));

@@ -68,7 +68,10 @@ export const updateBillet = async (id, data) => {
 
 export const deleteMarineById = async (marineId, squadId) => {
   const settings = {
-    method: "DELETE"
+    method: "DELETE",
+    headers: {
+      "Access-Control-Allow-Origin": true
+    }
   };
 
   const response = await fetch(`${marineURI}/${marineId}/${squadId}`, settings);
@@ -78,7 +81,7 @@ export const deleteMarineById = async (marineId, squadId) => {
 
 export const createAppointment = async (id, data) => {
   const settings = {
-    method: "POST",
+    method: "PUT",
     body: JSON.stringify(data),
     headers: {
       Accept: "application/json/",
@@ -87,6 +90,42 @@ export const createAppointment = async (id, data) => {
   };
   try {
     const fetchRes = await fetch(`${marineURI}/${id}/appointments`, settings);
+    const fetchData = await fetchRes.json();
+    return fetchData;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const createPFT = async (id, data) => {
+  const settings = {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      Accept: "application/json/",
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const fetchRes = await fetch(`${marineURI}/${id}/body/pft`, settings);
+    const fetchData = await fetchRes.json();
+    return fetchData;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const createCFT = async (id, data) => {
+  const settings = {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      Accept: "application/json/",
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const fetchRes = await fetch(`${marineURI}/${id}/body/cft`, settings);
     const fetchData = await fetchRes.json();
     return fetchData;
   } catch (err) {

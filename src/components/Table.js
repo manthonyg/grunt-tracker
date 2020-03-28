@@ -4,6 +4,8 @@ import { Table } from "reactstrap";
 //Global Components
 import Banner from "./Banner";
 import Flex from "./Flex";
+//Media
+import Plus from "../images/plus.svg";
 
 function TableTemplate({
   marineData,
@@ -18,7 +20,11 @@ function TableTemplate({
       <Table responsive>
         {!!marineData && !!marineData.length ? (
           <thead>
-            <tr>
+            <tr
+              style={{
+                textAlign: "center"
+              }}
+            >
               {tableHeaders.map(header => (
                 <th key={header} scope="col">
                   {header.toUpperCase()}
@@ -38,8 +44,24 @@ function TableTemplate({
               {tableData &&
                 tableData.length &&
                 tableData.map(data => (
-                  <td key={data} style={{ alignContent: "center" }}>
-                    {data === 0 ? "-" : data}
+                  <td
+                    key={5 * Math.random()}
+                    style={{
+                      alignContent: "center",
+                      textAlign: "center",
+                      color: "#aebd38",
+                      fontSize: "22px",
+                      fontWeight: data === 0 ? "100" : "800"
+                    }}
+                  >
+                    {data === 0 ? (
+                      <img
+                        src={Plus}
+                        style={{ width: ".5rem", transform: "rotate(45deg)" }}
+                      />
+                    ) : (
+                      data
+                    )}
                   </td>
                 ))}
             </tr>

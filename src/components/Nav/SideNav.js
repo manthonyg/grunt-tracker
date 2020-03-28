@@ -2,11 +2,11 @@ import React from "react";
 //Packages
 import styled, { keyframes } from "styled-components";
 //Global Components
-import Logo from "./Logo";
+import Logo from "../Logo";
 //Media
-import BG from "../images/GT_Bg.png";
-import Hamburger from "../images/hamburger-yellow.svg";
-import Plus from "../images/plus.svg";
+import BG from "../../images/GT_Bg.png";
+import Hamburger from "../../images/hamburger-yellow.svg";
+import Plus from "../../images/plus.svg";
 
 function SideNav({ open, onClick, navLinks, handleView }) {
   const NavWrapper = styled.div`

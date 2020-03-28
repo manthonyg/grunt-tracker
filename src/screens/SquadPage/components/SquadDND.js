@@ -53,7 +53,7 @@ const BadgeOuter = styled.div`
   }}
 	border: ${props => {
     if (props.remove) return "none";
-    return "2px solid #AEBD38";
+    return "2px solid #aebd38";
   }}
 	border-radius: 99em;
 	color: ${props => {
@@ -63,13 +63,13 @@ const BadgeOuter = styled.div`
   display: flex;
 	font-size: 0.77em;
 	font-weight: 700;
-	height: 2em;
+	height: 2.5em;
 	justify-content: center;
 	line-height: 1;
-	min-width: 2em;
+	min-width: 2.5em;
 	position: absolute;
-  right: -2px;
-  top: -2px;
+  right: -15px;
+  top: -6px;
   &:after {
     content: ${props => {
       if (props.remove) return "X";
@@ -101,6 +101,7 @@ const ButtonOuter = styled.div`
   color: inherit;
   display: inline-block;
   font: inherit;
+  margin-left: 10px;
   height: 2.8rem;
   line-height: 1;
   margin: 0;
@@ -113,13 +114,11 @@ const ButtonOuter = styled.div`
 
 const ButtonInner = styled.span`
   align-items: center;
-  border-radius: 0.1rem;
   background: #aebd38;
   color: #000;
   display: flex;
   font-weight: 300;
-  height: 2.8rem;
-  border-radius: 5px;
+  height: 2.75rem;
   min-width: 2.5em;
   padding: 1em 1em;
   position: relative;
@@ -157,9 +156,7 @@ function SquadDND({ id }) {
   console.log(marineData);
   const getUnplacedItemStyle = (isDragging, draggableStyle) => ({
     userSelect: "none",
-    padding: "2px 8px",
-    margin: `0 ${grid}px 0 0`,
-    borderRadius: ".25rem",
+    marginLeft: "16px",
     background: isDragging ? "none" : "none",
     ...draggableStyle
   });
