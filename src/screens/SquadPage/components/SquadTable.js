@@ -1,17 +1,26 @@
 import React, { useContext } from "react";
+//Packages
+import styled from "styled-components";
 //Global Components
 import TableTemplate from "../../../components/Table";
+import Banner from "../../../components/Banner";
+import Button from "../../../components/Button";
+import Flex from "../../../components/Flex";
 //LocalComponents
 import SquadAccountability from "./SquadAccountability";
 //Context
 import { SquadPageContext } from "../SquadPage";
+
+const StyledIcon = styled.i`
+  color: #505160;
+  font-size: 2em;
+`;
 
 function SquadTable() {
   const dataProvider = useContext(SquadPageContext);
   const marineData = dataProvider.marineData;
   const currentView = dataProvider.currentView;
 
-  const discrepancyHeaders = ["Test", "testOne", "testTwo", "testThree"];
   const zapHeaders = ["Test", "testOne", "testTwo", "testThree"];
 
   const allWeapons = marineData.map(marine => Object.keys(marine.primary));
@@ -100,6 +109,15 @@ function SquadTable() {
       )}
       {currentView === "weapons" && (
         <>
+          <Flex justifyCenter>
+            <Button>
+              <Banner small green>
+                download edl excel sheet
+              </Banner>
+              <StyledIcon className="material-icons">save_alt</StyledIcon>
+            </Button>
+          </Flex>
+
           <TableTemplate
             bannerText="Primary"
             marineData={marineData}
@@ -119,30 +137,6 @@ function SquadTable() {
             tableData={supplementary.data}
           ></TableTemplate>
         </>
-      )}
-      {currentView === "gear" && (
-        <TableTemplate
-          bannerText="Gear"
-          marineData={marineData}
-          tableHeaders={gearHeaders}
-          tableData={["zap", "last", "first", "bloodType", "religion"]}
-        ></TableTemplate>
-      )}
-      {currentView === "body" && (
-        <TableTemplate
-          bannerText="Body"
-          marineData={marineData}
-          tableHeaders={bodyHeaders}
-          tableData={["zap", "last", "first", "bloodType", "religion"]}
-        ></TableTemplate>
-      )}
-      {currentView === "discrepancies" && (
-        <TableTemplate
-          bannerText="Discrepancies"
-          marineData={marineData}
-          tableHeaders={discrepancyHeaders}
-          tableData={["zap", "last", "first", "bloodType", "religion"]}
-        ></TableTemplate>
       )}
     </>
   );

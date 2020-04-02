@@ -66,6 +66,24 @@ export const updateBillet = async (id, data) => {
   }
 };
 
+export const updateMarineEDL = async (id, data) => {
+  const settings = {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      Accept: "application/json/",
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const fetchRes = await fetch(`${marineURI}/${id}/update/edl`, settings);
+    const fetchData = await fetchRes.json();
+    return fetchData;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const deleteMarineById = async (marineId, squadId) => {
   const settings = {
     method: "DELETE",
@@ -81,7 +99,7 @@ export const deleteMarineById = async (marineId, squadId) => {
 
 export const createAppointment = async (id, data) => {
   const settings = {
-    method: "PUT",
+    method: "POST",
     body: JSON.stringify(data),
     headers: {
       Accept: "application/json/",

@@ -105,10 +105,7 @@ function Card(props) {
               onClick={props.handleClose}
               style={{ left: "0", width: "2rem" }}
             >
-              <img
-                src={Plus}
-                style={{ transform: "rotate(45deg)", width: "1.5rem" }}
-              />
+              REMOVE
             </Button>
             {/* <img
               src={Plus}

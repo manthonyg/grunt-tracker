@@ -1,11 +1,7 @@
-import React, { useState, useContext } from "react";
-//Packages
-import { Alert, Input, Container } from "reactstrap";
-import styled from "styled-components";
+import React, { useContext } from "react";
 //Global Components
-import Button from "../../../components/Button";
 import Banner from "../../../components/Banner";
-import Flex, { Column } from "../../../components/Flex";
+import Flex from "../../../components/Flex";
 import Pill from "../../../components/Pill";
 //Context
 import { MarinePageContext } from "../MarinePage";
@@ -35,9 +31,7 @@ function ViewMarineEDL() {
     Object.entries(marineData.supplementary)
       .filter(object => !!object[1])
       .map(object => object[0]);
-  console.log(primaryEDL);
-  console.log(opticsEDL);
-  console.log(supplementaryEDL);
+
   //Create a UI with the current Marines EDL checked or unchecked based
   //on its existence in the db
 

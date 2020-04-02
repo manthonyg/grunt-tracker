@@ -63,6 +63,19 @@ router.put("/:id/updateBillet", (req, res) => {
     .catch(err => res.status(404).json({ nomarinefound: "No Marine found" }));
 });
 
+// find marine by id and update edl
+router.put("/:id/update/edl", (req, res) => {
+  Marine.findByIdAndUpdate(req.params.id, {
+    $set: {
+      primary: req.body.primary,
+      optics: req.body.optics,
+      supplementary: req.body.supplementary
+    }
+  })
+    .then(marine => res.json(marine))
+    .catch(err => res.status(404).json({ err: "Failed to update" }));
+});
+
 // update marine appointments
 router.post("/:id/appointments", (req, res) => {
   Marine.findByIdAndUpdate(

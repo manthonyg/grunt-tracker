@@ -7,9 +7,6 @@ import styled from "styled-components";
 import Banner from "../../../components/Banner";
 import Flex from "../../../components/Flex";
 import Button from "../../../components/Button";
-//Local components
-import AddExistingMarine from "./AddExistingMarine";
-import AddNewMarine from "./AddNewMarine";
 //Services
 import { updateMarineById } from "../../../services/marineServices";
 import { getAllMarinesInSquad } from "../../../services/squadServices";
@@ -17,8 +14,8 @@ import { getAllMarinesInSquad } from "../../../services/squadServices";
 import { SquadPageContext } from "../SquadPage";
 //Media
 import View from "../../../images/external-link-blue.svg";
-import AddUser from "../../../images/add-user.svg";
-import AddExistingUser from "../../../images/add-existing-user.svg";
+import AddUser from "../../../images/addnew-user2.svg";
+import AddExistingUser from "../../../images/addexisting-user.svg";
 
 const Switch = styled.input.attrs({ type: "checkbox" })`
   -webkit-appearance: none;
@@ -99,7 +96,7 @@ function ViewAccountability() {
   const squadData = dataProvider.squadData;
   const setCurrentView = dataProvider.setCurrentView;
 
-  const handleSetCurrentView = evt => {
+  const changeCurrentView = evt => {
     setCurrentView(evt.currentTarget.id);
   };
 
@@ -126,7 +123,7 @@ function ViewAccountability() {
 
   document.querySelectorAll(".accountability-button");
 
-  const handleMarkAll = evt => {
+  const toggleMarkAll = evt => {
     accountabilityButtons.map(
       accountabilityButton => (accountabilityButton.disabled = true)
     );
@@ -147,13 +144,19 @@ function ViewAccountability() {
           accountabilityButton => (accountabilityButton.disabled = false)
         );
       })
+      .then(wait(1000))
+      .then(
+        marineData.map(marine => {
+          updateMarineById(marine._id, data)
+            //"shim" the request to make sure it can update on UI when setMarineData get called
+            .then(wait(200))
+            .then(res => console.log(res))
+            .catch(err =>
+              console.log("Error while updating marine by id: ", err)
+            );
+        })
+      )
       .catch(err => console.log("Error in getAllMarinesInSquad: ", err));
-
-    marineData.map(marine => {
-      updateMarineById(marine._id, data)
-        .then(res => console.log(res))
-        .catch(err => console.log("Error while updating marine by id: ", err));
-    });
   };
 
   const wait = (ms = 0) => {
@@ -172,6 +175,8 @@ function ViewAccountability() {
     };
 
     updateMarineById(data.id, data)
+      //"shim" the request to make sure it can update on UI when setMarineData get called
+      .then(wait(200))
       .then(res => console.log(res))
       .catch(err => console.log("Error while updating marine by id: ", err));
 
@@ -186,18 +191,17 @@ function ViewAccountability() {
     <>
       {marineData && marineData.length ? (
         <>
-          <Banner secondary>Accountability</Banner>
           <Flex justifyAround>
             <Button
               className="accountability-button"
-              onClick={handleMarkAll}
+              onClick={toggleMarkAll}
               id="accounted"
             >
               All Accounted
             </Button>
             <Button
               className="accountability-button"
-              onClick={handleMarkAll}
+              onClick={toggleMarkAll}
               id="unaccounted"
             >
               All Unaccounted
@@ -208,12 +212,15 @@ function ViewAccountability() {
             <thead>
               <tr>
                 <th>
-                  <img
-                    onClick={handleSetCurrentView}
+                  <i
+                    className="material-icons"
+                    onClick={changeCurrentView}
                     src={AddUser}
-                    id={"addMarine"}
-                    style={{ width: "1.75rem" }}
-                  />
+                    id={"add-new-marine"}
+                    style={{ fontSize: "1.75rem", color: "#68829e" }}
+                  >
+                    person_add
+                  </i>
                 </th>
                 <th>RANK</th>
                 <th>LAST</th>
@@ -269,10 +276,6 @@ function ViewAccountability() {
       ) : (
         <>
           <Flex alignCenter justifyCenter>
-            <Banner header>{squadData.callsign} overview</Banner>
-          </Flex>
-
-          <Flex alignCenter justifyCenter>
             <Banner secondary>Add members to start!</Banner>
           </Flex>
 
@@ -288,10 +291,10 @@ function ViewAccountability() {
               {isSelected.addNew && (
                 <Flex justifyCenter>
                   <img
-                    onClick={handleSetCurrentView}
+                    onClick={changeCurrentView}
                     src={AddUser}
-                    id={"addMarine"}
-                    style={{ width: "5rem" }}
+                    id={"add-new-marine"}
+                    style={{ height: "8rem" }}
                   />
                   <Banner small white>
                     Create a new Marine to add to the Squad
@@ -306,16 +309,16 @@ function ViewAccountability() {
               id="addExisting"
             >
               <Banner white>
-                <strong>existing</strong>
+                add <strong>existing</strong>
               </Banner>
 
               {isSelected.addExisting && (
                 <Flex justifyCenter>
                   <img
-                    onClick={handleSetCurrentView}
+                    onClick={changeCurrentView}
                     src={AddExistingUser}
-                    id={"addExistingMarine"}
-                    style={{ width: "5rem" }}
+                    id={"add-existing-marine"}
+                    style={{ height: "8rem" }}
                   />
                   <Banner small white>
                     View existing Marines and add to the squad

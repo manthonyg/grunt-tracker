@@ -7,6 +7,7 @@ import { Alert } from "reactstrap";
 import Badge from "../../../components/Badge";
 import Flex from "../../../components/Flex";
 import Button from "../../../components/Button";
+import Banner from "../../../components/Banner";
 //Services
 import { updateSquadById } from "../../../services/squadServices";
 import {
@@ -18,37 +19,31 @@ import { SquadPageContext } from "../SquadPage";
 //Media
 import Plus from "../../../images/plus.svg";
 
-const wobble = keyframes`
+const pulsate = keyframes`
   {
     0% {
-              transform: translate(0);
+      -webkit-transform: scale(1);
+              transform: scale(1);
     }
-    20% {
-              transform: translate(-2px, 2px);
-    }
-    40% {
-              transform: translate(-2px, -2px);
-    }
-    60% {
-              transform: translate(2px, 2px);
-    }
-    80% {
-              transform: translate(2px, -2px);
+    50% {
+      -webkit-transform: scale(0.9);
+              transform: scale(0.9);
     }
     100% {
-              transform: translate(0);
+      -webkit-transform: scale(1);
+              transform: scale(1);
     }
   }
   `;
 
 const wobbleEffect = css`
-  animation: ${wobble} 0.5s infinite;
+  animation: ${pulsate} 0.8s infinite;
 `;
 
 const BadgeOuter = styled.div`
   align-items: center;
   background-color: ${props => {
-    if (props.remove) return "crimson";
+    if (props.remove) return "red";
     return "#fff";
   }}
 	border: ${props => {
@@ -88,8 +83,8 @@ const BadgeInner = styled.span`
 	position: absolute !important;
   width: 1px !important;
   animation: ${props => {
-    if (props.remove) return `$wobble 4s infinite`;
-    return "";
+    if (props.remove) return `$wobble 2s infinite`;
+    return "none";
   }}
   &:nth-of-type(4) {
     display: none;
@@ -102,9 +97,9 @@ const ButtonOuter = styled.div`
   display: inline-block;
   font: inherit;
   margin-left: 10px;
-  height: 2.8rem;
+  height: 2.5rem;
   line-height: 1;
-  margin: 0;
+  margin: 0em 0.75em;
   padding: 0;
   position: relative;
   text-align: center;
@@ -113,21 +108,18 @@ const ButtonOuter = styled.div`
 `;
 
 const ButtonInner = styled.span`
-  align-items: center;
-  background: #aebd38;
-  color: #000;
-  display: flex;
-  font-weight: 300;
-  height: 2.75rem;
-  min-width: 2.5em;
-  padding: 1em 1em;
+  padding: 4px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-transform: uppercase;
+  front-weight: 800;
   position: relative;
-  transition: 0.2s ease;
-  width: 100%;
-`;
-
-const StyledIcon = styled.h1`
-  color: #05668d;
+  border: 0;
+  padding: 15px 25px;
+  display: inline-block;
+  text-align: center;
+  color: white;
+  background: #aebd38;
 `;
 
 const grid = 4;
@@ -143,7 +135,7 @@ const billet = {
   rifleman: "R"
 };
 
-function SquadDND({ id }) {
+function SquadEdit({ id }) {
   const dataProvider = React.useContext(SquadPageContext);
 
   const marineData = dataProvider.marineData;
@@ -151,24 +143,18 @@ function SquadDND({ id }) {
 
   const squadData = dataProvider.squadData;
   const setSquadData = dataProvider.setSquadData;
-  console.log(squadData);
-
-  console.log(marineData);
-  const getUnplacedItemStyle = (isDragging, draggableStyle) => ({
-    userSelect: "none",
-    marginLeft: "16px",
-    background: isDragging ? "none" : "none",
-    ...draggableStyle
-  });
 
   const getUnplacedListStyle = isDraggingOver => ({
     background: isDraggingOver ? "#fff" : "#fff",
     display: "flex",
+    alignItems: "center",
     padding: grid,
-    height: "4rem",
+    height: "4.2rem",
     overflow: "auto",
     width: "100%",
-    border: isDraggingOver ? "4px dashed #AEBD38" : "4px dashed #ddd"
+    border: isDraggingOver ? "6px dashed #AEBD38" : "6px dashed #ddd",
+    borderRadius: "10px",
+    margin: "0px 5px"
   });
 
   const onDragEnd = useCallback(
@@ -310,7 +296,7 @@ function SquadDND({ id }) {
   }, [onDragEnd, squadData, route, id]);
 
   const [removeStyle, setRemoveStyle] = useState(false);
-  const handleRemoveStyle = () => setRemoveStyle(!removeStyle);
+  const toggleRemoveStyle = () => setRemoveStyle(!removeStyle);
   const [toastVisible, setToastVisible] = useState(false);
   const onDismiss = () => setToastVisible(false);
 
@@ -344,21 +330,15 @@ function SquadDND({ id }) {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Alert success isOpen={toastVisible} toggle={onDismiss}>
-        Marine Successfully Deleted
-      </Alert>
+      <Banner small green>
+        Drag Marines to change T/O
+      </Banner>
       <Flex justifyAround>
-        {/* <StyledIcon>
-          <i className="material-icons" onClick={handleRemoveStyle}>
-            {removeStyle ? "delete_forever" : "delete"}
-          </i>
-        </StyledIcon> */}
+        <i className="material-icons" onClick={toggleRemoveStyle}>
+          {removeStyle ? "delete_forever" : "delete"}
+        </i>
 
-        {/* <StyledIcon>
-          <i className="material-icons">save_alt</i>
-        </StyledIcon> */}
-        <Button onClick={handleRemoveStyle}>Remove</Button>
-        <Button>Save</Button>
+        <i className="material-icons">save_alt</i>
       </Flex>
       {squadData && (
         <Flex>
@@ -380,10 +360,6 @@ function SquadDND({ id }) {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={getUnplacedItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
                       >
                         <ButtonInner>{item.last}</ButtonInner>
                         <BadgeOuter remove={removeStyle} onClick={removeMarine}>
@@ -438,10 +414,6 @@ function SquadDND({ id }) {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={getUnplacedItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
                       >
                         <ButtonInner>{item.last}</ButtonInner>
                         <BadgeOuter remove={removeStyle} onClick={removeMarine}>
@@ -497,10 +469,6 @@ function SquadDND({ id }) {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={getUnplacedItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
                       >
                         <ButtonInner>{item.last}</ButtonInner>
                         <BadgeOuter remove={removeStyle} onClick={removeMarine}>
@@ -554,10 +522,6 @@ function SquadDND({ id }) {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={getUnplacedItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
                       >
                         <ButtonInner>{item.last}</ButtonInner>
                         <BadgeOuter remove={removeStyle} onClick={removeMarine}>
@@ -592,8 +556,11 @@ function SquadDND({ id }) {
           </Droppable>
         </Flex>
       )}
+      <Alert success isOpen={toastVisible} toggle={onDismiss}>
+        Marine Successfully Deleted
+      </Alert>
     </DragDropContext>
   );
 }
 
-export default SquadDND;
+export default SquadEdit;

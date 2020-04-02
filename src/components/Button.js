@@ -26,7 +26,7 @@ const StyledButton = styled.button`
 
   margin: ${props => {
     if (props.noMargin) return "0";
-    return "0.35rem 0.3rem";
+    return "0.5rem 0.3rem";
   }}
   color: ${props => {
     if (props.secondary) return "#fff";

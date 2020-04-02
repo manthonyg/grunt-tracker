@@ -92,21 +92,21 @@ function MarinePage(props) {
     }
   });
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
   const [currentView, setCurrentView] = useState("viewAll");
 
   const handleSetCurrentView = evt => {
     if (!!evt.target.id) {
       setCurrentView(evt.target.id);
-      setMenuOpen(!menuOpen);
+      setMenuOpen(!isMenuOpen);
     }
   };
 
-  const handleSetMenu = () => {
-    setMenuOpen(!menuOpen);
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
   };
 
-  const handleSelectedCategory = evt => {
+  const showSelectedCategory = evt => {
     const id = evt.currentTarget.id;
     setSelectedCategory({
       weapons: false,
@@ -162,7 +162,7 @@ function MarinePage(props) {
   return (
     <>
       <SideNav
-        onClick={handleSetMenu}
+        onClick={toggleMenu}
         navLinks={[
           {
             title: "Create Counseling",
@@ -177,7 +177,7 @@ function MarinePage(props) {
             view: "tadLeave"
           }
         ]}
-        open={menuOpen}
+        open={isMenuOpen}
         handleView={handleSetCurrentView}
       ></SideNav>
       <MarinePageContext.Provider value={providerValue}>
@@ -192,7 +192,7 @@ function MarinePage(props) {
           <FlexItem
             id={"accountability"}
             selected={selectedCategory.accountability}
-            onClick={handleSelectedCategory}
+            onClick={showSelectedCategory}
           >
             <Banner white>Accountability</Banner>
             {selectedCategory.accountability && (
@@ -246,7 +246,7 @@ function MarinePage(props) {
           <FlexItem
             id={"weapons"}
             selected={selectedCategory.weapons}
-            onClick={handleSelectedCategory}
+            onClick={showSelectedCategory}
           >
             <Banner white>EDL</Banner>
             {selectedCategory.weapons && (
@@ -278,7 +278,7 @@ function MarinePage(props) {
           <FlexItem
             id={"gear"}
             selected={selectedCategory.gear}
-            onClick={handleSelectedCategory}
+            onClick={showSelectedCategory}
           >
             <Banner white>Gear</Banner>
             {selectedCategory.gear && (
@@ -300,7 +300,7 @@ function MarinePage(props) {
           <FlexItem
             id={"body"}
             selected={selectedCategory.body}
-            onClick={handleSelectedCategory}
+            onClick={showSelectedCategory}
           >
             <Banner white>Body</Banner>
             {selectedCategory.body && (
@@ -337,7 +337,7 @@ function MarinePage(props) {
           <FlexItem
             id={"appointments"}
             selected={selectedCategory.appointments}
-            onClick={handleSelectedCategory}
+            onClick={showSelectedCategory}
           >
             <Banner white>Appointments</Banner>
             {selectedCategory.appointments && (

@@ -11,9 +11,10 @@ import Button from "../../../components/Button";
 //Services
 import { addExistingMarine } from "../../../services/squadServices";
 import { getAllMarines } from "../../../services/marineServices";
-
 //Context
 import { SquadPageContext } from "../../SquadPage/SquadPage";
+//Media
+import AddUserSquad from "../../../images/adduser-squad.svg";
 
 const Switch = styled.input.attrs({ type: "checkbox" })`
   -webkit-appearance: none;
@@ -39,6 +40,9 @@ function AddExistingMarine({ id }) {
 
   const squadData = dataProvider.squadData;
   const setCurrentView = dataProvider.setCurrentView;
+  const changeCurrentView = evt => {
+    setCurrentView(evt.currentTarget.value);
+  };
   const currentView = dataProvider.currentView;
   const [marines, setMarines] = useState([]);
   let selectedMarines = [];
@@ -53,7 +57,7 @@ function AddExistingMarine({ id }) {
   const onDismiss = () => {
     setAlertVisible(!alertVisible);
   };
-  const handleCheck = evt => {
+  const toggleCheck = evt => {
     console.log(evt.currentTarget.value);
     if (!!evt.currentTarget.checked) {
       selectedMarines.push(evt.currentTarget.value);
@@ -86,7 +90,7 @@ function AddExistingMarine({ id }) {
   return (
     <>
       <Banner secondary header>
-        Add Exiting Marine(s)
+        Add Existing Marine(s)
       </Banner>
       <Card>
         {selectedMarines.map(marine => (
@@ -94,25 +98,39 @@ function AddExistingMarine({ id }) {
         ))}
       </Card>
       <Banner small green>
+        there are
+      </Banner>
+      <Banner>{marines.length || 0}</Banner>
+      <Banner small green>
         existing marines
       </Banner>
       <Form onSubmit={handleSubmit}>
-        <Flex justifyCenter>
-          {marines.sort().map(marine => (
-            <Column three>
-              <Switch
-                value={JSON.stringify(marine._id)}
-                id={marine._id}
-                name=""
-                onChange={handleCheck}
-              />
-              <label for="m4">
-                {marine.rank} {marine.last}
-              </label>
-            </Column>
-          ))}
-          <Button type="submit">Add Marines</Button>
-        </Flex>
+        {marines && !!marines.length ? (
+          marines.map(marine => (
+            <Flex justifyCenter>
+              <Column three>
+                <Switch
+                  value={JSON.stringify(marine._id)}
+                  id={marine._id}
+                  onChange={toggleCheck}
+                />
+                <label for="m4">
+                  {marine.rank} {marine.last}
+                </label>
+              </Column>
+              <Button type="submit">Add Marines</Button>
+            </Flex>
+          ))
+        ) : (
+          <Flex justifyCenter>
+            <Flex justifyCenter>
+              <img src={AddUserSquad} style={{ width: "80vw" }}></img>
+            </Flex>
+            <Button value="add-new-marine" onClick={changeCurrentView}>
+              create new
+            </Button>
+          </Flex>
+        )}
       </Form>
 
       <Alert color="success" isOpen={alertVisible} toggle={onDismiss}>

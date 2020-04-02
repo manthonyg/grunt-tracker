@@ -31,6 +31,12 @@ const Switch = styled.input.attrs({ type: "checkbox" })`
   }
 `;
 
+const SwitchLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+`;
+
 function AddNewMarine({ id }) {
   const dataProvider = useContext(SquadPageContext);
 
@@ -252,8 +258,6 @@ I need it to be, but I need to address this*/
           currentStep={inputData.currentStep}
           handleCheck={handleCheck}
           squad={inputData.squad}
-          m4={inputData.m4}
-          m27={inputData.m27}
           team={inputData.team}
           squadData={squadData}
         />
@@ -270,6 +274,7 @@ I need it to be, but I need to address this*/
       <Flex justifyBetween>
         {previousButton()}
         {nextButton()}
+        <hr></hr>
       </Flex>
 
       <Alert color="success" isOpen={alertVisible} toggle={onDismiss}>
@@ -343,7 +348,7 @@ function BasicInformation({
   );
 }
 
-function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
+function EDLInformation({ currentStep, handleCheck }) {
   if (currentStep !== 2) {
     return null;
   }
@@ -355,19 +360,19 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
       <Flex justifyAround>
         <Column four>
           <Switch type="checkbox" id="m4" name="m4" onChange={handleCheck} />
-          <label for="m4">M4</label>
+          <SwitchLabel for="m4">M4</SwitchLabel>
         </Column>
         <Column four>
           <Switch type="checkbox" id="m27" name="m27" onChange={handleCheck} />
-          <label for="m27">M27</label>
+          <SwitchLabel for="m27">M27</SwitchLabel>
         </Column>
         <Column four>
           <Switch type="checkbox" id="m38" name="m38" onChange={handleCheck} />
-          <label for="m38">M38</label>
+          <SwitchLabel for="m38">M38</SwitchLabel>
         </Column>
         <Column four>
           <Switch type="checkbox" id="m32" name="m32" onChange={handleCheck} />
-          <label for="m38">M32</label>
+          <SwitchLabel for="m32">M32</SwitchLabel>
         </Column>
         <Column four>
           <Switch
@@ -376,15 +381,15 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="m203"
             onChange={handleCheck}
           />
-          <label for="m203">M203</label>
+          <SwitchLabel for="m203">M203</SwitchLabel>
         </Column>
         <Column four>
           <Switch type="checkbox" id="rco" name="rco" onChange={handleCheck} />
-          <label for="sdo">RCO</label>
+          <SwitchLabel for="rco">RCO</SwitchLabel>
         </Column>
         <Column four>
           <Switch type="checkbox" id="sdo" name="sdo" onChange={handleCheck} />
-          <label for="sdo">SDO</label>
+          <SwitchLabel for="sdo">SDO</SwitchLabel>
         </Column>
         <Column four>
           <Switch
@@ -393,7 +398,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="peq15"
             onChange={handleCheck}
           />
-          <label for="peq15">PEQ15</label>
+          <SwitchLabel for="peq15">PEQ15</SwitchLabel>
         </Column>
         <Column four>
           <Switch
@@ -402,7 +407,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="peq16"
             onChange={handleCheck}
           />
-          <label for="peq16">PEQ16</label>
+          <SwitchLabel for="peq16">peq16</SwitchLabel>
         </Column>
       </Flex>
       <hr />
@@ -417,16 +422,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="pas28"
             onChange={handleCheck}
           />
-          <label for="pas28">PAS28</label>
-        </Column>
-        <Column four>
-          <switch
-            type="checkbox"
-            id="pvs24"
-            name="pvs24"
-            onChange={handleCheck}
-          />
-          <label for="pv24">PVS24</label>
+          <SwitchLabel for="pas28">PAS28</SwitchLabel>
         </Column>
         <Column four>
           <Switch
@@ -435,7 +431,16 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="pvs14"
             onChange={handleCheck}
           />
-          <label for="pvs14">PVS14</label>
+          <SwitchLabel for="pvs14">PVS14</SwitchLabel>
+        </Column>
+        <Column four>
+          <Switch
+            type="checkbox"
+            id="pvs24"
+            name="pvs24"
+            onChange={handleCheck}
+          />
+          <SwitchLabel for="pvs24">PVS24</SwitchLabel>
         </Column>
         <Column four>
           <Switch
@@ -444,7 +449,8 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="leupold"
             onChange={handleCheck}
           />
-          <label for="m4">LPLD</label>
+
+          <SwitchLabel for="leupold">LPLD</SwitchLabel>
         </Column>
       </Flex>
       <hr />
@@ -459,7 +465,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="suppressor"
             onChange={handleCheck}
           />
-          <label for="suppressor">SUPP</label>
+          <SwitchLabel for="suppressor">SUPP</SwitchLabel>
         </Column>
         <Column four>
           <Switch
@@ -468,7 +474,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="compass"
             onChange={handleCheck}
           />
-          <label for="compass">CMPS</label>
+          <SwitchLabel for="compass">CMPS</SwitchLabel>
         </Column>
         <Column four>
           <Switch
@@ -477,7 +483,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="fortrex"
             onChange={handleCheck}
           />
-          <label for="fortrex">FTRX</label>
+          <SwitchLabel for="foretrex">FTRX</SwitchLabel>
         </Column>
         <Column four>
           <Switch
@@ -486,7 +492,7 @@ function EDLInformation({ currentStep, handleCheck, m4, m27 }) {
             name="binos"
             onChange={handleCheck}
           />
-          <label for="binos">BINO</label>
+          <SwitchLabel for="binos">BINOS</SwitchLabel>
         </Column>
       </Flex>
     </>
@@ -531,11 +537,9 @@ function ZapInformation({ currentStep, handleChange, edipi, blood_type }) {
         </FormGroup>
       </Container>
 
-      <Container>
-        <Flex justifyAround>
-          <Button type="submit">Add Marine</Button>
-        </Flex>
-      </Container>
+      <Flex justifyBetween>
+        <Button type="submit">Add Marine</Button>
+      </Flex>
     </>
   );
 }

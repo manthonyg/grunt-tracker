@@ -3,6 +3,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 //Global Components
 import Logo from "../Logo";
+import Banner from "../Banner";
 //Media
 import BG from "../../images/GT_Bg.png";
 import Hamburger from "../../images/hamburger-yellow.svg";

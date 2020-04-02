@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+//Global components
+import Banner from "../../components/Banner";
 //Local components
 import SquadCarousel from "./components/SquadCarousel";
-import SquadDND from "./components/SquadDND";
+import SquadEdit from "./components/SquadEdit";
 import SquadGenerateZaps from "./components/SquadGenerateZaps";
 import SquadTable from "./components/SquadTable";
 import SquadAccountability from "./components/SquadAccountability";
@@ -23,10 +25,10 @@ function SquadPage(props) {
   const [marineData, setMarineData] = useState([]);
   const [squadData, setSquadData] = useState([]);
   const [currentView, setCurrentView] = useState("accountability");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleSetMenu = () => {
-    setMenuOpen(!menuOpen);
+  const toggleMenuOpen = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const providerValue = React.useMemo(
@@ -48,10 +50,10 @@ function SquadPage(props) {
     ]
   );
 
-  const handleSetCurrentView = evt => {
+  const showCurrentView = evt => {
     if (!!evt.target.id) {
       setCurrentView(evt.target.id);
-      setMenuOpen(!menuOpen);
+      setIsMenuOpen(!isMenuOpen);
     }
   };
 
@@ -75,34 +77,32 @@ function SquadPage(props) {
     <>
       <SquadPageContext.Provider value={providerValue}>
         <SideNav
-          onClick={handleSetMenu}
+          onClick={toggleMenuOpen}
           navLinks={[
             {
               title: "Morning Report",
-              view: "generateZaps"
+              view: "generate-zaps"
             },
             {
               title: "Kill Cards",
-              view: "generateZaps"
+              view: "generate-zaps"
             },
             {
               title: "Edit Squad",
-              view: "dragAndDrop"
-            },
-            {
-              title: "Add",
-              view: "addMarine"
+              view: "edit-squad"
             }
           ]}
-          open={menuOpen}
-          handleView={handleSetCurrentView}
+          open={isMenuOpen}
+          handleView={showCurrentView}
         />
-
+        <Banner header>{squadData.callsign}overview</Banner>
         {marineData && !!marineData.length && <SquadCarousel />}
 
         {/* local components */}
-        {currentView === "addMarine" && <AddNewMarine id={squadData._id} />}
-        {currentView === "addExistingMarine" && (
+        {currentView === "add-new-marine" && (
+          <AddNewMarine id={squadData._id} />
+        )}
+        {currentView === "add-existing-marine" && (
           <AddExistingMarine id={squadData._id} />
         )}
         {currentView === "accountability" && (
@@ -110,14 +110,14 @@ function SquadPage(props) {
         )}
         {currentView === "appointments" && <SquadAppointments />}
         {/* table components */}
-        {currentView === "viewAll" && <SquadTable id={squadData._id} />}
+        {currentView === "view-all" && <SquadTable id={squadData._id} />}
         {currentView === "weapons" && <SquadTable id={squadData._id} />}
         {currentView === "gear" && <SquadTable id={squadData._id} />}
         {currentView === "body" && <SquadTable id={squadData._id} />}
         {currentView === "discrepancies" && <SquadTable id={squadData._id} />}
         {/* menu features/generators */}
-        {currentView === "dragAndDrop" && <SquadDND id={squadData._id} />}
-        {currentView === "generateZaps" && (
+        {currentView === "edit-squad" && <SquadEdit id={squadData._id} />}
+        {currentView === "generate-zaps" && (
           <SquadGenerateZaps id={squadData._id} />
         )}
       </SquadPageContext.Provider>
