@@ -1,12 +1,20 @@
 import React, { useState, useContext } from "react";
 //Packages
 import { Alert, Input, Container } from "reactstrap";
+import styled from "styled-components";
 //Global Components
 import Button from "../../../components/Button";
 //Services
 import { createCFT } from "../../../services/marineServices";
 //Context
 import { MarinePageContext } from "../MarinePage";
+
+const StyledAlert = styled(Alert)`
+  background-color: ${props => {
+    if (props.success) return "#aebd38 !important";
+    return "#505160 !important";
+  }};
+`;
 
 function CreateCFT(props) {
   const dataProvider = useContext(MarinePageContext);
@@ -16,8 +24,9 @@ function CreateCFT(props) {
     cft_score: "",
     cft_date: ""
   });
+  console.log(scoreData);
 
-  const onChange = evt => {
+  const updateScoreData = evt => {
     const name = evt.target.name;
     const val = evt.target.value;
     setScoreData(prevState => {
@@ -28,12 +37,12 @@ function CreateCFT(props) {
     });
   };
 
-  const onSubmit = evt => {
+  const submitForm = evt => {
     evt.preventDefault();
 
     const data = {
-      score: marineData.cft_score,
-      last_updated: marineData.cft_date
+      score: scoreData.cft_score,
+      last_updated: scoreData.cft_date
     };
 
     createCFT(marineData._id, data)
@@ -42,7 +51,7 @@ function CreateCFT(props) {
         setVisible(true);
       })
       .catch(err => {
-        console.log("Error in CreateAppointment");
+        console.warn(`Error while creating CFT entry: ${err}`);
       });
   };
 
@@ -51,15 +60,15 @@ function CreateCFT(props) {
 
   return (
     <Container full>
-      <form noValidate onSubmit={onSubmit}>
+      <form noValidate onSubmit={submitForm}>
         <Input
           type="input"
           name="cft_score"
           placeholder="CFT Score"
           className="form-control"
-          value={marineData.cft_score}
+          value={scoreData.cft_score}
           helperText='e.g "275"'
-          onChange={onChange}
+          onChange={updateScoreData}
         />
 
         <Input
@@ -67,14 +76,14 @@ function CreateCFT(props) {
           name="cft_date"
           placeholder="Date"
           className="form-control"
-          value={marineData.cft_date}
+          value={scoreData.cft_date}
           helperText='e.g "2019/01/01"'
-          onChange={onChange}
+          onChange={updateScoreData}
         />
 
-        <Alert color="success" isOpen={visible} toggle={onDismiss}>
+        <StyledAlert success isOpen={visible} toggle={onDismiss}>
           CFT Added
-        </Alert>
+        </StyledAlert>
         <Button small type="submit" onClick={props.onClick}>
           Add Score
         </Button>

@@ -31,10 +31,10 @@ const MarineSchema = new mongoose.Schema({
   //appointments//
   appointments: [
     {
-      date: Date,
-      appointment_type: String,
-      location: String,
-      time: String
+      date: { type: Date, required: true },
+      appointment_type: { type: String, required: true },
+      location: { type: String, required: true },
+      time: { type: String, required: true }
     }
   ],
 

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 //Packages
 import TimeField from "react-simple-timefield";
+import styled from "styled-components";
 import { Alert, Input, Container } from "reactstrap";
 //Global components
 import Button from "../../../components/Button";
@@ -8,6 +9,13 @@ import Button from "../../../components/Button";
 import { createAppointment } from "../../../services/marineServices";
 //Context
 import { MarinePageContext } from "../MarinePage";
+
+const StyledAlert = styled(Alert)`
+  background-color: ${props => {
+    if (props.success) return "#aebd38 !important";
+    return "#505160 !important";
+  }};
+`;
 
 function CreateAppointment() {
   const dataProvider = useContext(MarinePageContext);
@@ -98,9 +106,9 @@ function CreateAppointment() {
           // {Boolean}  default: false
         />
         <br />
-        <Alert color="success" isOpen={visible} toggle={onDismiss}>
+        <StyledAlert success isOpen={visible} toggle={onDismiss}>
           Appointment Created
-        </Alert>
+        </StyledAlert>
         <Button type="submit">Add Appointment</Button>
       </form>
     </Container>

@@ -145,7 +145,7 @@ function ViewAccountability() {
         );
       })
       .then(wait(1000))
-      .then(
+      .then(res =>
         marineData.map(marine => {
           updateMarineById(marine._id, data)
             //"shim" the request to make sure it can update on UI when setMarineData get called
@@ -254,7 +254,11 @@ function ViewAccountability() {
                       key={`${marine._id}`}
                       to={`/show-marine/${marine._id}`}
                     >
-                      <img src={View} style={{ width: "1.5rem" }} />
+                      <img
+                        src={View}
+                        alt="view icon"
+                        style={{ width: "1.5rem" }}
+                      />
                     </StyledLink>
                   </th>
                   <td>{marine.rank}</td>
@@ -291,6 +295,7 @@ function ViewAccountability() {
               {isSelected.addNew && (
                 <Flex justifyCenter>
                   <img
+                    alt="add user icon"
                     onClick={changeCurrentView}
                     src={AddUser}
                     id={"add-new-marine"}
@@ -315,6 +320,7 @@ function ViewAccountability() {
               {isSelected.addExisting && (
                 <Flex justifyCenter>
                   <img
+                    alt="add existing user icon"
                     onClick={changeCurrentView}
                     src={AddExistingUser}
                     id={"add-existing-marine"}

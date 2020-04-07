@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 //Packages
-import { Alert, Form, FormGroup, Label, Input, Container } from "reactstrap";
+import { Alert, Form } from "reactstrap";
 import styled from "styled-components";
 //Global components
 import Flex, { Column } from "../../../components/Flex";
@@ -80,10 +80,7 @@ function AddExistingMarine({ id }) {
       .then(wait(1000))
       .then(setCurrentView("accountability"))
       .then(wait(1000))
-      .then(console.log(currentView))
-      .then(console.log("set the view"))
       .catch(err => console.log(err));
-
     marineData = [];
   };
 
@@ -106,21 +103,21 @@ function AddExistingMarine({ id }) {
       </Banner>
       <Form onSubmit={handleSubmit}>
         {marines && !!marines.length ? (
-          marines.map(marine => (
-            <Flex justifyCenter>
-              <Column three>
+          <Flex justifyCenter>
+            {marines.map(marine => (
+              <Column three key={marine._id}>
+                <Banner small green>
+                  {marine.rank} {marine.last}
+                </Banner>
                 <Switch
                   value={JSON.stringify(marine._id)}
                   id={marine._id}
                   onChange={toggleCheck}
                 />
-                <label for="m4">
-                  {marine.rank} {marine.last}
-                </label>
               </Column>
-              <Button type="submit">Add Marines</Button>
-            </Flex>
-          ))
+            ))}
+            <Button type="submit">Add Marines</Button>
+          </Flex>
         ) : (
           <Flex justifyCenter>
             <Flex justifyCenter>

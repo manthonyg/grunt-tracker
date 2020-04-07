@@ -6,7 +6,6 @@ import { Alert } from "reactstrap";
 //Global components
 import Badge from "../../../components/Badge";
 import Flex from "../../../components/Flex";
-import Button from "../../../components/Button";
 import Banner from "../../../components/Banner";
 //Services
 import { updateSquadById } from "../../../services/squadServices";

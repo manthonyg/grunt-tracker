@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 //Global Components
 import Banner from "../../../components/Banner";
-import Flex from "../../../components/Flex";
+import Flex, { Column } from "../../../components/Flex";
 import Pill from "../../../components/Pill";
 //Context
 import { MarinePageContext } from "../MarinePage";
@@ -14,26 +14,39 @@ function ViewMarineBody() {
   return (
     <Flex justifyAround>
       {!!marineData ? (
-        <Flex alignCenter>
-          <Banner white>PFT</Banner>
-          {marineData.body.pft.map(pft => (
-            <Flex justifyCenter>
-              <Pill>{pft.score}</Pill>
-              <Banner small white>
-                {pft.last_updated}
-              </Banner>
-            </Flex>
-          ))}
-          <Banner white>CFT</Banner>
-          {marineData.body.cft.map(cft => (
-            <Flex justifyCenter>
-              <Pill>{cft.score}</Pill>
-              <Banner small white>
-                {cft.last_updated}
-              </Banner>
-            </Flex>
-          ))}
-        </Flex>
+        <>
+          <Column>
+            <Banner white>PFT</Banner>
+            {marineData.body.pft.map(pft => (
+              <>
+                <Flex justifyCenter>
+                  <Pill>{pft.score}</Pill>
+                </Flex>
+                <Flex justifyCenter>
+                  <Banner small white>
+                    {pft.last_updated}
+                  </Banner>
+                </Flex>
+              </>
+            ))}
+          </Column>
+
+          <Column>
+            <Banner white>CFT</Banner>
+            {marineData.body.cft.map(cft => (
+              <>
+                <Flex justifyCenter>
+                  <Pill>{cft.score}</Pill>
+                </Flex>
+                <Flex justifyCenter>
+                  <Banner small white>
+                    {cft.last_updated}
+                  </Banner>
+                </Flex>
+              </>
+            ))}
+          </Column>
+        </>
       ) : (
         <Flex justifyCenter>
           <Banner white small>

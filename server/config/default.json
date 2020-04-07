@@ -1,5 +1,3 @@
-/* {
-  "mongoURI":
-  "mongodb+srv://<user>:<password>@cluster0-yuwtc.mongodb.net/test?retryWrites=true&w=majority"
-
-} */
+{
+  "mongoURI": "mongodb+srv://manthonyg:SgIrJ3CZHYfNmPsn@cluster0-yuwtc.mongodb.net/test?retryWrites=true&w=majority"
+}

@@ -80,16 +80,12 @@ function SquadPage(props) {
           onClick={toggleMenuOpen}
           navLinks={[
             {
-              title: "Morning Report",
+              title: "Generate Morning Report",
               view: "generate-zaps"
             },
             {
-              title: "Kill Cards",
+              title: "Generate Kill Cards",
               view: "generate-zaps"
-            },
-            {
-              title: "Edit Squad",
-              view: "edit-squad"
             }
           ]}
           open={isMenuOpen}
@@ -112,7 +108,6 @@ function SquadPage(props) {
         {/* table components */}
         {currentView === "view-all" && <SquadTable id={squadData._id} />}
         {currentView === "weapons" && <SquadTable id={squadData._id} />}
-        {currentView === "gear" && <SquadTable id={squadData._id} />}
         {currentView === "body" && <SquadTable id={squadData._id} />}
         {currentView === "discrepancies" && <SquadTable id={squadData._id} />}
         {/* menu features/generators */}

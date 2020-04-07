@@ -37,7 +37,6 @@ const FlexItem = styled.div`
   overflow: auto;
   background-color: #68829e;
   color: #000;
-
   filter: ${props => {
     if (props.selected) return ``;
     return `opacity(40%);`;
@@ -89,7 +88,7 @@ function SquadAppointments() {
   );
 
   const [appointmentView, setSelectedCategory] = useState({
-    today: false,
+    today: true,
     week: false,
     all: false
   });

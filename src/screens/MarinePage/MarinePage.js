@@ -20,9 +20,6 @@ import Button from "../../components/Button";
 import SideNav from "../../components/Nav/SideNav";
 //Services
 import { getMarineById } from "../../services/marineServices";
-//Media
-import Unaccounted from "../../images/plus.svg";
-import Accounted from "../../images/check-solid.svg";
 //Constants
 import { calendarStrings } from "../../constants/calendarStrings";
 
@@ -71,7 +68,7 @@ function MarinePage(props) {
 
   const [selectedCategory, setSelectedCategory] = useState({
     weapons: false,
-    gear: false,
+    // gear: false,
     body: false,
     appointments: false,
     accountability: true
@@ -110,7 +107,7 @@ function MarinePage(props) {
     const id = evt.currentTarget.id;
     setSelectedCategory({
       weapons: false,
-      gear: false,
+      // gear: false,
       body: false,
       appointments: false,
       accountability: false,
@@ -131,8 +128,8 @@ function MarinePage(props) {
         edit: false
       },
       appointments: {
-        view: true,
-        add: false
+        view: false,
+        add: true
       },
       [category]: {
         [id]: !selectedCategory[category].id
@@ -208,12 +205,12 @@ function MarinePage(props) {
                             Accounted for
                           </Flex>
                           <Flex justifyCenter alignCenter>
-                            <img
-                              style={{
-                                width: "5rem"
-                              }}
-                              src={Accounted}
-                            ></img>
+                            <span
+                              style={{ fontSize: "4em" }}
+                              className="material-icons"
+                            >
+                              check_circle
+                            </span>
                           </Flex>
                         </>
                       ) : (
@@ -222,17 +219,16 @@ function MarinePage(props) {
                             Unaccounted for
                           </Flex>
                           <Flex justifyCenter alignCenter>
-                            <img
-                              style={{
-                                width: "5rem",
-                                transform: "rotate(45deg)"
-                              }}
-                              src={Unaccounted}
-                            ></img>
+                            <span
+                              style={{ fontSize: "4em" }}
+                              className="material-icons"
+                            >
+                              error
+                            </span>
                           </Flex>
                         </>
                       )}
-
+                      {`Since `}
                       <Moment calendar={calendarStrings}>
                         {marineData.accountability.date}
                       </Moment>
@@ -275,7 +271,7 @@ function MarinePage(props) {
               </>
             )}
           </FlexItem>
-          <FlexItem
+          {/* <FlexItem
             id={"gear"}
             selected={selectedCategory.gear}
             onClick={showSelectedCategory}
@@ -296,7 +292,7 @@ function MarinePage(props) {
                 {!!categoryAction.weapons.view && <ViewMarineEDL />}
               </>
             )}
-          </FlexItem>
+          </FlexItem> */}
           <FlexItem
             id={"body"}
             selected={selectedCategory.body}

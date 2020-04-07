@@ -44,8 +44,6 @@ const Header = styled.div`
 function CreateSquad() {
   const [alertVisible, setAlertVisible] = useState(false);
 
-  const handleAlert = () => setAlertVisible(!alertVisible);
-
   const [inputData, setInputData] = useState({
     currentStep: 1,
     company: "",

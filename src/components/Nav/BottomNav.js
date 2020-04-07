@@ -47,7 +47,7 @@ flex-direction: column;
 
 const StyledLink = styled(Link)`
   color: #fff
-:active {
+&:hover {
     color: #aebd38;
   }
 `;
@@ -66,26 +66,33 @@ function BottomNav() {
     <MobileNavWrapper>
       <MobileNavItem>
         <MobileNavItemContent>
-          <img
-            src={LArrow}
-            onClick={history.goBack}
-            style={{ width: "2rem" }}
-          ></img>
-        </MobileNavItemContent>
-      </MobileNavItem>
-      <MobileNavItem>
-        <MobileNavItemContent>
-          <StyledLink to="/">
-            <img src={Home} style={{ width: "2rem" }}></img>
-            {/* <i className="material-icons">home</i> */}
+          <StyledLink>
+            <span
+              class="material-icons"
+              onClick={history.goBack}
+              style={{ fontSize: "2rem" }}
+            >
+              arrow_back_ios
+            </span>
           </StyledLink>
         </MobileNavItemContent>
       </MobileNavItem>
       <MobileNavItem>
         <MobileNavItemContent>
+          <StyledLink to="/">
+            <span class="material-icons" style={{ fontSize: "2rem" }}>
+              home
+            </span>
+          </StyledLink>
+        </MobileNavItemContent>
+      </MobileNavItem>
+
+      <MobileNavItem>
+        <MobileNavItemContent>
           <StyledLink to="/create-squad">
-            <img src={AddSquad} style={{ width: "2rem" }}></img>
-            {/* <i className="material-icons">add</i> */}
+            <i class="material-icons" style={{ fontSize: "2rem" }}>
+              group_add
+            </i>
           </StyledLink>
         </MobileNavItemContent>
       </MobileNavItem>

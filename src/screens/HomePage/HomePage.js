@@ -39,14 +39,14 @@ const Header = styled.div`
   background-position-y: 0.04em;
 `;
 
-function MainPage() {
+function HomePage() {
   const [squadList, setSquadList] = useState([]);
   const [alert, setAlert] = useState({
     success: false,
     error: false
   });
 
-  const handleAlert = () => setAlert({ success: false, error: false });
+  const toggleAlert = () => setAlert({ success: false, error: false });
 
   useEffect(() => {
     getAllSquads().then(res => setSquadList(res));
@@ -79,21 +79,20 @@ function MainPage() {
       <Flex contentCenter justifyCenter>
         {squadList && squadList.length ? (
           squadList.map(squad => (
-            <>
+            <div key={squad._id}>
               <Card
                 toast
                 shadow
                 noAnimation
                 handleClose={deleteSquad}
                 link={`/show-squad/${squad._id}`}
-                key={squad._id}
                 id={squad._id}
               >
                 <Banner secondary>
                   {squad.company}/{squad.platoon}-{squad.squad}
                 </Banner>
               </Card>
-            </>
+            </div>
           ))
         ) : (
           <>
@@ -105,7 +104,7 @@ function MainPage() {
       <StyledAlert
         success
         isOpen={!!alert.success || !!alert.error}
-        toggle={handleAlert}
+        toggle={toggleAlert}
       >
         <Flex justifyAround>
           {alert.success
@@ -119,4 +118,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default HomePage;

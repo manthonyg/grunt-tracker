@@ -7,8 +7,6 @@ import Home from "./screens/HomePage/HomePage";
 import CreateSquad from "./screens/CreateSquad";
 import SquadPage from "./screens/SquadPage/SquadPage";
 import MarinePage from "./screens/MarinePage/MarinePage";
-//Global Components
-import Loader from "./components/Loader";
 //Local Components
 import BottomNav from "./components/Nav/BottomNav";
 import SearchBar from "./components/Search/SearchBar";
@@ -41,11 +39,9 @@ const App = () => {
   const handleSearch = event => setMarineSearch(event.target.value);
   const handleClick = () => setMarineSearch("");
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggle = () => setDropdownOpen(prevState => !prevState);
-
-  const [loading, setLoading] = useState(true);
-  const handleSetLoading = () => setLoading(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const toggleSearchResultsDropdown = () =>
+    setIsDropdownOpen(prevState => !prevState);
 
   useEffect(() => {
     getMarinesBySearchInput(marineSearch)
@@ -60,8 +56,8 @@ const App = () => {
           <SearchBar hovered onChange={handleSearch} value={marineSearch} />
           {!!marineSearch.length && (
             <SearchResults
-              isOpen={dropdownOpen}
-              toggle={toggle}
+              isOpen={isDropdownOpen}
+              toggle={toggleSearchResultsDropdown}
               filteredMarines={marineData}
               handleClick={handleClick}
             />

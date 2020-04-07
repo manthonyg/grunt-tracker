@@ -135,7 +135,7 @@ export const createPFT = async (id, data) => {
 
 export const createCFT = async (id, data) => {
   const settings = {
-    method: "POST",
+    method: "PUT",
     body: JSON.stringify(data),
     headers: {
       Accept: "application/json/",

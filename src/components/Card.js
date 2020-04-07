@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import Flex from "../components/Flex";
 import { Link } from "react-router-dom";
 //Media
-import AngleR from "../images/angle-right-solid.svg";
 import Plus from "../images/plus.svg";
 //Global components
 import Button from "./Button";
@@ -59,6 +58,7 @@ const StyledCard = styled.div`
     width: ${props => (props.big ? "450px" : "300px")};
     display: none;
     opacity: 0;
+    border-radius: 8px;
     transform: translateY(50px);
     transition: 200ms all ease-in-out;
     margin: ${props => (props.noMargin ? 0 : "15px")};
