@@ -2,7 +2,7 @@ import React from "react";
 //Packages
 import styled, { keyframes, css } from "styled-components";
 // Media
-import GTLogo from "../images/GT_Logo.png";
+import GTLogo from "../images/gt_logo.png";
 import GTBG from "../images/GT_Bg.png";
 import { device } from "../constants/mediaQueries";
 //Global components
