@@ -1,7 +1,12 @@
 {
   "name": "grunt-tracker",
   "version": "0.1.0",
-  "private": true,
+  "engines": {
+    "npm": "2.x",
+    "node": "13.x",
+    "yarn": "1.x"
+  },
+  "private": false,
   "dependencies": {
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",

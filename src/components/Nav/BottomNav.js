@@ -3,10 +3,6 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 //Packages
 import styled from "styled-components";
-//Media
-import Home from "../../images/home-solid.svg";
-import LArrow from "../../images/larrow.svg";
-import AddSquad from "../../images/add-squad-yellow.svg";
 
 const MobileNavWrapper = styled.nav`
   position: fixed;
