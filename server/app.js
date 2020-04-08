@@ -8,7 +8,9 @@ var cors = require("cors");
 const marines = require("./routes/api/marines");
 const squads = require("./routes/api/squads");
 
+//define global vars
 const app = express();
+const port = process.env.PORT || 8082;
 
 // Connect Database
 connectDB();
@@ -19,13 +21,9 @@ app.use(cors({ origin: true, credentials: true }));
 // init middleware
 app.use(express.json({ extended: false }));
 
-app.get("/", (req, res) => res.send("Hello world!"));
-
 // declare routes
 app.use("/api/marines", marines);
 app.use("/api/squads", squads);
-
-const port = process.env.PORT || 8082;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
