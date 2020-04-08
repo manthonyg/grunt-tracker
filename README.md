@@ -1,6 +1,4 @@
-# GRUNTTRACKER
-
-![image](./src/images/gt_logo.png)
+# GRUNT TRACKER
 
 Hello! This app was designed as a learning project for myself- in fact my very first full stack project (MERN).
 
@@ -34,6 +32,14 @@ I still have a long way to go with it. As I become more proficient in this art, 
 _...and many more_
 
 ## Screenshots
+
+| Homescreen                                       | Add Existing Marine                             | Add Marine                                              | Add Existing (None)                                    |
+| ------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------ |
+| ![image](./src/images/GT_Wiki/gt_homescreen.png) | ![image](./src/images/GT_Wiki/gt_addmarine.png) | ![image](./src/images/GT_Wiki/gt_addexistingmarine.png) | ![image](./src/images/GT_Wiki/gt_addexisting_none.png) |
+
+| Squad Accountability                                     | Squad EDL                                          | Squad Appointments                                    | Squad Edit                                          |
+| -------------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------- | --------------------------------------------------- |
+| ![image](./src/images/GT_Wiki/gt_overview_accounted.png) | ![image](./src/images/GT_Wiki/gt_overview_edl.png) | ![image](./src/images/GT_Wiki/gt_overview_apmnts.png) | ![image](./src/images/GT_Wiki/gt_overview_edit.png) |
 
 | Image One                                        | Image Two                                        | Image Three                                      | Image Four                                       |
 | ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ |
