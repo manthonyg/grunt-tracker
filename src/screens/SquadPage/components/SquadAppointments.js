@@ -153,10 +153,10 @@ function SquadAppointments() {
                 {appointment.rank} {appointment.last}
                 <br />
                 <strong style={{ color: "#aebd38" }}>When: </strong>
-                <Moment
-                  date={appointment.date}
-                  calendar={appointmentStrings}
-                ></Moment>
+                <Moment calendar={appointmentStrings}>
+                  {appointment.date}
+                </Moment>
+                {appointment.time}
                 <br />
                 <strong style={{ color: "#aebd38" }}>Where: </strong>{" "}
                 {appointment.location}

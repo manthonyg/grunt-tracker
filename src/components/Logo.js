@@ -2,7 +2,7 @@ import React from "react";
 //Packages
 import styled, { keyframes, css } from "styled-components";
 // Media
-
+import GTLOGO from "../images/gt_logo.png";
 import GTBG from "../images/GT_Bg.png";
 import { device } from "../constants/mediaQueries";
 //Global components
@@ -42,6 +42,7 @@ function Logo({ size, inverted }) {
   return (
     <img
       alt="Grunt Tracker"
+      src={GTLOGO}
       style={
         inverted
           ? {

@@ -116,7 +116,9 @@ function AddExistingMarine({ id }) {
                 />
               </Column>
             ))}
-            <Button type="submit">Add Marines</Button>
+            <Flex justifyCenter>
+              <Button type="submit">Add Marines</Button>
+            </Flex>
           </Flex>
         ) : (
           <Flex justifyCenter>

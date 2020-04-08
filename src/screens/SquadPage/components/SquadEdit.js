@@ -121,6 +121,13 @@ const ButtonInner = styled.span`
   background: #aebd38;
 `;
 
+const StyledAlert = styled(Alert)`
+  background-color: ${props => {
+    if (props.success) return "#aebd38 !important";
+    return "#505160 !important";
+  }};
+`;
+
 const grid = 4;
 
 const billet = {
@@ -555,9 +562,9 @@ function SquadEdit({ id }) {
           </Droppable>
         </Flex>
       )}
-      <Alert success isOpen={toastVisible} toggle={onDismiss}>
+      <StyledAlert success isOpen={toastVisible} toggle={onDismiss}>
         Marine Successfully Deleted
-      </Alert>
+      </StyledAlert>
     </DragDropContext>
   );
 }
