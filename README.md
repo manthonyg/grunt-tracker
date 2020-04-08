@@ -1,5 +1,7 @@
 # GRUNTTRACKER
 
+![image](./src/images/gt_logo.png)
+
 Hello! This app was designed as a learning project for myself- in fact my very first full stack project (MERN).
 
 _...and my oh my did I learn._
