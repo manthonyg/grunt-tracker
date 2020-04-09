@@ -13,7 +13,7 @@ Grunt Tracker is an app that will (eventually) help small unit leaders keep bett
 3.  **Equipment** _(what are they supposed to have?)_
 4.  **Performance** _(how are they doing?)_
 
-The app strives to make some of the more logistical and tedious parts of a small unit leaders job a bit more automated, letting them focusing on what really matters: **building a high-performance team that can locate, close with, and destroy the enemy's of our glorious country!**
+The app strives to make some of the more logistical and tedious parts of a small unit leaders job a bit more automated, letting them focusing on what really matters: **building a high-performance team that can locate, close with, and destroy the enemy**
 
 ## What was the process like?
 
