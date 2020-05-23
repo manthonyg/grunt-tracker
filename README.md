@@ -18,16 +18,14 @@ The app strives to make some of the more logistical and tedious parts of a small
 The process was awesome.
 ...from an idea ...to a **mindmap** ...to **user stories** ...to the **development process**... and finally something I could call `v1.0.0` !
 
-There are a **_ton of things I would change and equally as many mistakes_**. Being on deployment while I was learning all of these new concepts and technologies had me always advancing ahead of what I had already done. I would also have to leave the project for a month at a time to come back and try and pick up where I left off. Noticing mistakes I had made. Resisting the urge to wipe it and start over. Rather than throw it out and start anew, I kept pushing!
+There are a **_ton of things I would change and equally as many mistakes_**. Being on deployment while I was learning all of these new concepts and technologies had me always advancing ahead of what I had already done. 
 
-I still have a long way to go with it. As I become more proficient in this art, I will keep making it better. I hope to one day rewrite it in React Native and make it a living, breathing app on the app store that will help out my fellow grunts! Many features I am excited to introduce as well:
+I hope to one day rewrite it completly, having a better understanding of how to build this out now, and add some additional features:
 
 - **Export to .CSV template** for easy kill cards/rosters
 - **Login/authorization** to make the app something that you can actually use
 - **Counseling Notes** to make it stupid easy to create monthly counselings based on notes you've taken throughout the month
 - **"Do Good List"** to remember those individuals who _put out_
-
-_...and many more_
 
 ## Screenshots
 
