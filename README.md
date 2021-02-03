@@ -13,14 +13,7 @@ Grunt Tracker is an app that will help small unit leaders keep better accountabi
 
 The app strives to make some of the more logistical and tedious parts of a small unit leaders job a bit more automated, letting them focusing on what really matters: **building a high-performance team**
 
-## What was the process like?
-
-The process was awesome.
-...from an idea ...to a **mindmap** ...to **user stories** ...to the **development process**... and finally something I could call `v1.0.0` !
-
-There are a **_ton of things I would change and equally as many mistakes_**. Being on deployment while I was learning all of these new concepts and technologies had me always advancing ahead of what I had already done. 
-
-I hope to one day rewrite it completly, having a better understanding of how to build this out now, and add some additional features:
+## STRETCH GOALS
 
 - **Export to .CSV template** for easy kill cards/rosters
 - **Login/authorization** to make the app something that you can actually use
@@ -40,4 +33,3 @@ I hope to one day rewrite it completly, having a better understanding of how to 
 | Marine Accountability                                               | Marine EDL                                                    | Marine EDL (edit)                                             | Marine Body (view)                                            |
 | ------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
 | ![image](./src/images/GT_Wiki/gt_marineoverview_accountability.png) | ![image](./src/images/GT_Wiki/gt_marineoverview_edl_view.png) | ![image](./src/images/GT_Wiki/gt_marineoverview_edl_edit.png) | ![image](./src/images/GT_Wiki/gt_marineoverview_body_add.png) |
-
