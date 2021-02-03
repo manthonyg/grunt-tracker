@@ -73,8 +73,8 @@ router.route("/:id/teams/add").post((req, res) => {
   const id = mongoose.Types.ObjectId;
 
   const newMarine = new Marine({
-    id: id,
-    ...req.body
+    id: id
+    // ...req.body
   });
 
   newMarine.save(function(err) {
