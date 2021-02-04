@@ -25,6 +25,10 @@ app.use(express.json({ extended: false }));
 app.use("/api/marines", marines);
 app.use("/api/squads", squads);
 
+app.get("/", (req, res) => {
+  res.send("HEY!");
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
 // app.js
