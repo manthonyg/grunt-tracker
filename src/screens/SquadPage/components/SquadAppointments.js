@@ -16,7 +16,7 @@ var moment = require("moment");
 
 const FlexBox = styled.div`
   display: flex;
-  height: 67.5vh;
+  height: 71.5vh;
   justify-content: center;
   flex-flow: column nowrap;
   align-items: stretch;
