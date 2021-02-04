@@ -10,7 +10,7 @@ const squads = require("./routes/api/squads");
 
 //define global vars
 const app = express();
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8082;
 
 // Connect Database
 connectDB();
